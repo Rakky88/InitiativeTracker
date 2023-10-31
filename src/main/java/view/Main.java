@@ -4,7 +4,6 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-
     private static SceneManager sceneManager = null;
     private static Stage primaryStage = null;
 

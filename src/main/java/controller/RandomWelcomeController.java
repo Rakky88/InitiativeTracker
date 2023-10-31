@@ -4,7 +4,6 @@ import view.Main;
 import view.SceneManager;
 
 public class RandomWelcomeController {
-
     private final SceneManager SCENEMANAGER = Main.getSceneManager();
     public void doName(){
         SCENEMANAGER.showRandomNameScene();

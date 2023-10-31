@@ -6,12 +6,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.*;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class SceneManager {
-
     private Stage primaryStage;
 
     public SceneManager(Stage primaryStage) {

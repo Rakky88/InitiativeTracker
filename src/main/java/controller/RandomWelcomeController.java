@@ -6,9 +6,13 @@ import view.SceneManager;
 public class RandomWelcomeController {
 
     private final SceneManager SCENEMANAGER = Main.getSceneManager();
-    public void doName(){}
+    public void doName(){
+        SCENEMANAGER.showRandomNameScene();
+    }
 
-    public void doLocation(){}
+    public void doLocation(){
+        SCENEMANAGER.showRandomLocationScene();
+    }
 
     public void doMenu() {
         SCENEMANAGER.showMenuScene();

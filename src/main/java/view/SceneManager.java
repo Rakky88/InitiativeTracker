@@ -54,6 +54,14 @@ public class SceneManager {
     }
 
     public void showRandomWelcomeScene() {
-        getScene("/RandomWelcomeScene.fxml");
+        getScene("/randomWelcomeScene.fxml");
+    }
+
+    public void showRandomNameScene() {
+        getScene("/randomNameScene.fxml");
+    }
+
+    public void showRandomLocationScene() {
+        getScene("/randomLocationScene.fxml");
     }
 }

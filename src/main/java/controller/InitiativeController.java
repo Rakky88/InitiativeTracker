@@ -121,6 +121,10 @@ public class InitiativeController {
         return true;
     }
 
+    public void doMenu(){
+        SCENEMANAGER.showMenuScene();
+    }
+
     /**Geeft een error message als deze methode wordt aangeroepen.
      *
      * @param message: het bericht dat weergegeven wordt in de error message.

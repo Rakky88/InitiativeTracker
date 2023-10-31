@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RandomWelcomeController">
+    <Label layoutX="28.0" layoutY="28.0" text="Random generator options:">
+        <font>
+            <Font size="36.0" />
+        </font>
+    </Label>
+    <Button layoutX="28.0" layoutY="97.0" mnemonicParsing="false" onAction="#doName" prefHeight="40.0" prefWidth="176.0" text="Name Generator">
+        <font>
+            <Font size="18.0" />
+        </font>
+    </Button>
+    <Button layoutX="28.0" layoutY="150.0" mnemonicParsing="false" onAction="#doLocation" text="Location Generator">
+        <font>
+            <Font size="18.0" />
+        </font>
+    </Button>
+    <Button layoutX="28.0" layoutY="528.0" mnemonicParsing="false" onAction="#doMenu" text="Menu">
+        <font>
+            <Font size="18.0" />
+        </font>
+    </Button>
+    <Label layoutX="742.0" layoutY="568.0" text="Copyright © 2023 Rakky88">
+        <font>
+            <Font size="12.0" />
+        </font>
+    </Label>
+</AnchorPane>

@@ -10,7 +10,7 @@
             <Font size="25.0" />
         </font>
     </Label>
-    <Label layoutX="50.0" layoutY="106.0" text="Initiative order:">
+    <Label layoutX="50.0" layoutY="116.0" text="Initiative order:">
         <font>
             <Font size="25.0" />
         </font>
@@ -162,5 +162,9 @@
             <Font size="27.0" />
         </font>
     </TextField>
-
+    <Label layoutX="742.0" layoutY="568.0" text="Copyright © 2023 Rakky88">
+        <font>
+            <Font size="12.0" />
+        </font>
+    </Label>
 </AnchorPane>

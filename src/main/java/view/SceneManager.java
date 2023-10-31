@@ -52,4 +52,8 @@ public class SceneManager {
         InitiativeController controller = loader.getController();
         controller.setup();
     }
+
+    public void showRandomWelcomeScene() {
+        getScene("/RandomWelcomeScene.fxml");
+    }
 }

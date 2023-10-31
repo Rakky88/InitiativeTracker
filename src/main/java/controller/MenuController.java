@@ -9,4 +9,8 @@ public class MenuController {
     public void doInitiative(){
         SCENEMANAGER.showInitiativeScene();
     }
+
+    public void doRandom(){
+        SCENEMANAGER.showRandomWelcomeScene();
+    }
 }

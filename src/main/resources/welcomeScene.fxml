@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.WelcomeController">
+    <Label layoutX="246.0" layoutY="40.0" text="DnD Initiative Tracker">
+        <font>
+            <Font size="36.0" />
+        </font>
+    </Label>
+    <Button layoutX="362.0" layoutY="456.0" mnemonicParsing="false" onAction="#doAdd" text="add character">
+        <font>
+            <Font size="18.0" />
+        </font>
+    </Button>
+    <Button layoutX="616.0" layoutY="496.0" mnemonicParsing="false" onAction="#doTracker" text="to tracker!">
+        <font>
+            <Font size="18.0" />
+        </font>
+    </Button>
+    <Button layoutX="646.0" layoutY="283.0" mnemonicParsing="false" onAction="#doDelete" text="Delete">
+        <font>
+            <Font size="18.0" />
+        </font>
+    </Button>
+    <TextField fx:id="nameTextField" layoutX="78.0" layoutY="405.0" prefHeight="25.0" prefWidth="335.0" />
+    <Label layoutX="78.0" layoutY="377.0" text="Name:">
+        <font>
+            <Font size="18.0" />
+        </font>
+    </Label>
+    <TextField fx:id="initiativeTextField" layoutX="462.0" layoutY="404.0" prefHeight="26.0" prefWidth="65.0" />
+    <Label layoutX="462.0" layoutY="377.0" text="Initiative:">
+        <font>
+            <Font size="18.0" />
+        </font>
+    </Label>
+    <TextField fx:id="hpTextField" layoutX="571.0" layoutY="405.0" prefHeight="26.0" prefWidth="65.0" />
+    <Label layoutX="571.0" layoutY="378.0" text="HP:">
+        <font>
+            <Font size="18.0" />
+        </font>
+    </Label>
+    <TextField fx:id="maxHPTextField" layoutX="671.0" layoutY="405.0" prefHeight="26.0" prefWidth="65.0" />
+    <Label layoutX="671.0" layoutY="378.0" text="Max HP:">
+        <font>
+            <Font size="18.0" />
+        </font>
+    </Label>
+    <ListView fx:id="initiativeList" layoutX="228.0" layoutY="123.0" prefHeight="200.0" prefWidth="400.0" />
+</AnchorPane>

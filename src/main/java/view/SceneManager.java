@@ -33,20 +33,23 @@ public class SceneManager {
         }
     }
 
-    public void setWelcomeTool() throws FileNotFoundException {
-        FXMLLoader loader = getScene("/welcomeScene.fxml");
-        if (loader != null) {
-            WelcomeController controller = loader.getController();
-            controller.setup();
-        } else {
-            System.out.println("set welcomeTool: Loader is not initialized");
-            System.out.flush();
-        }
+    public void setWelcomeTool() {
+        getScene("/welcomeScene.fxml");
     }
 
-    public void showTrackerScene(ArrayList<Creature> creatures) {
-        FXMLLoader loader = getScene("/trackerScene.fxml");
-        TrackerController controller = loader.getController();
+    public void showInitiativeTrackerScene(ArrayList<Creature> creatures) {
+        FXMLLoader loader = getScene("/initiativeTrackerScene.fxml");
+        InitiativeTrackerController controller = loader.getController();
         controller.setup(creatures);
+    }
+
+    public void showMenuScene() {
+        getScene("/menuScene.fxml");
+    }
+
+    public void showInitiativeScene() {
+        FXMLLoader loader = getScene("/initiativeScene.fxml");
+        InitiativeController controller = loader.getController();
+        controller.setup();
     }
 }

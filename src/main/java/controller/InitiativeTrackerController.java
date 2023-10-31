@@ -20,12 +20,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
 
-/**Deze class is gelinkt met trackerScene.fxml en geeft een scherm weer waar je initiative bij kan houden tijdens
+/**Deze class is gelinkt met initiativeTrackerScene.fxml en geeft een scherm weer waar je initiative bij kan houden tijdens
  * Dnd. Verder kan je nog verschillende dingen bijhouden voor de creatures in de initiative lijst.
  *
  * @author R.Groot
  */
-public class TrackerController {
+public class InitiativeTrackerController {
     private final SceneManager SCENEMANAGER = Main.getSceneManager();
     @FXML
     private ListView<Creature> initiativeList;
@@ -93,7 +93,7 @@ public class TrackerController {
     private TextField ACTextField;
     private int amountHighestInitiativeTurnTaken = 1;
 
-    /**De setup wordt gestarts wanneer de trackerScene.fxml wordt geopend. Hierbij wordt de initiativelijst gevuld met
+    /**De setup wordt gestarts wanneer de initiativeTrackerScene.fxml wordt geopend. Hierbij wordt de initiativelijst gevuld met
      * eerder ingevoerde creatures en andere textfields gevuld. Verder wordt een drag/drop-systeem geinitialiseerd
      * voor de initiativeList en worden listeners geinitialiseerd voor extraInfo, tempHP en AC.
      *
@@ -112,6 +112,8 @@ public class TrackerController {
         initiativeList.setCellFactory(new Callback<>() {
             @Override
             public ListCell<Creature> call(ListView<Creature> param) {
+                final int MAX_HP_DIVIDE_BY_2 = 2;
+                final int MINIMUM_HP = 0;
                 ListCell<Creature> cell = new ListCell<>() {
                     @Override
                     protected void updateItem(Creature item, boolean empty) {
@@ -122,11 +124,11 @@ public class TrackerController {
                         } else {
                             setText(item.toString());
 
-                            if (item.getHP() == 0) {
+                            if (item.getHP() == MINIMUM_HP) {
                                 setTextFill(Color.RED);
                             } else if (item.getHP() == 1) {
                                 setTextFill(Color.ORANGE);
-                            } else if (item.getHP() < ((double) item.getMaxHP() / 2)) {
+                            } else if (item.getHP() < ((double) item.getMaxHP() / MAX_HP_DIVIDE_BY_2)) {
                                 setTextFill(Color.YELLOW);
                             } else if (item.getHP() >= item.getMaxHP()) {
                                 setTextFill(Color.GREEN);

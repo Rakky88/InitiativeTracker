@@ -51,14 +51,18 @@ public class InitiativeController {
                 double getInitiative = Double.parseDouble(initiativeTextField.getText());
                 int getHP = Integer.parseInt(hpTextField.getText());
                 int getMaxHP = Integer.parseInt(maxHPTextField.getText());
-                initiative.add(new Creature(nameTextField.getText(), getInitiative, getHP, getMaxHP));
+                if(getHP > getMaxHP) {
+                    showAlert("HP can't be higher then max HP!");
+                } else {
+                    initiative.add(new Creature(nameTextField.getText(), getInitiative, getHP, getMaxHP));
 
-                nameTextField.setText("");
-                initiativeTextField.setText("");
-                hpTextField.setText("");
-                maxHPTextField.setText("");
+                    nameTextField.setText("");
+                    initiativeTextField.setText("");
+                    hpTextField.setText("");
+                    maxHPTextField.setText("");
 
-                orderList();
+                    orderList();
+                }
             } catch (NumberFormatException exception) {
                 showAlert("Initiative and HP must be valid numbers!");
             }

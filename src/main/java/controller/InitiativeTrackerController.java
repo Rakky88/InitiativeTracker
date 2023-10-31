@@ -307,11 +307,11 @@ public class InitiativeTrackerController {
      *
      */
     public void setCreatureTurnTextField(){
-        if (!initiativeList.getItems().isEmpty()) {
-            creatureTurnTextfield.setText(initiativeList.getItems().get(0).getName());
-        } else {
+        if (initiativeList.getItems().isEmpty()) {
             creatureTurnTextfield.setText("No creature in initiative!");
+            return;
         }
+        creatureTurnTextfield.setText(initiativeList.getItems().get(0).getName());
     }
 
     /**Met deze methode kunnen nieuwe creatures toegevoegd worden aan de initiativeList.
@@ -324,14 +324,16 @@ public class InitiativeTrackerController {
                 int getHP = Integer.parseInt(hpTextField.getText());
                 int getMaxHP = Integer.parseInt(maxHPTextField.getText());
 
-                Creature creature = new Creature(nameTextField.getText(), getInitiative, getHP, getMaxHP);
-                initiativeList.getItems().add(creature);
+                if(getHP <= getMaxHP) {
+                    initiativeList.getItems().add(new Creature(nameTextField.getText(), getInitiative, getHP, getMaxHP));
 
-                nameTextField.clear();
-                initiativeTextField.clear();
-                hpTextField.clear();
-                maxHPTextField.clear();
-
+                    nameTextField.setText("");
+                    initiativeTextField.setText("");
+                    hpTextField.setText("");
+                    maxHPTextField.setText("");
+                    return;
+                }
+                showAlert("HP can't be higher then max HP!");
                 setCreatureTurnTextField();
             } catch (NumberFormatException exception) {
                 showAlert("Initiative and HP must be valid numbers!");
@@ -355,12 +357,12 @@ public class InitiativeTrackerController {
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
             Creature selectedCreature = initiativeList.getSelectionModel().getSelectedItem();
-            if (selectedCreature != null) {
-                initiativeList.getItems().remove(selectedCreature);
-                setCreatureTurnTextField();
-            } else {
+            if (selectedCreature == null) {
                 showAlert("No creature selected!");
+                return;
             }
+            initiativeList.getItems().remove(selectedCreature);
+            setCreatureTurnTextField();
         }
     }
 
@@ -406,18 +408,19 @@ public class InitiativeTrackerController {
      *
      */
     public void doNext() {
-        final int POSITIONS_FORWARD = 1;
+        final int MINIMUM_AMOUNT_CREATURES = 1;
         final int LAST_CREATURE_INDEX = 0;
-        if (initiativeList.getItems().size() > POSITIONS_FORWARD) {
+        if (initiativeList.getItems().size() <= MINIMUM_AMOUNT_CREATURES) {
+            showAlert("Not enough creatures in your initiative list to do this!");
+            return;
+        }
+
             Creature lastCreature = initiativeList.getItems().get(LAST_CREATURE_INDEX);
             initiativeList.getItems().remove(LAST_CREATURE_INDEX);
             initiativeList.getItems().add(lastCreature);
             setCreatureTurnTextField();
 
             updateRoundIfNecessary();
-        } else {
-            showAlert("Not enough creatures in your initiative list to do this!");
-        }
     }
 
     /**Met deze methode worden de creatures in de initiativeList doorgeschoven en de onderste in de list
@@ -425,16 +428,19 @@ public class InitiativeTrackerController {
      *
      */
     public void doBack() {
-        final int POSITIONS_BACK = 1;
+        final int MINIMUM_AMOUNT_CREATURES = 1;
+        final int LAST_INDEX = 1;
         final int FIRST_CREATURE_INDEX = 0;
-        if (initiativeList.getItems().size() > POSITIONS_BACK) {
-            Creature firstCreature = initiativeList.getItems().get(initiativeList.getItems().size() - POSITIONS_BACK);
-            initiativeList.getItems().remove(initiativeList.getItems().size() - POSITIONS_BACK);
-            initiativeList.getItems().add(FIRST_CREATURE_INDEX, firstCreature);
-            setCreatureTurnTextField();
-        } else {
+
+        if (initiativeList.getItems().size() <= MINIMUM_AMOUNT_CREATURES) {
             showAlert("Not enough creatures in your initiative list to do this!");
+            return;
         }
+
+        Creature firstCreature = initiativeList.getItems().get(initiativeList.getItems().size() - LAST_INDEX);
+        initiativeList.getItems().remove(initiativeList.getItems().size() - LAST_INDEX);
+        initiativeList.getItems().add(FIRST_CREATURE_INDEX, firstCreature);
+        setCreatureTurnTextField();
     }
 
     /**Met deze methode kan ingevoerde HP in het hpLowerAddTextField toegevoegd aan de HP van de creature.
@@ -443,23 +449,25 @@ public class InitiativeTrackerController {
      *
      */
     public void doAddHP(){
-        if (initiativeList.getSelectionModel().getSelectedItem() != null) {
-            final int NO_NUMBER_IN_TEXTBOX = 1;
-            final double COLOR_FLASH = 0.1;
-            int maxCreatureHP = initiativeList.getSelectionModel().getSelectedItem().getMaxHP();
-            int hpCreature = initiativeList.getSelectionModel().getSelectedItem().getHP();
-            int addedHP = hpLowerAddTextField.getText().isEmpty() ? NO_NUMBER_IN_TEXTBOX : Integer.parseInt(hpLowerAddTextField.getText());
-            initiativeList.getSelectionModel().getSelectedItem().setHP(Math.min(hpCreature + addedHP, maxCreatureHP));
-            initiativeHPTextfield.setText(initiativeList.getSelectionModel().getSelectedItem().getHP() + " / " + initiativeList.getSelectionModel().getSelectedItem().getMaxHP());
-
-            initiativeHPTextfield.setStyle("-fx-background-color: green;");
-            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(COLOR_FLASH), e -> initiativeHPTextfield.setStyle("")));
-            timeline.play();
-
-            hpLowerAddTextField.setText("");
-        } else {
+        if (initiativeList.getSelectionModel().getSelectedItem() == null) {
             showAlert("No creature selected!");
+            return;
         }
+
+        final int NO_NUMBER_IN_TEXTBOX = 1;
+        final double COLOR_FLASH = 0.1;
+        int maxCreatureHP = initiativeList.getSelectionModel().getSelectedItem().getMaxHP();
+        int hpCreature = initiativeList.getSelectionModel().getSelectedItem().getHP();
+        int addedHP = hpLowerAddTextField.getText().isEmpty() ? NO_NUMBER_IN_TEXTBOX : Integer.parseInt(hpLowerAddTextField.getText());
+
+        initiativeList.getSelectionModel().getSelectedItem().setHP(Math.min(hpCreature + addedHP, maxCreatureHP));
+        initiativeHPTextfield.setText(initiativeList.getSelectionModel().getSelectedItem().getHP() + " / " + initiativeList.getSelectionModel().getSelectedItem().getMaxHP());
+
+        initiativeHPTextfield.setStyle("-fx-background-color: green;");
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(COLOR_FLASH), e -> initiativeHPTextfield.setStyle("")));
+        timeline.play();
+
+        hpLowerAddTextField.setText("");
     }
 
     /**Met deze methode kan ingevoerde HP in het hpLowerAddTextField weggehaald worden van de HP van een creature.
@@ -468,36 +476,30 @@ public class InitiativeTrackerController {
      *
      */
     public void doLowerHP(){
-        if (initiativeList.getSelectionModel().getSelectedItem() != null) {
-            final int MINIMUM_HP = 0;
-            final int MINIMUM_TEMP_HP = 0;
-            final int NO_NUMBER_IN_TEXTBOX = 1;
-            int hpCreature = initiativeList.getSelectionModel().getSelectedItem().getHP();
-            int removedHP = hpLowerAddTextField.getText().isEmpty() ? NO_NUMBER_IN_TEXTBOX : Integer.parseInt(hpLowerAddTextField.getText());
-            int tempHP = initiativeList.getSelectionModel().getSelectedItem().getTempHP();
-            if(tempHP != MINIMUM_TEMP_HP) {
-                if (removedHP <= tempHP) {
-                    initiativeList.getSelectionModel().getSelectedItem().setTempHP(tempHP - removedHP);
-                    tempHP = initiativeList.getSelectionModel().getSelectedItem().getTempHP();
-                    tempHPTextField.setText(String.valueOf(tempHP));
-                } else {
-                    int overflow = removedHP - tempHP;
-                    initiativeList.getSelectionModel().getSelectedItem().setTempHP(MINIMUM_TEMP_HP);
-                    tempHP = initiativeList.getSelectionModel().getSelectedItem().getTempHP();
-                    tempHPTextField.setText(String.valueOf(tempHP));
-                    if(hpCreature - overflow > MINIMUM_HP) {
-                        initiativeList.getSelectionModel().getSelectedItem().setHP(hpCreature - overflow);
-                    } else {
-                        initiativeList.getSelectionModel().getSelectedItem().setHP(MINIMUM_HP);
-                    }
-                    initiativeHPTextfield.setText(initiativeList.getSelectionModel().getSelectedItem().getHP() + " / " +
-                            initiativeList.getSelectionModel().getSelectedItem().getMaxHP());
+        if (initiativeList.getSelectionModel().getSelectedItem() == null) {
+            showAlert("No creature selected!");
+            return;
+        }
 
-                    getRed();
-                }
+        final int MINIMUM_HP = 0;
+        final int MINIMUM_TEMP_HP = 0;
+        final int NO_NUMBER_IN_TEXTBOX = 1;
+        int hpCreature = initiativeList.getSelectionModel().getSelectedItem().getHP();
+        int removedHP = hpLowerAddTextField.getText().isEmpty() ? NO_NUMBER_IN_TEXTBOX : Integer.parseInt(hpLowerAddTextField.getText());
+        int tempHP = initiativeList.getSelectionModel().getSelectedItem().getTempHP();
+
+        if(tempHP != MINIMUM_TEMP_HP) {
+            if (removedHP <= tempHP) {
+                initiativeList.getSelectionModel().getSelectedItem().setTempHP(tempHP - removedHP);
+                tempHP = initiativeList.getSelectionModel().getSelectedItem().getTempHP();
+                tempHPTextField.setText(String.valueOf(tempHP));
             } else {
-                if(hpCreature - removedHP > MINIMUM_HP) {
-                    initiativeList.getSelectionModel().getSelectedItem().setHP(hpCreature - removedHP);
+                int overflow = removedHP - tempHP;
+                initiativeList.getSelectionModel().getSelectedItem().setTempHP(MINIMUM_TEMP_HP);
+                tempHP = initiativeList.getSelectionModel().getSelectedItem().getTempHP();
+                tempHPTextField.setText(String.valueOf(tempHP));
+                if(hpCreature - overflow > MINIMUM_HP) {
+                    initiativeList.getSelectionModel().getSelectedItem().setHP(hpCreature - overflow);
                 } else {
                     initiativeList.getSelectionModel().getSelectedItem().setHP(MINIMUM_HP);
                 }
@@ -506,11 +508,19 @@ public class InitiativeTrackerController {
 
                 getRed();
             }
-
-            hpLowerAddTextField.setText("");
         } else {
-            showAlert("No creature selected!");
+            if(hpCreature - removedHP > MINIMUM_HP) {
+                initiativeList.getSelectionModel().getSelectedItem().setHP(hpCreature - removedHP);
+            } else {
+                initiativeList.getSelectionModel().getSelectedItem().setHP(MINIMUM_HP);
+            }
+            initiativeHPTextfield.setText(initiativeList.getSelectionModel().getSelectedItem().getHP() + " / " +
+                    initiativeList.getSelectionModel().getSelectedItem().getMaxHP());
+
+            getRed();
         }
+
+        hpLowerAddTextField.setText("");
     }
 
     /**Met deze methode wordt het initiativeHPTextField voor 0,1 seconde rood gemaakt. Als de HP van de
@@ -520,6 +530,7 @@ public class InitiativeTrackerController {
     public void getRed(){
         final int MINIMUM_HP = 0;
         final double COLOR_FLASH = 0.1;
+
         initiativeHPTextfield.setStyle("-fx-background-color: red;");
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(COLOR_FLASH), e -> {
             if(initiativeList.getSelectionModel().getSelectedItem().getHP() != MINIMUM_HP) {
@@ -558,12 +569,14 @@ public class InitiativeTrackerController {
                 extraInfoTextArea.setText(newSelection.getExtraInfo());
                 tempHPTextField.setText(String.valueOf(newSelection.getTempHP()));
                 ACTextField.setText(String.valueOf(newSelection.getAC()));
-                if(exhaustionCheckBox.isSelected()) {
-                    exhaustionControls.setVisible(true);
-                    exhaustionTextField.setText(String.valueOf(initiativeList.getSelectionModel().getSelectedItem().getExhaustionLevel()));
-                } else {
+
+                if(!exhaustionCheckBox.isSelected()) {
                     exhaustionControls.setVisible(false);
+                    return;
                 }
+
+                exhaustionControls.setVisible(true);
+                exhaustionTextField.setText(String.valueOf(initiativeList.getSelectionModel().getSelectedItem().getExhaustionLevel()));
             }
         });
     }
@@ -574,46 +587,46 @@ public class InitiativeTrackerController {
      *
      */
     public void handleCheckBox(){
-        final int MINIMUM_EXHAUSTION_LEVEL = 1;
         if (initiativeList.getSelectionModel().getSelectedItem() != null) {
-            initiativeList.getSelectionModel().getSelectedItem().setConcentration(concentrationCheckBox.isSelected());
-            initiativeList.getSelectionModel().getSelectedItem().setBlinded(blindedCheckBox.isSelected());
-            initiativeList.getSelectionModel().getSelectedItem().setCharmed(charmedCheckBox.isSelected());
-            initiativeList.getSelectionModel().getSelectedItem().setDeafened(deafenedCheckBox.isSelected());
-            initiativeList.getSelectionModel().getSelectedItem().setFrightened(frightenedCheckBox.isSelected());
-            initiativeList.getSelectionModel().getSelectedItem().setGrappled(grappledCheckBox.isSelected());
-            initiativeList.getSelectionModel().getSelectedItem().setIncapacitated(incapacitatedCheckBox.isSelected());
-            initiativeList.getSelectionModel().getSelectedItem().setInvisible(invisibleCheckBox.isSelected());
-            initiativeList.getSelectionModel().getSelectedItem().setParalyzed(paralyzedCheckBox.isSelected());
-            initiativeList.getSelectionModel().getSelectedItem().setPetrified(petrifiedCheckBox.isSelected());
-            initiativeList.getSelectionModel().getSelectedItem().setPoisoned(poisonedCheckBox.isSelected());
-            initiativeList.getSelectionModel().getSelectedItem().setProne(proneCheckBox.isSelected());
-            initiativeList.getSelectionModel().getSelectedItem().setRestrained(restrainedCheckBox.isSelected());
-            initiativeList.getSelectionModel().getSelectedItem().setStunned(stunnedCheckBox.isSelected());
-            initiativeList.getSelectionModel().getSelectedItem().setUnconscious(unconsciousCheckBox.isSelected());
-            initiativeList.getSelectionModel().getSelectedItem().setExhaustion(exhaustionCheckBox.isSelected());
-
-            boolean isChecked = exhaustionCheckBox.isSelected();
-            exhaustionControls.setVisible(isChecked);
-            if (isChecked) {
-                exhaustionTextField.setText(String.valueOf(MINIMUM_EXHAUSTION_LEVEL));
-                initiativeList.getSelectionModel().getSelectedItem().setExhaustionLevel(1);
-            } else {
-                initiativeList.getSelectionModel().getSelectedItem().setMaxHP(initiativeList.getSelectionModel().getSelectedItem().getOriginalMaxHP());
-                initiativeHPTextfield.setText(initiativeList.getSelectionModel().getSelectedItem().getHP() + " / " +
-                        initiativeList.getSelectionModel().getSelectedItem().getMaxHP());
-            }
-        } else {
             showAlert("No creature selected!");
+            return;
         }
+
+        final int MINIMUM_EXHAUSTION_LEVEL = 1;
+        initiativeList.getSelectionModel().getSelectedItem().setConcentration(concentrationCheckBox.isSelected());
+        initiativeList.getSelectionModel().getSelectedItem().setBlinded(blindedCheckBox.isSelected());
+        initiativeList.getSelectionModel().getSelectedItem().setCharmed(charmedCheckBox.isSelected());
+        initiativeList.getSelectionModel().getSelectedItem().setDeafened(deafenedCheckBox.isSelected());
+        initiativeList.getSelectionModel().getSelectedItem().setFrightened(frightenedCheckBox.isSelected());
+        initiativeList.getSelectionModel().getSelectedItem().setGrappled(grappledCheckBox.isSelected());
+        initiativeList.getSelectionModel().getSelectedItem().setIncapacitated(incapacitatedCheckBox.isSelected());
+        initiativeList.getSelectionModel().getSelectedItem().setInvisible(invisibleCheckBox.isSelected());
+        initiativeList.getSelectionModel().getSelectedItem().setParalyzed(paralyzedCheckBox.isSelected());
+        initiativeList.getSelectionModel().getSelectedItem().setPetrified(petrifiedCheckBox.isSelected());
+        initiativeList.getSelectionModel().getSelectedItem().setPoisoned(poisonedCheckBox.isSelected());
+        initiativeList.getSelectionModel().getSelectedItem().setProne(proneCheckBox.isSelected());
+        initiativeList.getSelectionModel().getSelectedItem().setRestrained(restrainedCheckBox.isSelected());
+        initiativeList.getSelectionModel().getSelectedItem().setStunned(stunnedCheckBox.isSelected());
+        initiativeList.getSelectionModel().getSelectedItem().setUnconscious(unconsciousCheckBox.isSelected());
+        initiativeList.getSelectionModel().getSelectedItem().setExhaustion(exhaustionCheckBox.isSelected());
+
+        boolean isChecked = exhaustionCheckBox.isSelected();
+        exhaustionControls.setVisible(isChecked);
+        if (!isChecked) {
+            initiativeList.getSelectionModel().getSelectedItem().setMaxHP(initiativeList.getSelectionModel().getSelectedItem().getOriginalMaxHP());
+            initiativeHPTextfield.setText(initiativeList.getSelectionModel().getSelectedItem().getHP() + " / " +
+                    initiativeList.getSelectionModel().getSelectedItem().getMaxHP());
+            return;
+        }
+            exhaustionTextField.setText(String.valueOf(MINIMUM_EXHAUSTION_LEVEL));
+            initiativeList.getSelectionModel().getSelectedItem().setExhaustionLevel(1);
     }
 
     /**Met deze methode wordt terug gegaan naar het vorige scherm. Er wordt eerst gevraagd of de gebruiker
      * het zeker weet, aangezien dan de initiativeList gewist wordt.
      *
-     * @throws IOException
      */
-    public void doMenu() throws IOException {
+    public void doMenu() {
         Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
         confirmationDialog.setTitle("Confirmation");
         confirmationDialog.setHeaderText("By pressing 'OK', you delete your entire initiative!");
@@ -634,14 +647,15 @@ public class InitiativeTrackerController {
      *
      */
     public void handleSaveExtraInfo(){
-        if(initiativeList.getSelectionModel().getSelectedItem() != null) {
-            extraInfoTextArea.textProperty().addListener((observable, oldValue, newValue) ->
-                    initiativeList.getSelectionModel().getSelectedItem().setExtraInfo(newValue));
-        } else {
+        if(initiativeList.getSelectionModel().getSelectedItem() == null) {
             showAlert("No creature selected!");
             extraInfoTextArea.clear();
             extraInfoTextArea.setPromptText("Select a creature to add extra info.");
+            return;
         }
+
+        extraInfoTextArea.textProperty().addListener((observable, oldValue, newValue) ->
+                initiativeList.getSelectionModel().getSelectedItem().setExtraInfo(newValue));
     }
 
     /**Met deze methode wordt met een listener bijgehouden of er tekst wordt gezet in de tempHPTextField en
@@ -649,22 +663,23 @@ public class InitiativeTrackerController {
      *
      */
     public void handleSaveTempHP() {
-        if (initiativeList.getSelectionModel().getSelectedItem() != null) {
-            tempHPTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-                int tempHP = 0;
-                try {
-                    tempHP = Integer.parseInt(newValue);
-                    initiativeList.getSelectionModel().getSelectedItem().setTempHP(tempHP);
-                } catch (NumberFormatException exception) {
-                    showAlert("You must enter a whole number!");
-                    tempHPTextField.setText(String.valueOf(tempHP));
-                }
-            });
-        } else {
+        if (initiativeList.getSelectionModel().getSelectedItem() == null) {
             showAlert("No creature selected!");
             tempHPTextField.clear();
             tempHPTextField.setPromptText("--");
+            return;
         }
+
+        tempHPTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            int tempHP = 0;
+            try {
+                tempHP = Integer.parseInt(newValue);
+                initiativeList.getSelectionModel().getSelectedItem().setTempHP(tempHP);
+            } catch (NumberFormatException exception) {
+                showAlert("You must enter a whole number!");
+                tempHPTextField.setText(String.valueOf(tempHP));
+            }
+        });
     }
 
     /**Met deze methode gaat de round counter met 1 omhoog.
@@ -731,44 +746,47 @@ public class InitiativeTrackerController {
     public void addExhaustion() {
         Creature selectedCreature = initiativeList.getSelectionModel().getSelectedItem();
 
-        if (selectedCreature != null) {
-            final int MAXIMUM_EXHAUSTION = 6;
-            final int ADD_1_EXHAUSTION = 1;
-            final int MINIMUM_HP = 0;
-            final int HALVE_HP_DIVIDE_BY_2 = 2;
-            int currentLevel = selectedCreature.getExhaustionLevel();
-
-            if (currentLevel < MAXIMUM_EXHAUSTION) {
-                int newLevel = currentLevel + ADD_1_EXHAUSTION;
-                selectedCreature.setExhaustionLevel(newLevel);
-                exhaustionTextField.setText(String.valueOf(newLevel));
-
-                if (newLevel == 4) {
-                    selectedCreature.setMaxHP(selectedCreature.getMaxHP() / HALVE_HP_DIVIDE_BY_2);
-
-                    if (selectedCreature.getHP() > selectedCreature.getMaxHP()) {
-                        selectedCreature.setHP(selectedCreature.getMaxHP());
-                    }
-                    initiativeHPTextfield.setText(selectedCreature.getHP() + " / " + selectedCreature.getMaxHP());
-
-                    showAlert("This creature's max HP is now halved!");
-
-                    getRed();
-                }
-
-                if (newLevel == MAXIMUM_EXHAUSTION) {
-                    selectedCreature.setHP(MINIMUM_HP);
-                    initiativeHPTextfield.setText(selectedCreature.getHP() + " / " + selectedCreature.getMaxHP());
-
-                    initiativeHPTextfield.setStyle("-fx-background-color: red;");
-
-                    showAlert("This creature is now dead!");
-                }
-            } else {
-                showAlert("Exhaustion can't go higher than " + MAXIMUM_EXHAUSTION + "!");
-            }
-        } else {
+        if (selectedCreature == null) {
             showAlert("Please select a creature to modify exhaustion.");
+            return;
+        }
+
+        final int MAXIMUM_EXHAUSTION = 6;
+        final int ADD_1_EXHAUSTION = 1;
+        final int MINIMUM_HP = 0;
+        final int HALVE_HP_DIVIDE_BY_2 = 2;
+        int currentLevel = selectedCreature.getExhaustionLevel();
+
+        if (currentLevel == MAXIMUM_EXHAUSTION) {
+            showAlert("Exhaustion can't go higher than " + MAXIMUM_EXHAUSTION + "!");
+            return;
+        }
+
+        int newLevel = currentLevel + ADD_1_EXHAUSTION;
+        selectedCreature.setExhaustionLevel(newLevel);
+        exhaustionTextField.setText(String.valueOf(newLevel));
+
+        if (newLevel == 4) {
+            selectedCreature.setMaxHP(selectedCreature.getMaxHP() / HALVE_HP_DIVIDE_BY_2);
+
+            if (selectedCreature.getHP() > selectedCreature.getMaxHP()) {
+                selectedCreature.setHP(selectedCreature.getMaxHP());
+            }
+            initiativeHPTextfield.setText(selectedCreature.getHP() + " / " + selectedCreature.getMaxHP());
+
+            showAlert("This creature's max HP is now halved!");
+
+            getRed();
+            return;
+        }
+
+        if (newLevel == MAXIMUM_EXHAUSTION) {
+            selectedCreature.setHP(MINIMUM_HP);
+            initiativeHPTextfield.setText(selectedCreature.getHP() + " / " + selectedCreature.getMaxHP());
+
+            initiativeHPTextfield.setStyle("-fx-background-color: red;");
+
+            showAlert("This creature is now dead!");
         }
     }
 
@@ -779,40 +797,37 @@ public class InitiativeTrackerController {
     public void lowerExhaustion() {
         Creature selectedCreature = initiativeList.getSelectionModel().getSelectedItem();
 
-        if (selectedCreature != null) {
-            final double COLOR_FLASH = 0.1;
-            final int MINIMUM_EXHAUSTION = 0;
-            final int MINIMUM_HP = 0;
-            final int EXHAUSTION_LEVEL_3 = 3;
-            int currentLevel = selectedCreature.getExhaustionLevel();
-            int newLevel = currentLevel - 1;
-
-            if (newLevel >= MINIMUM_EXHAUSTION) {
-                selectedCreature.setExhaustionLevel(newLevel);
-                exhaustionTextField.setText(String.valueOf(newLevel));
-
-                if (newLevel == EXHAUSTION_LEVEL_3) {
-                    selectedCreature.setMaxHP(selectedCreature.getOriginalMaxHP());
-                    initiativeHPTextfield.setText(selectedCreature.getHP() + " / " + selectedCreature.getMaxHP());
-
-                    initiativeHPTextfield.setStyle("-fx-background-color: green;");
-                    Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(COLOR_FLASH), e -> {
-                        if(selectedCreature.getHP() == MINIMUM_HP) {
-                            initiativeHPTextfield.setStyle("-fx-background-color: red;");
-                        } else {
-                            initiativeHPTextfield.setStyle("");
-                        }
-                    }));
-                    timeline.play();
-                }
-
-                if (newLevel == MINIMUM_EXHAUSTION) {
-                    exhaustionCheckBox.setSelected(false);
-                    exhaustionControls.setVisible(false);
-                }
-            }
-        } else {
+        if (selectedCreature == null) {
             showAlert("Please select a creature to modify exhaustion.");
+            return;
+        }
+
+        final double COLOR_FLASH = 0.1;
+        final int MINIMUM_EXHAUSTION = 0;
+        final int MINIMUM_HP = 0;
+        final int EXHAUSTION_LEVEL_3 = 3;
+        int currentLevel = selectedCreature.getExhaustionLevel();
+        int newLevel = currentLevel - 1;
+
+        selectedCreature.setExhaustionLevel(newLevel);
+        exhaustionTextField.setText(String.valueOf(newLevel));
+
+        if (newLevel == EXHAUSTION_LEVEL_3) {
+            selectedCreature.setMaxHP(selectedCreature.getOriginalMaxHP());
+            initiativeHPTextfield.setText(selectedCreature.getHP() + " / " + selectedCreature.getMaxHP());
+
+            initiativeHPTextfield.setStyle("-fx-background-color: green;");
+            Timeline timeline = new Timeline(
+                    new KeyFrame(Duration.seconds(COLOR_FLASH), e -> {
+                        initiativeHPTextfield.setStyle(selectedCreature.getHP() == MINIMUM_HP ? "-fx-background-color: red;": "");
+                   })
+            );
+            timeline.play();
+        }
+
+        if (newLevel == MINIMUM_EXHAUSTION) {
+            exhaustionCheckBox.setSelected(false);
+            exhaustionControls.setVisible(false);
         }
     }
 
@@ -822,14 +837,15 @@ public class InitiativeTrackerController {
      *
      */
     public void handleAC() {
-        if(initiativeList.getSelectionModel().getSelectedItem() != null) {
-            ACTextField.textProperty().addListener((observable, oldValue, newValue) ->
-                    initiativeList.getSelectionModel().getSelectedItem().setAC(Integer.parseInt(newValue)));
-        } else {
+        if(initiativeList.getSelectionModel().getSelectedItem() == null) {
             showAlert("No creature selected!");
-            extraInfoTextArea.clear();
-            extraInfoTextArea.setPromptText("Select a creature to add AC.");
+            ACTextField.clear();
+            ACTextField.setPromptText("--.");
+            return;
         }
+
+        ACTextField.textProperty().addListener((observable, oldValue, newValue) ->
+                initiativeList.getSelectionModel().getSelectedItem().setAC(Integer.parseInt(newValue)));
     }
 
     /**Met deze methode kan een error melding gegeven worden met een ingebrachte message.

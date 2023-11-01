@@ -311,7 +311,7 @@ public class InitiativeTrackerController {
             creatureTurnTextfield.setText("No creature in initiative!");
             return;
         }
-        creatureTurnTextfield.setText(initiativeList.getItems().get(0).getName());
+            creatureTurnTextfield.setText(initiativeList.getItems().get(0).getName());
     }
 
     /**Met deze methode kunnen nieuwe creatures toegevoegd worden aan de initiativeList.
@@ -587,7 +587,7 @@ public class InitiativeTrackerController {
      *
      */
     public void handleCheckBox(){
-        if (initiativeList.getSelectionModel().getSelectedItem() != null) {
+        if (initiativeList.getSelectionModel().getSelectedItem() == null) {
             showAlert("No creature selected!");
             return;
         }

@@ -2,8 +2,10 @@ package controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import model.Creature;
 import view.Main;
 import view.SceneManager;
@@ -28,11 +30,22 @@ public class InitiativeController {
     private TextField hpTextField;
     @FXML
     private TextField maxHPTextField;
+    @FXML
+    private TextField legResTextField;
+    @FXML
+    private TextField legActTextField;
+    @FXML
+    private VBox legendaryControls;
+    @FXML
+    private CheckBox legendaryCheckBox;
 
     /**Deze methode wordt gestart wanneer naar dit scherm wordt gegaan. Momenteel doet deze methode niets, maar
      * in de toekomst kunnen hier dingen aan toegevoegd worden als nodig.
      */
-    public void setup() {}
+    public void setup() {
+        legendaryCheckBox.setSelected(false);
+        legendaryControls.setVisible(false);
+    }
 
     /**Deze methode zet de initiativeList op volgorde van initiative (hoog naar laag).
      *
@@ -40,6 +53,10 @@ public class InitiativeController {
     public void orderList() {
         initiative.sort((c1, c2) -> Double.compare(c2.getInitiative(), c1.getInitiative()));
         initiativeList.getItems().setAll(initiative);
+    }
+
+    public void handleLegendaryCheckBox(){
+        legendaryControls.setVisible(legendaryCheckBox.isSelected());
     }
 
     /**Met deze methode wordt een creature toegevoegd aan de initiativeList.
@@ -124,6 +141,14 @@ public class InitiativeController {
 
         return true;
     }
+
+    public void lowerLegRes(){}
+
+    public void addLegRes(){}
+
+    public void lowerLegAct(){}
+
+    public void addLegAct(){}
 
     public void doMenu(){
         SCENEMANAGER.showMenuScene();

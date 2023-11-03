@@ -253,6 +253,22 @@ public class Creature {
         return originalMaxHP;
     }
 
+    public int getLegendaryResistances() {
+        return legendaryResistances;
+    }
+
+    public void setLegendaryResistances(int legendaryResistances) {
+        this.legendaryResistances = legendaryResistances;
+    }
+
+    public int getLegendaryActions() {
+        return legendaryActions;
+    }
+
+    public void setLegendaryActions(int legendaryActions) {
+        this.legendaryActions = legendaryActions;
+    }
+
     @Override
     public String toString() {
         return this.name + " (" + this.initiative + ")";

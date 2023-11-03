@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -62,6 +63,8 @@ public class InitiativeTrackerController {
     private CheckBox unconsciousCheckBox;
     @FXML
     private CheckBox exhaustionCheckBox;
+    @FXML
+    private CheckBox legendaryCheckBox;
 
     //Textfields and TextAreas
     @FXML
@@ -90,12 +93,18 @@ public class InitiativeTrackerController {
     private TextField ACTextField;
     @FXML
     private TextArea extraInfoTextArea;
+    @FXML
+    private TextField legResTextField;
+    @FXML
+    private TextField legActTextField;
 
     //Misc
     @FXML
     private ListView<Creature> initiativeList;
     @FXML
     private HBox exhaustionControls;
+    @FXML
+    private VBox legendaryControls;
     @FXML
     private Button deleteButton;
 
@@ -108,6 +117,7 @@ public class InitiativeTrackerController {
     public void setup(ArrayList<Creature> creatures){
         initiativeList.getItems().setAll(creatures);
         roundTextField.setText("0");
+        legendaryControls.setVisible(false);
         exhaustionControls.setVisible(false);
         ACTextField.setPromptText("--");
         extraInfoTextArea.setPromptText("Select a creature to add extra info.");
@@ -329,6 +339,7 @@ public class InitiativeTrackerController {
                     initiativeTextField.setText("");
                     hpTextField.setText("");
                     maxHPTextField.setText("");
+                    legendaryCheckBox.setSelected(false);
                     return;
                 }
                 showAlert("HP can't be higher then max HP!");
@@ -575,6 +586,11 @@ public class InitiativeTrackerController {
 
                 exhaustionControls.setVisible(true);
                 exhaustionTextField.setText(String.valueOf(initiativeList.getSelectionModel().getSelectedItem().getExhaustionLevel()));
+
+
+                if(!legendaryCheckBox.isSelected()) {
+                    legendaryControls.setVisible(false);
+                }
             }
         });
     }
@@ -608,16 +624,21 @@ public class InitiativeTrackerController {
         initiativeList.getSelectionModel().getSelectedItem().setUnconscious(unconsciousCheckBox.isSelected());
         initiativeList.getSelectionModel().getSelectedItem().setExhaustion(exhaustionCheckBox.isSelected());
 
-        boolean isChecked = exhaustionCheckBox.isSelected();
-        exhaustionControls.setVisible(isChecked);
-        if (!isChecked) {
+        boolean isCheckedExhaustion = exhaustionCheckBox.isSelected();
+        exhaustionControls.setVisible(isCheckedExhaustion);
+        if (!isCheckedExhaustion) {
             initiativeList.getSelectionModel().getSelectedItem().setMaxHP(initiativeList.getSelectionModel().getSelectedItem().getOriginalMaxHP());
             initiativeHPTextfield.setText(initiativeList.getSelectionModel().getSelectedItem().getHP() + " / " +
                     initiativeList.getSelectionModel().getSelectedItem().getMaxHP());
-            return;
-        }
+        } else {
             exhaustionTextField.setText(String.valueOf(MINIMUM_EXHAUSTION_LEVEL));
             initiativeList.getSelectionModel().getSelectedItem().setExhaustionLevel(1);
+        }
+    }
+
+    public void handleLegendaryCheckBox(){
+        boolean isCheckedLegendary = legendaryCheckBox.isSelected();
+        legendaryControls.setVisible(isCheckedLegendary);
     }
 
     /**Met deze methode wordt terug gegaan naar het vorige scherm. Er wordt eerst gevraagd of de gebruiker
@@ -845,6 +866,18 @@ public class InitiativeTrackerController {
         ACTextField.textProperty().addListener((observable, oldValue, newValue) ->
                 initiativeList.getSelectionModel().getSelectedItem().setAC(Integer.parseInt(newValue)));
     }
+
+    public void lowerLegRes(){}
+
+    public void addLegRes(){}
+
+    public void lowerLegAct(){}
+
+    public void addLegAct(){}
+
+    public void handleLegResCheckBox(){}
+
+    public void handleLegActCheckBox(){}
 
     /**Met deze methode kan een error melding gegeven worden met een ingebrachte message.
      *

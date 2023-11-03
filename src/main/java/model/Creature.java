@@ -26,6 +26,14 @@ public class Creature {
     private int exhaustionLevel;
     private int AC;
     private int originalMaxHP;
+    private int legendaryResistances;
+    private int legendaryActions;
+
+    public Creature(String name, double initiative, int HP, int maxHP, int legendaryResistances, int legendaryActions) {
+        this(name, initiative, HP, maxHP);
+        this.legendaryResistances = legendaryResistances;
+        this.legendaryActions = legendaryActions;
+    }
 
     public Creature(String name, double initiative, int HP, int maxHP) {
         this.name = name;
@@ -53,6 +61,8 @@ public class Creature {
         this.extraInfo = "";
         this.tempHP = 0;
         this.exhaustionLevel = 0;
+        this.legendaryResistances = 0;
+        this.legendaryActions = 0;
     }
 
     public String getName() {

@@ -27,18 +27,9 @@ import java.util.Optional;
  */
 public class InitiativeTrackerController {
     private final SceneManager SCENEMANAGER = Main.getSceneManager();
-    @FXML
-    private ListView<Creature> initiativeList;
-    @FXML
-    private TextField creatureTurnTextfield;
-    @FXML
-    private TextField nameTextField;
-    @FXML
-    private TextField initiativeTextField;
-    @FXML
-    private TextField hpTextField;
-    @FXML
-    private TextField maxHPTextField;
+    private int amountHighestInitiativeTurnTaken = 1;
+
+    //Checkboxxes
     @FXML
     private CheckBox concentrationCheckBox;
     @FXML
@@ -71,6 +62,18 @@ public class InitiativeTrackerController {
     private CheckBox unconsciousCheckBox;
     @FXML
     private CheckBox exhaustionCheckBox;
+
+    //Textfields and TextAreas
+    @FXML
+    private TextField creatureTurnTextfield;
+    @FXML
+    private TextField nameTextField;
+    @FXML
+    private TextField initiativeTextField;
+    @FXML
+    private TextField hpTextField;
+    @FXML
+    private TextField maxHPTextField;
     @FXML
     private TextField initiativeNameTextfield;
     @FXML
@@ -78,20 +81,23 @@ public class InitiativeTrackerController {
     @FXML
     private TextField hpLowerAddTextField;
     @FXML
-    private TextArea extraInfoTextArea;
-    @FXML
-    private Button deleteButton;
-    @FXML
     private TextField tempHPTextField;
     @FXML
     private TextField roundTextField;
     @FXML
-    private HBox exhaustionControls;
-    @FXML
     private TextField exhaustionTextField;
     @FXML
     private TextField ACTextField;
-    private int amountHighestInitiativeTurnTaken = 1;
+    @FXML
+    private TextArea extraInfoTextArea;
+
+    //Misc
+    @FXML
+    private ListView<Creature> initiativeList;
+    @FXML
+    private HBox exhaustionControls;
+    @FXML
+    private Button deleteButton;
 
     /**De setup wordt gestarts wanneer de initiativeTrackerScene.fxml wordt geopend. Hierbij wordt de initiativelijst gevuld met
      * eerder ingevoerde creatures en andere textfields gevuld. Verder wordt een drag/drop-systeem geinitialiseerd
@@ -116,21 +122,21 @@ public class InitiativeTrackerController {
                 final int MINIMUM_HP = 0;
                 ListCell<Creature> cell = new ListCell<>() {
                     @Override
-                    protected void updateItem(Creature item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty || item == null) {
+                    protected void updateItem(Creature creature, boolean empty) {
+                        super.updateItem(creature, empty);
+                        if (empty || creature == null) {
                             setText(null);
                             setStyle("");
                         } else {
-                            setText(item.toString());
+                            setText(creature.toString());
 
-                            if (item.getHP() == MINIMUM_HP) {
+                            if (creature.getHP() == MINIMUM_HP) {
                                 setTextFill(Color.RED);
-                            } else if (item.getHP() == 1) {
+                            } else if (creature.getHP() == 1) {
                                 setTextFill(Color.ORANGE);
-                            } else if (item.getHP() < ((double) item.getMaxHP() / MAX_HP_DIVIDE_BY_2)) {
+                            } else if (creature.getHP() < ((double) creature.getMaxHP() / MAX_HP_DIVIDE_BY_2)) {
                                 setTextFill(Color.YELLOW);
-                            } else if (item.getHP() >= item.getMaxHP()) {
+                            } else if (creature.getHP() >= creature.getMaxHP()) {
                                 setTextFill(Color.GREEN);
                             } else {
                                 setTextFill(Color.BLACK);
@@ -211,39 +217,38 @@ public class InitiativeTrackerController {
         });
     }
 
-    /**Bij het opstarten van dit scherm worden toolTips geinitialiseerd voor alle checkboxxes.
+    /**Bij het opstarten van dit scherm worden toolTips teksten aangemaakt.
      *
      */
     public void initialize(){
-        Tooltip concentrationTooltip = new Tooltip("A Concentration check is used when you take damage in combat and you are currently \n" +
+        setTooltip(concentrationCheckBox, "A Concentration check is used when you take damage in combat and you are currently \n" +
                 "concentrating on a previously cast spell (Like Bless or Bane). \n" +
                 "Typically, you make a Constitution saving throw to maintain concentration on the spell. \n" +
                 "The DC equals 10 or half the damage taken, whichever number is higher.\n" +
                 "ou lose concentration on a spell if you cast another spell that requires concentration. \n" +
                 "You can't concentrate on two spells at once.");
-        Tooltip blindedTooltip = new Tooltip(
-                "- A blinded creature can’t see and automatically fails any ability check that requires sight.\n" +
+        setTooltip(blindedCheckBox, "- A blinded creature can’t see and automatically fails any ability check that requires sight.\n" +
                         "- Attack rolls against the creature have advantage, and the creature's attack rolls have disadvantage.");
-        Tooltip charmedTooltip = new Tooltip("- A charmed creature can’t attack the charmer or target the charmer with harmful abilities or magical effects.\n" +
+        setTooltip(charmedCheckBox, "- A charmed creature can’t attack the charmer or target the charmer with harmful abilities or magical effects.\n" +
                 "- The charmer has advantage on any ability check to interact socially with the creature.");
-        Tooltip deafenedTooltip = new Tooltip("- A deafened creature can’t hear and automatically fails any ability check that requires hearing.");
-        Tooltip frightenedTooltip = new Tooltip("- A frightened creature has disadvantage on ability checks and attack rolls while the source of " +
+        setTooltip(deafenedCheckBox, "- A deafened creature can’t hear and automatically fails any ability check that requires hearing.");
+        setTooltip(frightenedCheckBox, "- A frightened creature has disadvantage on ability checks and attack rolls while the source of " +
                 "\n  its fear is within line of sight.\n" +
                 "- The creature can’t willingly move closer to the source of its fear.");
-        Tooltip grappledTooltip = new Tooltip("- A grappled creature’s speed becomes 0, and it can’t benefit from any bonus to its speed.\n" +
+        setTooltip(grappledCheckBox, "- A grappled creature’s speed becomes 0, and it can’t benefit from any bonus to its speed.\n" +
                 "- The condition ends if the grappler is incapacitated (see the condition).\n" +
                 "- The condition also ends if an effect removes the grappled creature from the reach of the grappler or grappling effect, " +
                 "\n  such as when a creature is hurled away by the thunderwave spell.");
-        Tooltip incapacitatedTooltip = new Tooltip("- An incapacitated creature can’t take actions or reactions.");
-        Tooltip invisibleTooltip = new Tooltip("- An invisible creature is impossible to see without the aid of magic or a special sense. " +
+        setTooltip(incapacitatedCheckBox, "- An incapacitated creature can’t take actions or reactions.");
+        setTooltip(invisibleCheckBox, "- An invisible creature is impossible to see without the aid of magic or a special sense. " +
                 "\n  For the purpose of hiding, the creature is heavily obscured. " +
                 "\n  The creature’s location can be detected by any noise it makes or any tracks it leaves.\n" +
                 "- Attack rolls against the creature have disadvantage, and the creature’s attack rolls have advantage.");
-        Tooltip paralyzedTooltip = new Tooltip("- A paralyzed creature is incapacitated (see the condition) and can’t move or speak.\n" +
+        setTooltip(paralyzedCheckBox, "- A paralyzed creature is incapacitated (see the condition) and can’t move or speak.\n" +
                 "- The creature automatically fails Strength and Dexterity saving throws.\n" +
                 "- Attack rolls against the creature have advantage.\n" +
                 "- Any attack that hits the creature is a critical hit if the attacker is within 5 feet of the creature.");
-        Tooltip petrifiedTooltip = new Tooltip("- A petrified creature is transformed, along with any nonmagical object it is wearing or carrying, " +
+        setTooltip(petrifiedCheckBox, "- A petrified creature is transformed, along with any nonmagical object it is wearing or carrying, " +
                 "\n  into a solid inanimate substance (usually stone). " +
                 "\n  Its weight increases by a factor of ten, and it ceases aging.\n" +
                 "- The creature is incapacitated (see the condition), can’t move or speak, and is unaware of its surroundings.\n" +
@@ -251,22 +256,22 @@ public class InitiativeTrackerController {
                 "- The creature automatically fails Strength and Dexterity saving throws.\n" +
                 "- The creature has resistance to all damage.\n" +
                 "- The creature is immune to poison and disease, although a poison or disease already in its system is suspended, not neutralized.");
-        Tooltip poisonedTooltip = new Tooltip("- A poisoned creature has disadvantage on attack rolls and ability checks.");
-        Tooltip proneTooltip = new Tooltip("- A prone creature’s only movement option is to crawl, unless it stands up and thereby ends the condition.\n" +
+        setTooltip(poisonedCheckBox, "- A poisoned creature has disadvantage on attack rolls and ability checks.");
+        setTooltip(proneCheckBox, "- A prone creature’s only movement option is to crawl, unless it stands up and thereby ends the condition.\n" +
                 "- The creature has disadvantage on attack rolls.\n" +
                 "- An attack roll against the creature has advantage if the attacker is within 5 feet of the creature. Otherwise, the attack roll has disadvantage.");
-        Tooltip restrainedTooltip = new Tooltip("- A restrained creature’s speed becomes 0, and it can’t benefit from any bonus to its speed.\n" +
+        setTooltip(restrainedCheckBox, "- A restrained creature’s speed becomes 0, and it can’t benefit from any bonus to its speed.\n" +
                 "- Attack rolls against the creature have advantage, and the creature’s attack rolls have disadvantage.\n" +
                 "- The creature has disadvantage on Dexterity saving throws.");
-        Tooltip stunnedTooltip = new Tooltip("- A stunned creature is incapacitated (see the condition), can’t move, and can speak only falteringly.\n" +
+        setTooltip(stunnedCheckBox, "- A stunned creature is incapacitated (see the condition), can’t move, and can speak only falteringly.\n" +
                 "- The creature automatically fails Strength and Dexterity saving throws.\n" +
                 "- Attack rolls against the creature have advantage.");
-        Tooltip unconsciousTooltip = new Tooltip("- An unconscious creature is incapacitated (see the condition), can’t move or speak, and is unaware of its surroundings\n" +
+        setTooltip(unconsciousCheckBox, "- An unconscious creature is incapacitated (see the condition), can’t move or speak, and is unaware of its surroundings\n" +
                 "- The creature drops whatever it’s holding and falls prone.\n" +
                 "- The creature automatically fails Strength and Dexterity saving throws.\n" +
                 "- Attack rolls against the creature have advantage.\n" +
                 "- Any attack that hits the creature is a critical hit if the attacker is within 5 feet of the creature.");
-        Tooltip exhaustionTooltip = new Tooltip("Some special abilities and environmental hazards, such as starvation and the long-term effects of freezing or scorching temperatures, \n" +
+        setTooltip(exhaustionCheckBox, "Some special abilities and environmental hazards, such as starvation and the long-term effects of freezing or scorching temperatures, \n" +
                 "can lead to a special condition called exhaustion. Exhaustion is measured in six levels. \n" +
                 "An effect can give a creature one or more levels of exhaustion, as specified in the effect’s description.\n\n" +
                 "Exhaustion Effects levels:\n" +
@@ -284,23 +289,16 @@ public class InitiativeTrackerController {
                 "with all exhaustion effects ending if a creature’s exhaustion level is reduced below 1.\n" +
                 "\nFinishing a long rest reduces a creature’s exhaustion level by 1, \n" +
                 "provided that the creature has also ingested some food and drink.");
+    }
 
-        concentrationCheckBox.setTooltip(concentrationTooltip);
-        blindedCheckBox.setTooltip(blindedTooltip);
-        charmedCheckBox.setTooltip(charmedTooltip);
-        deafenedCheckBox.setTooltip(deafenedTooltip);
-        frightenedCheckBox.setTooltip(frightenedTooltip);
-        grappledCheckBox.setTooltip(grappledTooltip);
-        incapacitatedCheckBox.setTooltip(incapacitatedTooltip);
-        invisibleCheckBox.setTooltip(invisibleTooltip);
-        paralyzedCheckBox.setTooltip(paralyzedTooltip);
-        petrifiedCheckBox.setTooltip(petrifiedTooltip);
-        poisonedCheckBox.setTooltip(poisonedTooltip);
-        proneCheckBox.setTooltip(proneTooltip);
-        restrainedCheckBox.setTooltip(restrainedTooltip);
-        stunnedCheckBox.setTooltip(stunnedTooltip);
-        unconsciousCheckBox.setTooltip(unconsciousTooltip);
-        exhaustionCheckBox.setTooltip(exhaustionTooltip);
+    /**Met deze methode worden alle checkboxxes geinitialiseerd.
+     *
+     * @param checkBox: de exacte checkbox waar de tooltip bij hoort
+     * @param tooltipText: de text bij elke specifieke tooltip
+     */
+    private void setTooltip(CheckBox checkBox, String tooltipText) {
+        Tooltip tooltip = new Tooltip(tooltipText);
+        checkBox.setTooltip(tooltip);
     }
 
     /**Met deze methode wordt weergegeven wie er aan de beurt is (en dus bovenaan de initiativeList staat).
@@ -638,7 +636,7 @@ public class InitiativeTrackerController {
         Optional<ButtonType> result = confirmationDialog.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            SCENEMANAGER.setWelcomeTool();
+            SCENEMANAGER.showMenuScene();
         }
     }
 

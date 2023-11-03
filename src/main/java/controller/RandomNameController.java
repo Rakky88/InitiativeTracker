@@ -21,12 +21,24 @@ public class RandomNameController {
     }
 
     public void initMaleFirstName(){
+        firstNameMale.add("Rick");
         firstNameMale.add("Ben");
         firstNameMale.add("Joe");
-        firstNameMale.add("Rick");
         firstNameMale.add("Dimitri");
         firstNameMale.add("Michael");
         firstNameMale.add("Tim");
+        firstNameMale.add("Mick");
+        firstNameMale.add("Mickey");
+        firstNameMale.add("Paul");
+        firstNameMale.add("Roland");
+        firstNameMale.add("Peter");
+        firstNameMale.add("Derrick");
+        firstNameMale.add("Dennis");
+        firstNameMale.add("Frank");
+        firstNameMale.add("Harry");
+        firstNameMale.add("Matthew");
+        firstNameMale.add("Arnold");
+        firstNameMale.add("Sam");
     }
 
     public void initFemaleFirstName(){
@@ -36,10 +48,17 @@ public class RandomNameController {
         firstNameFemale.add("Kirsten");
         firstNameFemale.add("Esmee");
         firstNameFemale.add("Scarlet");
+        firstNameFemale.add("Ayten");
+        firstNameFemale.add("Mary");
+        firstNameFemale.add("Heather");
+        firstNameFemale.add("Fleur");
+        firstNameFemale.add("Merle");
+        firstNameFemale.add("Sue");
+        firstNameFemale.add("Madelon");
     }
 
     public void initLastName(){
-        lastName.add("MeijerHof");
+        lastName.add("Meijerhof");
         lastName.add("Groot");
         lastName.add("Heijs");
         lastName.add("Loving");
@@ -47,6 +66,10 @@ public class RandomNameController {
         lastName.add("Limes");
         lastName.add("Stiller");
         lastName.add("Mills");
+        lastName.add("Fledder");
+        lastName.add("Kingsly");
+        lastName.add("Zuthphen");
+        lastName.add("Wernink");
     }
 
     public void doBack() {

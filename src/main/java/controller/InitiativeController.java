@@ -20,6 +20,8 @@ import java.util.stream.Collectors;
 public class InitiativeController {
     private final SceneManager SCENEMANAGER = Main.getSceneManager();
     private ArrayList<Creature> initiative = new ArrayList<>();
+    private static int legendaryResistances = 0;
+    private static int legendaryActions = 0;
     @FXML
     private ListView<Creature> initiativeList;
     @FXML
@@ -57,6 +59,12 @@ public class InitiativeController {
 
     public void handleLegendaryCheckBox(){
         legendaryControls.setVisible(legendaryCheckBox.isSelected());
+        if(legendaryCheckBox.isSelected()) {
+            legendaryControls.setVisible(true);
+            legResTextField.setText(String.valueOf(0));
+        } else{
+            legendaryControls.setVisible(false);
+        }
     }
 
     /**Met deze methode wordt een creature toegevoegd aan de initiativeList.

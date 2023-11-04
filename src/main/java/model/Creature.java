@@ -263,16 +263,24 @@ public class Creature {
         return legendaryResistances;
     }
 
-    public void setLegendaryResistances(int legendaryResistances) {
-        this.legendaryResistances = legendaryResistances;
-    }
-
     public int getLegendaryActions() {
         return legendaryActions;
     }
 
-    public void setLegendaryActions(int legendaryActions) {
-        this.legendaryActions = legendaryActions;
+    public int getLegendaryResistancesLeft() {
+        return legendaryResistancesLeft;
+    }
+
+    public void setLegendaryResistancesLeft(int legendaryResistancesLeft) {
+        this.legendaryResistancesLeft = legendaryResistancesLeft;
+    }
+
+    public int getLegendaryActionsLeft() {
+        return legendaryActionsLeft;
+    }
+
+    public void setLegendaryActionsLeft(int legendaryActionsLeft) {
+        this.legendaryActionsLeft = legendaryActionsLeft;
     }
 
     @Override

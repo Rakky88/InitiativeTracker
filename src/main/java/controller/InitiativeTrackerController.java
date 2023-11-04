@@ -124,7 +124,8 @@ public class InitiativeTrackerController {
     //Labels
     @FXML
     private Label legResNameText;
-    @FXML Label legActNameText;
+    @FXML
+    private Label legActNameText;
 
     //Misc
     @FXML
@@ -653,10 +654,6 @@ public class InitiativeTrackerController {
                 tempHPTextField.setText(String.valueOf(newSelection.getTempHP()));
                 ACTextField.setText(String.valueOf(newSelection.getAC()));
 
-                if(!legendaryCheckBox.isSelected()) {
-                    legendaryControls.setVisible(false);
-                }
-
                 initiativeHPTextfield.setStyle(
                         initiativeList.getSelectionModel().getSelectedItem().getHP() != MINIMUM_HP ? "" : "-fx-background-color: red;"
                 );
@@ -686,6 +683,11 @@ public class InitiativeTrackerController {
                     legResCheckBox3.setVisible(false);
                     legResCheckBox4.setVisible(false);
                     legResCheckBox5.setVisible(false);
+                    if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryResistancesLeft() == 0) {
+                        legResCheckBox1.setSelected(true);
+                    } else {
+                        legResCheckBox1.setSelected(false);
+                    }
                 }
 
                 if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryActions() == 1) {
@@ -695,6 +697,11 @@ public class InitiativeTrackerController {
                     legActCheckBox3.setVisible(false);
                     legActCheckBox4.setVisible(false);
                     legActCheckBox5.setVisible(false);
+                    if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryActionsLeft() == 0) {
+                        legActCheckBox1.setSelected(true);
+                    } else {
+                        legActCheckBox1.setSelected(false);
+                    }
                 }
 
                 if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryResistances() == 2) {
@@ -704,6 +711,16 @@ public class InitiativeTrackerController {
                     legResCheckBox3.setVisible(false);
                     legResCheckBox4.setVisible(false);
                     legResCheckBox5.setVisible(false);
+                    if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryResistancesLeft() == 0) {
+                        legResCheckBox1.setSelected(true);
+                        legResCheckBox2.setSelected(true);
+                    } else if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryResistancesLeft() == 1) {
+                        legResCheckBox1.setSelected(true);
+                        legResCheckBox2.setSelected(false);
+                    } else {
+                        legResCheckBox1.setSelected(false);
+                        legResCheckBox2.setSelected(false);
+                    }
                 }
 
                 if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryActions() == 2) {
@@ -713,6 +730,16 @@ public class InitiativeTrackerController {
                     legActCheckBox3.setVisible(false);
                     legActCheckBox4.setVisible(false);
                     legActCheckBox5.setVisible(false);
+                    if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryActions() == 0) {
+                        legResCheckBox1.setSelected(true);
+                        legResCheckBox2.setSelected(true);
+                    } else if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryActions() == 1) {
+                        legActCheckBox1.setSelected(true);
+                        legActCheckBox2.setSelected(false);
+                    } else {
+                        legActCheckBox1.setSelected(false);
+                        legActCheckBox2.setSelected(false);
+                    }
                 }
 
                 if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryResistances() == 3) {
@@ -722,6 +749,23 @@ public class InitiativeTrackerController {
                     legResCheckBox3.setVisible(true);
                     legResCheckBox4.setVisible(false);
                     legResCheckBox5.setVisible(false);
+                    if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryResistancesLeft() == 0) {
+                        legResCheckBox1.setSelected(true);
+                        legResCheckBox2.setSelected(true);
+                        legResCheckBox3.setSelected(true);
+                    } else if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryResistancesLeft() == 1) {
+                        legResCheckBox1.setSelected(true);
+                        legResCheckBox2.setSelected(true);
+                        legResCheckBox3.setSelected(false);
+                    } else if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryResistancesLeft() == 2) {
+                        legResCheckBox1.setSelected(true);
+                        legResCheckBox2.setSelected(false);
+                        legResCheckBox3.setSelected(false);
+                    } else {
+                        legResCheckBox1.setSelected(false);
+                        legResCheckBox2.setSelected(false);
+                        legResCheckBox3.setSelected(false);
+                    }
                 }
 
                 if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryActions() == 3) {
@@ -731,6 +775,23 @@ public class InitiativeTrackerController {
                     legActCheckBox3.setVisible(true);
                     legActCheckBox4.setVisible(false);
                     legActCheckBox5.setVisible(false);
+                    if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryActionsLeft() == 0) {
+                        legActCheckBox1.setSelected(true);
+                        legActCheckBox2.setSelected(true);
+                        legActCheckBox3.setSelected(true);
+                    } else if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryActionsLeft() == 1) {
+                        legActCheckBox1.setSelected(true);
+                        legActCheckBox2.setSelected(true);
+                        legActCheckBox3.setSelected(false);
+                    } else if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryActionsLeft() == 2) {
+                        legActCheckBox1.setSelected(true);
+                        legActCheckBox2.setSelected(false);
+                        legActCheckBox3.setSelected(false);
+                    } else {
+                        legActCheckBox1.setSelected(false);
+                        legActCheckBox2.setSelected(false);
+                        legActCheckBox3.setSelected(false);
+                    }
                 }
 
                 if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryResistances() == 4) {
@@ -740,6 +801,32 @@ public class InitiativeTrackerController {
                     legResCheckBox3.setVisible(true);
                     legResCheckBox4.setVisible(true);
                     legResCheckBox5.setVisible(false);
+                    if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryResistancesLeft() == 0) {
+                        legResCheckBox1.setSelected(true);
+                        legResCheckBox2.setSelected(true);
+                        legResCheckBox3.setSelected(true);
+                        legResCheckBox4.setSelected(true);
+                    } else if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryResistancesLeft() == 1) {
+                        legResCheckBox1.setSelected(true);
+                        legResCheckBox2.setSelected(true);
+                        legResCheckBox3.setSelected(true);
+                        legResCheckBox4.setSelected(false);
+                    } else if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryResistancesLeft() == 2) {
+                        legResCheckBox1.setSelected(true);
+                        legResCheckBox2.setSelected(true);
+                        legResCheckBox3.setSelected(false);
+                        legResCheckBox4.setSelected(false);
+                    } else if (initiativeList.getSelectionModel().getSelectedItem().getLegendaryResistancesLeft() == 3) {
+                        legResCheckBox1.setSelected(true);
+                        legResCheckBox2.setSelected(false);
+                        legResCheckBox3.setSelected(false);
+                        legResCheckBox4.setSelected(false);
+                    } else {
+                        legResCheckBox1.setSelected(false);
+                        legResCheckBox2.setSelected(false);
+                        legResCheckBox3.setSelected(false);
+                        legResCheckBox4.setSelected(false);
+                    }
                 }
 
                 if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryActions() == 4) {
@@ -749,6 +836,32 @@ public class InitiativeTrackerController {
                     legActCheckBox3.setVisible(true);
                     legActCheckBox4.setVisible(true);
                     legActCheckBox5.setVisible(false);
+                    if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryResistancesLeft() == 0) {
+                        legActCheckBox1.setSelected(true);
+                        legActCheckBox2.setSelected(true);
+                        legActCheckBox3.setSelected(true);
+                        legActCheckBox4.setSelected(true);
+                    } else if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryResistancesLeft() == 1) {
+                        legActCheckBox1.setSelected(true);
+                        legActCheckBox2.setSelected(true);
+                        legActCheckBox3.setSelected(true);
+                        legActCheckBox4.setSelected(false);
+                    } else if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryResistancesLeft() == 2) {
+                        legActCheckBox1.setSelected(true);
+                        legActCheckBox2.setSelected(true);
+                        legActCheckBox3.setSelected(false);
+                        legActCheckBox4.setSelected(false);
+                    } else if (initiativeList.getSelectionModel().getSelectedItem().getLegendaryResistancesLeft() == 3) {
+                        legActCheckBox1.setSelected(true);
+                        legActCheckBox2.setSelected(false);
+                        legActCheckBox3.setSelected(false);
+                        legActCheckBox4.setSelected(false);
+                    } else {
+                        legActCheckBox1.setSelected(false);
+                        legActCheckBox2.setSelected(false);
+                        legActCheckBox3.setSelected(false);
+                        legActCheckBox4.setSelected(false);
+                    }
                 }
 
                 if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryResistances() == 5) {
@@ -758,6 +871,43 @@ public class InitiativeTrackerController {
                     legResCheckBox3.setVisible(true);
                     legResCheckBox4.setVisible(true);
                     legResCheckBox5.setVisible(true);
+                    if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryResistancesLeft() == 0) {
+                        legResCheckBox1.setSelected(true);
+                        legResCheckBox2.setSelected(true);
+                        legResCheckBox3.setSelected(true);
+                        legResCheckBox4.setSelected(true);
+                        legResCheckBox5.setSelected(true);
+                    } else if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryResistancesLeft() == 1) {
+                        legResCheckBox1.setSelected(true);
+                        legResCheckBox2.setSelected(true);
+                        legResCheckBox3.setSelected(true);
+                        legResCheckBox4.setSelected(true);
+                        legResCheckBox5.setSelected(false);
+                    } else if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryResistancesLeft() == 2) {
+                        legResCheckBox1.setSelected(true);
+                        legResCheckBox2.setSelected(true);
+                        legResCheckBox3.setSelected(true);
+                        legResCheckBox4.setSelected(false);
+                        legResCheckBox5.setSelected(false);
+                    } else if (initiativeList.getSelectionModel().getSelectedItem().getLegendaryResistancesLeft() == 3) {
+                        legResCheckBox1.setSelected(true);
+                        legResCheckBox2.setSelected(true);
+                        legResCheckBox3.setSelected(false);
+                        legResCheckBox4.setSelected(false);
+                        legResCheckBox5.setSelected(false);
+                    } else if (initiativeList.getSelectionModel().getSelectedItem().getLegendaryResistancesLeft() == 4) {
+                        legResCheckBox1.setSelected(true);
+                        legResCheckBox2.setSelected(false);
+                        legResCheckBox3.setSelected(false);
+                        legResCheckBox4.setSelected(false);
+                        legResCheckBox5.setSelected(false);
+                    } else {
+                        legResCheckBox1.setSelected(false);
+                        legResCheckBox2.setSelected(false);
+                        legResCheckBox3.setSelected(false);
+                        legResCheckBox4.setSelected(false);
+                        legResCheckBox5.setSelected(false);
+                    }
                 }
 
                 if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryActions() == 5) {
@@ -767,6 +917,43 @@ public class InitiativeTrackerController {
                     legActCheckBox3.setVisible(true);
                     legActCheckBox4.setVisible(true);
                     legActCheckBox5.setVisible(true);
+                    if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryActionsLeft() == 0) {
+                        legActCheckBox1.setSelected(true);
+                        legActCheckBox2.setSelected(true);
+                        legActCheckBox3.setSelected(true);
+                        legActCheckBox4.setSelected(true);
+                        legActCheckBox5.setSelected(true);
+                    } else if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryActionsLeft() == 1) {
+                        legActCheckBox1.setSelected(true);
+                        legActCheckBox2.setSelected(true);
+                        legActCheckBox3.setSelected(true);
+                        legActCheckBox4.setSelected(true);
+                        legActCheckBox5.setSelected(false);
+                    } else if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryActionsLeft() == 2) {
+                        legActCheckBox1.setSelected(true);
+                        legActCheckBox2.setSelected(true);
+                        legActCheckBox3.setSelected(true);
+                        legActCheckBox4.setSelected(false);
+                        legActCheckBox5.setSelected(false);
+                    } else if (initiativeList.getSelectionModel().getSelectedItem().getLegendaryActionsLeft() == 3) {
+                        legActCheckBox1.setSelected(true);
+                        legActCheckBox2.setSelected(true);
+                        legActCheckBox3.setSelected(false);
+                        legActCheckBox4.setSelected(false);
+                        legActCheckBox5.setSelected(false);
+                    } else if (initiativeList.getSelectionModel().getSelectedItem().getLegendaryActionsLeft() == 4) {
+                        legActCheckBox1.setSelected(true);
+                        legActCheckBox2.setSelected(false);
+                        legActCheckBox3.setSelected(false);
+                        legActCheckBox4.setSelected(false);
+                        legActCheckBox5.setSelected(false);
+                    } else {
+                        legActCheckBox1.setSelected(false);
+                        legActCheckBox2.setSelected(false);
+                        legActCheckBox3.setSelected(false);
+                        legActCheckBox4.setSelected(false);
+                        legActCheckBox5.setSelected(false);
+                    }
                 }
 
                 if(!exhaustionCheckBox.isSelected()) {
@@ -1101,9 +1288,35 @@ public class InitiativeTrackerController {
         legActTextField.setText(String.valueOf(newLegAct));
     }
 
-    public void handleLegResCheckBox(){}
+    public void handleLegResCheckBox() {
+        int checked = 0;
+        int legResLeft = initiativeList.getSelectionModel().getSelectedItem().getLegendaryResistances();
 
-    public void handleLegActCheckBox(){}
+        CheckBox[] legResCheckBoxes = {legResCheckBox1, legResCheckBox2, legResCheckBox3, legResCheckBox4, legResCheckBox5};
+
+        for (CheckBox checkBox : legResCheckBoxes) {
+            if (checkBox.isSelected()) {
+                checked++;
+            }
+        }
+
+        initiativeList.getSelectionModel().getSelectedItem().setLegendaryResistancesLeft(legResLeft - checked);
+    }
+
+    public void handleLegActCheckBox(){
+        int checked = 0;
+        int legActLeft = initiativeList.getSelectionModel().getSelectedItem().getLegendaryActions();
+
+        CheckBox[] legActCheckBoxes = {legActCheckBox1, legActCheckBox2, legActCheckBox3, legActCheckBox4, legActCheckBox5};
+
+        for (CheckBox checkBox : legActCheckBoxes) {
+            if (checkBox.isSelected()) {
+                checked++;
+            }
+        }
+
+        initiativeList.getSelectionModel().getSelectedItem().setLegendaryActionsLeft(legActLeft - checked);
+    }
 
     /**Met deze methode kan een error melding gegeven worden met een ingebrachte message.
      *

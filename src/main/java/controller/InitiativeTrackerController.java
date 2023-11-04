@@ -29,7 +29,6 @@ public class InitiativeTrackerController {
     private final SceneManager SCENEMANAGER = Main.getSceneManager();
     private int amountHighestInitiativeTurnTaken = 1;
     private int roundCountForLairAction = 1;
-    private static int creatureCopyNumber = 2;
     private boolean lairAction = false;
 
     //Checkboxxes
@@ -1285,7 +1284,7 @@ public class InitiativeTrackerController {
     }
 
     public void copyCreature() {
-        if(initiativeList.getSelectionModel().getSelectedItem() == null) {
+        if (initiativeList.getSelectionModel().getSelectedItem() == null) {
             showAlert("No creature selected!");
             return;
         }
@@ -1298,21 +1297,24 @@ public class InitiativeTrackerController {
         int legendaryActions = initiativeList.getSelectionModel().getSelectedItem().getLegendaryActions();
         String newName = name;
 
-        boolean loopDone = false;
+        boolean sameName = true;
+        int creatureCopyNumber = 1;
 
-        while(!loopDone) {
-            for(Creature creature : initiativeList.getItems()) {
-                if(creature.getName().equals(newName)) {
-                    newName = name + " " + creatureCopyNumber;
+        while (sameName) {
+            sameName = false; // Assume the name is unique
+            for (Creature creature : initiativeList.getItems()) {
+                if (newName.equals(creature.getName())) {
                     creatureCopyNumber++;
+                    newName = name + " " + creatureCopyNumber;
+                    sameName = true; // The name is not unique, continue searching
                     break;
                 }
-                loopDone = true;
             }
         }
 
         initiativeList.getItems().add(new Creature(newName, initiative, HP, maxHP, legendaryResistances, legendaryActions, true));
     }
+
 
     /**Met deze methode kan een error melding gegeven worden met een ingebrachte message.
      *

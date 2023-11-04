@@ -305,6 +305,10 @@ public class InitiativeTrackerController {
                 "with all exhaustion effects ending if a creature’s exhaustion level is reduced below 1.\n" +
                 "\nFinishing a long rest reduces a creature’s exhaustion level by 1, \n" +
                 "provided that the creature has also ingested some food and drink.");
+        Tooltip copyCreatureButtonToolTip = new Tooltip("This button creates a copy of a creature for in the initiativelist.\n" +
+                "This copy's turn will be skipped. You can use this to keep track\n" +
+                "of a group of the same creatures with the same initiative.");
+        copyCreatureButton.setTooltip(copyCreatureButtonToolTip);
     }
 
     /**Met deze methode worden alle checkboxxes geinitialiseerd.

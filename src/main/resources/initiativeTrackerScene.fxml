@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.InitiativeTrackerController">
@@ -220,4 +221,26 @@
             <Font size="10.0" />
         </font>
     </Button>
+    <Rectangle fill="RED" height="100.0" layoutX="628.0" layoutY="376.0" width="220.0" />
+    <Label layoutX="711.0" layoutY="382.0" text="DEATH" textFill="WHITE">
+        <font>
+            <Font name="System Bold" size="16" />
+        </font>
+    </Label>
+    <Label layoutX="659.0" layoutY="407.0" text="saves" textFill="WHITE">
+        <font>
+            <Font size="14" />
+        </font>
+    </Label>
+    <Label layoutX="776.0" layoutY="407.0" text="fails" textFill="WHITE">
+        <font>
+            <Font size="14" />
+        </font>
+    </Label>
+    <CheckBox fx:id="deathSaveCheckBox1" layoutX="645.0" layoutY="433.0" />
+    <CheckBox fx:id="deathSaveCheckBox2" layoutX="668.0" layoutY="433.0" />
+    <CheckBox fx:id="deathSaveCheckBox3" layoutX="692.0" layoutY="433.0" />
+    <CheckBox fx:id="deathFailCheckBox1" layoutX="755.0" layoutY="433.0" />
+    <CheckBox fx:id="deathFailCheckBox2" layoutX="779.0" layoutY="433.0" />
+    <CheckBox fx:id="deathFailCheckBox3" layoutX="804.0" layoutY="433.0" />
 </AnchorPane>

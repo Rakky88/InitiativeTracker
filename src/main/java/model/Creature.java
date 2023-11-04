@@ -31,6 +31,8 @@ public class Creature {
     private int legendaryActions;
     private int legendaryActionsLeft;
     private boolean copy;
+    private int deathSaves;
+    private int deathFails;
 
     public Creature(String name, double initiative, int HP, int maxHP, int legendaryResistances, int legendaryActions, boolean copy) {
         this(name, initiative, HP, maxHP, legendaryResistances, legendaryActions);
@@ -76,6 +78,8 @@ public class Creature {
         this.legendaryActions = 0;
         this.legendaryActionsLeft = 0;
         this.copy = false;
+        this.deathSaves = 0;
+        this.deathFails = 0;
     }
 
     public String getName() {
@@ -292,6 +296,22 @@ public class Creature {
 
     public boolean isCopy() {
         return copy;
+    }
+
+    public int getDeathSaves() {
+        return deathSaves;
+    }
+
+    public void setDeathSaves(int deathSaves) {
+        this.deathSaves = deathSaves;
+    }
+
+    public int getDeathFails() {
+        return deathFails;
+    }
+
+    public void setDeathFails(int deathFails) {
+        this.deathFails = deathFails;
     }
 
     @Override

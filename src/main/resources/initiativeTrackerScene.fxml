@@ -237,10 +237,10 @@
             <Font size="14" />
         </font>
     </Label>
-    <CheckBox fx:id="deathSaveCheckBox1" layoutX="645.0" layoutY="433.0" />
-    <CheckBox fx:id="deathSaveCheckBox2" layoutX="668.0" layoutY="433.0" />
-    <CheckBox fx:id="deathSaveCheckBox3" layoutX="692.0" layoutY="433.0" />
-    <CheckBox fx:id="deathFailCheckBox1" layoutX="755.0" layoutY="433.0" />
-    <CheckBox fx:id="deathFailCheckBox2" layoutX="779.0" layoutY="433.0" />
-    <CheckBox fx:id="deathFailCheckBox3" layoutX="804.0" layoutY="433.0" />
+    <CheckBox fx:id="deathSaveCheckBox1" layoutX="645.0" layoutY="433.0" onAction="#handleDeathSave"/>
+    <CheckBox fx:id="deathSaveCheckBox2" layoutX="668.0" layoutY="433.0" onAction="#handleDeathSave"/>
+    <CheckBox fx:id="deathSaveCheckBox3" layoutX="692.0" layoutY="433.0" onAction="#handleDeathSave"/>
+    <CheckBox fx:id="deathFailCheckBox1" layoutX="755.0" layoutY="433.0" onAction="#handleDeathFail"/>
+    <CheckBox fx:id="deathFailCheckBox2" layoutX="779.0" layoutY="433.0" onAction="#handleDeathFail"/>
+    <CheckBox fx:id="deathFailCheckBox3" layoutX="804.0" layoutY="433.0" onAction="#handleDeathFail"/>
 </AnchorPane>

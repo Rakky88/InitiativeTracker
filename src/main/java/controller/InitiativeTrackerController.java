@@ -547,6 +547,8 @@ public class InitiativeTrackerController {
             deathFailCheckBox1.setVisible(false);
             deathFailCheckBox2.setVisible(false);
             deathFailCheckBox3.setVisible(false);
+            initiativeList.getSelectionModel().getSelectedItem().setDeathSaves(0);
+            initiativeList.getSelectionModel().getSelectedItem().setDeathFails(0);
         }
 
         hpLowerAddTextField.setText("");
@@ -564,6 +566,11 @@ public class InitiativeTrackerController {
         }
 
         final int MINIMUM_HP = 0;
+
+        if(initiativeList.getSelectionModel().getSelectedItem().getHP() == MINIMUM_HP) {
+            return;
+        }
+
         final int MINIMUM_TEMP_HP = 0;
         final int NO_NUMBER_IN_TEXTBOX = 1;
         int hpCreature = initiativeList.getSelectionModel().getSelectedItem().getHP();
@@ -613,6 +620,12 @@ public class InitiativeTrackerController {
             deathFailCheckBox1.setVisible(true);
             deathFailCheckBox2.setVisible(true);
             deathFailCheckBox3.setVisible(true);
+            deathSaveCheckBox1.setSelected(false);
+            deathSaveCheckBox2.setSelected(false);
+            deathSaveCheckBox3.setSelected(false);
+            deathFailCheckBox1.setSelected(false);
+            deathFailCheckBox2.setSelected(false);
+            deathFailCheckBox3.setSelected(false);
         }
 
         hpLowerAddTextField.setText("");
@@ -980,6 +993,12 @@ public class InitiativeTrackerController {
                     deathFailCheckBox1.setVisible(false);
                     deathFailCheckBox2.setVisible(false);
                     deathFailCheckBox3.setVisible(false);
+                    deathSaveCheckBox1.setSelected(false);
+                    deathSaveCheckBox2.setSelected(false);
+                    deathSaveCheckBox3.setSelected(false);
+                    deathFailCheckBox1.setSelected(false);
+                    deathFailCheckBox2.setSelected(false);
+                    deathFailCheckBox3.setSelected(false);
                 } else {
                     deathRedRectangle.setVisible(true);
                     deathText.setVisible(true);
@@ -991,6 +1010,46 @@ public class InitiativeTrackerController {
                     deathFailCheckBox1.setVisible(true);
                     deathFailCheckBox2.setVisible(true);
                     deathFailCheckBox3.setVisible(true);
+                    if(initiativeList.getSelectionModel().getSelectedItem().getDeathSaves() == 0) {
+                        deathSaveCheckBox1.setSelected(false);
+                        deathSaveCheckBox2.setSelected(false);
+                        deathSaveCheckBox3.setSelected(false);
+                    }
+                    if(initiativeList.getSelectionModel().getSelectedItem().getDeathSaves() == 1) {
+                        deathSaveCheckBox1.setSelected(true);
+                        deathSaveCheckBox2.setSelected(false);
+                        deathSaveCheckBox3.setSelected(false);
+                    }
+                    if(initiativeList.getSelectionModel().getSelectedItem().getDeathSaves() == 2) {
+                        deathSaveCheckBox1.setSelected(true);
+                        deathSaveCheckBox2.setSelected(true);
+                        deathSaveCheckBox3.setSelected(false);
+                    }
+                    if(initiativeList.getSelectionModel().getSelectedItem().getDeathSaves() == 3) {
+                        deathSaveCheckBox1.setSelected(true);
+                        deathSaveCheckBox2.setSelected(true);
+                        deathSaveCheckBox3.setSelected(true);
+                    }
+                    if(initiativeList.getSelectionModel().getSelectedItem().getDeathFails() == 0) {
+                        deathFailCheckBox1.setSelected(false);
+                        deathFailCheckBox2.setSelected(false);
+                        deathFailCheckBox3.setSelected(false);
+                    }
+                    if(initiativeList.getSelectionModel().getSelectedItem().getDeathFails() == 1) {
+                        deathFailCheckBox1.setSelected(true);
+                        deathFailCheckBox2.setSelected(false);
+                        deathFailCheckBox3.setSelected(false);
+                    }
+                    if(initiativeList.getSelectionModel().getSelectedItem().getDeathFails() == 2) {
+                        deathFailCheckBox1.setSelected(true);
+                        deathFailCheckBox2.setSelected(true);
+                        deathFailCheckBox3.setSelected(false);
+                    }
+                    if(initiativeList.getSelectionModel().getSelectedItem().getDeathFails() == 3) {
+                        deathFailCheckBox1.setSelected(true);
+                        deathFailCheckBox2.setSelected(true);
+                        deathFailCheckBox3.setSelected(true);
+                    }
                 }
 
                 if(!exhaustionCheckBox.isSelected()) {
@@ -1245,7 +1304,6 @@ public class InitiativeTrackerController {
         final int MINIMUM_EXHAUSTION = 0;
         final int MINIMUM_HP = 0;
         final int EXHAUSTION_LEVEL_3 = 3;
-        final int EXHAUSTION_LEVEL_5 = 5;
         int currentLevel = selectedCreature.getExhaustionLevel();
         int newLevel = currentLevel - 1;
 
@@ -1385,12 +1443,12 @@ public class InitiativeTrackerController {
         int creatureCopyNumber = 1;
 
         while (sameName) {
-            sameName = false; // Assume the name is unique
+            sameName = false;
             for (Creature creature : initiativeList.getItems()) {
                 if (newName.equals(creature.getName())) {
                     creatureCopyNumber++;
                     newName = name + " " + creatureCopyNumber;
-                    sameName = true; // The name is not unique, continue searching
+                    sameName = true;
                     break;
                 }
             }
@@ -1403,6 +1461,42 @@ public class InitiativeTrackerController {
         ArrayList<Creature> initiative = new ArrayList<>(initiativeList.getItems());
         initiative.sort((c1, c2) -> Double.compare(c2.getInitiative(), c1.getInitiative()));
         initiativeList.getItems().setAll(initiative);
+    }
+
+    public void handleDeathSave(){
+        int deathSavesMade = 0;
+
+        if(deathSaveCheckBox1.isSelected()) {
+            deathSavesMade++;
+        }
+
+        if(deathSaveCheckBox2.isSelected()) {
+            deathSavesMade++;
+        }
+
+        if(deathSaveCheckBox3.isSelected()) {
+            deathSavesMade++;
+        }
+
+        initiativeList.getSelectionModel().getSelectedItem().setDeathSaves(deathSavesMade);
+    }
+
+    public void handleDeathFail(){
+        int deathFailsMade = 0;
+
+        if(deathFailCheckBox1.isSelected()) {
+            deathFailsMade++;
+        }
+
+        if(deathFailCheckBox2.isSelected()) {
+            deathFailsMade++;
+        }
+
+        if(deathFailCheckBox3.isSelected()) {
+            deathFailsMade++;
+        }
+
+        initiativeList.getSelectionModel().getSelectedItem().setDeathFails(deathFailsMade);
     }
 
     /**Met deze methode kan een error melding gegeven worden met een ingebrachte message.

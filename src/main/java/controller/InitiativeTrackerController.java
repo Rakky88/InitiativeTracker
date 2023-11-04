@@ -17,7 +17,6 @@ import javafx.util.Duration;
 import model.Creature;
 import view.Main;
 import view.SceneManager;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -370,7 +369,10 @@ public class InitiativeTrackerController {
             creatureTurnTextfield.setText("No creature in initiative!");
             return;
         }
-            creatureTurnTextfield.setText(initiativeList.getItems().get(0).getName());
+        creatureTurnTextfield.setText(initiativeList.getItems().get(0).getName());
+
+        initiativeList.getItems().get(0).setLegendaryActionsLeft(initiativeList.getItems().get(0).getLegendaryActions());
+        updateCreatureStats();
     }
 
     /**Met deze methode kunnen nieuwe creatures toegevoegd worden aan de initiativeList.
@@ -730,10 +732,10 @@ public class InitiativeTrackerController {
                     legActCheckBox3.setVisible(false);
                     legActCheckBox4.setVisible(false);
                     legActCheckBox5.setVisible(false);
-                    if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryActions() == 0) {
+                    if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryActionsLeft() == 0) {
                         legResCheckBox1.setSelected(true);
                         legResCheckBox2.setSelected(true);
-                    } else if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryActions() == 1) {
+                    } else if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryActionsLeft() == 1) {
                         legActCheckBox1.setSelected(true);
                         legActCheckBox2.setSelected(false);
                     } else {

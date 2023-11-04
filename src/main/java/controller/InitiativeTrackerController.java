@@ -67,6 +67,27 @@ public class InitiativeTrackerController {
     private CheckBox exhaustionCheckBox;
     @FXML
     private CheckBox legendaryCheckBox;
+    @FXML
+    private CheckBox legResCheckBox1;
+    @FXML
+    private CheckBox legResCheckBox2;
+    @FXML
+    private CheckBox legResCheckBox3;
+    @FXML
+    private CheckBox legResCheckBox4;
+    @FXML
+    private CheckBox legResCheckBox5;
+    @FXML
+    private CheckBox legActCheckBox1;
+    @FXML
+    private CheckBox legActCheckBox2;
+    @FXML
+    private CheckBox legActCheckBox3;
+    @FXML
+    private CheckBox legActCheckBox4;
+    @FXML
+    private CheckBox legActCheckBox5;
+
 
     //Textfields and TextAreas
     @FXML
@@ -100,6 +121,11 @@ public class InitiativeTrackerController {
     @FXML
     private TextField legActTextField;
 
+    //Labels
+    @FXML
+    private Label legResNameText;
+    @FXML Label legActNameText;
+
     //Misc
     @FXML
     private ListView<Creature> initiativeList;
@@ -124,6 +150,18 @@ public class InitiativeTrackerController {
         ACTextField.setPromptText("--");
         extraInfoTextArea.setPromptText("Select a creature to add extra info.");
         tempHPTextField.setPromptText("--");
+        legResNameText.setVisible(false);
+        legResCheckBox1.setVisible(false);
+        legResCheckBox2.setVisible(false);
+        legResCheckBox3.setVisible(false);
+        legResCheckBox4.setVisible(false);
+        legResCheckBox5.setVisible(false);
+        legActNameText.setVisible(false);
+        legActCheckBox1.setVisible(false);
+        legActCheckBox2.setVisible(false);
+        legActCheckBox3.setVisible(false);
+        legActCheckBox4.setVisible(false);
+        legActCheckBox5.setVisible(false);
 
         setCreatureTurnTextField();
         updateCreatureStats();
@@ -343,15 +381,28 @@ public class InitiativeTrackerController {
                 double getInitiative = Double.parseDouble(initiativeTextField.getText());
                 int getHP = Integer.parseInt(hpTextField.getText());
                 int getMaxHP = Integer.parseInt(maxHPTextField.getText());
+                int legRes = 0;
+                int legAct = 0;
+
+                if (!legResTextField.getText().isEmpty()) {
+                    legRes = Integer.parseInt(legResTextField.getText());
+                }
+
+                if (!legActTextField.getText().isEmpty()) {
+                    legAct = Integer.parseInt(legActTextField.getText());
+                }
 
                 if(getHP <= getMaxHP) {
-                    initiativeList.getItems().add(new Creature(nameTextField.getText(), getInitiative, getHP, getMaxHP));
+                    initiativeList.getItems().add(new Creature(nameTextField.getText(), getInitiative, getHP, getMaxHP, legRes, legAct));
 
                     nameTextField.setText("");
                     initiativeTextField.setText("");
                     hpTextField.setText("");
                     maxHPTextField.setText("");
+                    legResTextField.setText("0");
+                    legActTextField.setText("0");
                     legendaryCheckBox.setSelected(false);
+                    legendaryControls.setVisible(false);
                     return;
                 }
                 showAlert("HP can't be higher then max HP!");
@@ -609,6 +660,114 @@ public class InitiativeTrackerController {
                 initiativeHPTextfield.setStyle(
                         initiativeList.getSelectionModel().getSelectedItem().getHP() != MINIMUM_HP ? "" : "-fx-background-color: red;"
                 );
+
+                if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryResistances() == 0) {
+                    legResNameText.setVisible(false);
+                    legResCheckBox1.setVisible(false);
+                    legResCheckBox2.setVisible(false);
+                    legResCheckBox3.setVisible(false);
+                    legResCheckBox4.setVisible(false);
+                    legResCheckBox5.setVisible(false);
+                }
+
+                if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryActions() == 0) {
+                    legActNameText.setVisible(false);
+                    legActCheckBox1.setVisible(false);
+                    legActCheckBox2.setVisible(false);
+                    legActCheckBox3.setVisible(false);
+                    legActCheckBox4.setVisible(false);
+                    legActCheckBox5.setVisible(false);
+                }
+
+                if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryResistances() == 1) {
+                    legResNameText.setVisible(true);
+                    legResCheckBox1.setVisible(true);
+                    legResCheckBox2.setVisible(false);
+                    legResCheckBox3.setVisible(false);
+                    legResCheckBox4.setVisible(false);
+                    legResCheckBox5.setVisible(false);
+                }
+
+                if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryActions() == 1) {
+                    legActNameText.setVisible(true);
+                    legActCheckBox1.setVisible(true);
+                    legActCheckBox2.setVisible(false);
+                    legActCheckBox3.setVisible(false);
+                    legActCheckBox4.setVisible(false);
+                    legActCheckBox5.setVisible(false);
+                }
+
+                if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryResistances() == 2) {
+                    legResNameText.setVisible(true);
+                    legResCheckBox1.setVisible(true);
+                    legResCheckBox2.setVisible(true);
+                    legResCheckBox3.setVisible(false);
+                    legResCheckBox4.setVisible(false);
+                    legResCheckBox5.setVisible(false);
+                }
+
+                if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryActions() == 2) {
+                    legActNameText.setVisible(true);
+                    legActCheckBox1.setVisible(true);
+                    legActCheckBox2.setVisible(true);
+                    legActCheckBox3.setVisible(false);
+                    legActCheckBox4.setVisible(false);
+                    legActCheckBox5.setVisible(false);
+                }
+
+                if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryResistances() == 3) {
+                    legResNameText.setVisible(true);
+                    legResCheckBox1.setVisible(true);
+                    legResCheckBox2.setVisible(true);
+                    legResCheckBox3.setVisible(true);
+                    legResCheckBox4.setVisible(false);
+                    legResCheckBox5.setVisible(false);
+                }
+
+                if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryActions() == 3) {
+                    legActNameText.setVisible(true);
+                    legActCheckBox1.setVisible(true);
+                    legActCheckBox2.setVisible(true);
+                    legActCheckBox3.setVisible(true);
+                    legActCheckBox4.setVisible(false);
+                    legActCheckBox5.setVisible(false);
+                }
+
+                if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryResistances() == 4) {
+                    legResNameText.setVisible(true);
+                    legResCheckBox1.setVisible(true);
+                    legResCheckBox2.setVisible(true);
+                    legResCheckBox3.setVisible(true);
+                    legResCheckBox4.setVisible(true);
+                    legResCheckBox5.setVisible(false);
+                }
+
+                if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryActions() == 4) {
+                    legActNameText.setVisible(true);
+                    legActCheckBox1.setVisible(true);
+                    legActCheckBox2.setVisible(true);
+                    legActCheckBox3.setVisible(true);
+                    legActCheckBox4.setVisible(true);
+                    legActCheckBox5.setVisible(false);
+                }
+
+                if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryResistances() == 5) {
+                    legResNameText.setVisible(true);
+                    legResCheckBox1.setVisible(true);
+                    legResCheckBox2.setVisible(true);
+                    legResCheckBox3.setVisible(true);
+                    legResCheckBox4.setVisible(true);
+                    legResCheckBox5.setVisible(true);
+                }
+
+                if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryActions() == 5) {
+                    legActNameText.setVisible(true);
+                    legActCheckBox1.setVisible(true);
+                    legActCheckBox2.setVisible(true);
+                    legActCheckBox3.setVisible(true);
+                    legActCheckBox4.setVisible(true);
+                    legActCheckBox5.setVisible(true);
+                }
 
                 if(!exhaustionCheckBox.isSelected()) {
                     exhaustionControls.setVisible(false);
@@ -893,13 +1052,54 @@ public class InitiativeTrackerController {
                 initiativeList.getSelectionModel().getSelectedItem().setAC(Integer.parseInt(newValue)));
     }
 
-    public void lowerLegRes(){}
+    public void lowerLegRes(){
+        int newLegRes = Integer.parseInt(legResTextField.getText()) - 1;
+        if(newLegRes < 0) {
+            showAlert("A creature can't have less then 0 legendary resistances!");
+            return;
+        }
 
-    public void addLegRes(){}
+        legResTextField.setText(String.valueOf(newLegRes));
+    }
 
-    public void lowerLegAct(){}
+    public void addLegRes(){
+        if(legResTextField.getText().isEmpty()) {
+            legResTextField.setText("0");
+        }
 
-    public void addLegAct(){}
+        int newLegRes = Integer.parseInt(legResTextField.getText()) + 1;
+        if(newLegRes > 5) {
+            showAlert("A creature can't have more then 5 legendary resistances in this program!");
+            return;
+        }
+
+        legResTextField.setText(String.valueOf(newLegRes));
+    }
+
+    public void lowerLegAct(){
+        int newLegAct = Integer.parseInt(legActTextField.getText()) - 1;
+        if(newLegAct < 0) {
+            showAlert("A creature can't have less then 0 legendary actions!");
+            return;
+        }
+
+        legActTextField.setText(String.valueOf(newLegAct));
+    }
+
+    public void addLegAct(){
+        if(legActTextField.getText().isEmpty()) {
+            legActTextField.setText("0");
+        }
+
+
+        int newLegAct = Integer.parseInt(legActTextField.getText()) + 1;
+        if(newLegAct > 5) {
+            showAlert("A creature can't have more then 5 legendary actions in this program!");
+            return;
+        }
+
+        legActTextField.setText(String.valueOf(newLegAct));
+    }
 
     public void handleLegResCheckBox(){}
 

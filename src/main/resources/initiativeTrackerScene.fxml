@@ -171,7 +171,7 @@
                 </font>
             </Label>
             <Button layoutX="0.0" mnemonicParsing="false" onAction="#lowerLegRes" text="-" />
-            <TextField fx:id="legActTextField" disable="true" editable="false" prefHeight="26.0" prefWidth="21.0" promptText="0" />
+            <TextField fx:id="legResTextField" disable="true" editable="false" prefHeight="26.0" prefWidth="21.0" promptText="0" />
             <Button layoutX="0.0" mnemonicParsing="false" onAction="#addLegRes" text="+" />
         </HBox>
         <HBox layoutX="50.0" layoutY="570.0" spacing="5">
@@ -181,11 +181,11 @@
                 </font>
             </Label>
             <Button layoutX="0.0" mnemonicParsing="false" onAction="#lowerLegAct" text="-" />
-            <TextField fx:id="legResTextField" disable="true" editable="false" prefHeight="26.0" prefWidth="21.0" promptText="0" />
+            <TextField fx:id="legActTextField" disable="true" editable="false" prefHeight="26.0" prefWidth="21.0" promptText="0" />
             <Button layoutX="0.0" mnemonicParsing="false" onAction="#addLegAct" text="+" />
         </HBox>
     </VBox>
-    <Label fx:id="legResNameTextField" layoutX="490.0" layoutY="526.0" text="Legendary resistances: ">
+    <Label fx:id="legResNameText" layoutX="490.0" layoutY="526.0" text="Legendary resistances: ">
         <font>
             <Font size="13.0" />
         </font>
@@ -195,7 +195,7 @@
     <CheckBox fx:id="legResCheckBox3" layoutX="665.0" layoutY="526.0" onAction="#handleLegResCheckBox" />
     <CheckBox fx:id="legResCheckBox4" layoutX="685.0" layoutY="526.0" onAction="#handleLegResCheckBox" />
     <CheckBox fx:id="legResCheckBox5" layoutX="705.0" layoutY="526.0" onAction="#handleLegResCheckBox" />
-    <Label fx:id="legActNameTextField" layoutX="491.0" layoutY="546.0" text="Legendary actions: ">
+    <Label fx:id="legActNameText" layoutX="491.0" layoutY="546.0" text="Legendary actions: ">
         <font>
             <Font size="13.0" />
         </font>

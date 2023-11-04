@@ -78,18 +78,33 @@ public class InitiativeController {
                 double getInitiative = Double.parseDouble(initiativeTextField.getText());
                 int getHP = Integer.parseInt(hpTextField.getText());
                 int getMaxHP = Integer.parseInt(maxHPTextField.getText());
-                if(getHP > getMaxHP) {
-                    showAlert("HP can't be higher then max HP!");
-                } else {
-                    initiative.add(new Creature(nameTextField.getText(), getInitiative, getHP, getMaxHP));
+                int legRes = 0;
+                int legAct = 0;
 
-                    nameTextField.setText("");
-                    initiativeTextField.setText("");
-                    hpTextField.setText("");
-                    maxHPTextField.setText("");
-
-                    orderList();
+                if (!legResTextField.getText().isEmpty()) {
+                    legRes = Integer.parseInt(legResTextField.getText());
                 }
+
+                if (!legActTextField.getText().isEmpty()) {
+                    legAct = Integer.parseInt(legActTextField.getText());
+                }
+
+                if (getHP > getMaxHP) {
+                    showAlert("HP can't be higher than max HP!");
+                    return;
+                }
+                initiative.add(new Creature(nameTextField.getText(), getInitiative, getHP, getMaxHP, legRes, legAct));
+
+                nameTextField.setText("");
+                initiativeTextField.setText("");
+                hpTextField.setText("");
+                maxHPTextField.setText("");
+                legResTextField.setText("0");
+                legActTextField.setText("0");
+                legendaryCheckBox.setSelected(false);
+                legendaryControls.setVisible(false);
+
+                orderList();
             } catch (NumberFormatException exception) {
                 showAlert("Initiative and HP must be valid numbers!");
             }
@@ -156,13 +171,54 @@ public class InitiativeController {
         return true;
     }
 
-    public void lowerLegRes(){}
+    public void lowerLegRes(){
+        int newLegRes = Integer.parseInt(legResTextField.getText()) - 1;
+        if(newLegRes < 0) {
+            showAlert("A creature can't have less then 0 legendary resistances!");
+            return;
+        }
 
-    public void addLegRes(){}
+        legResTextField.setText(String.valueOf(newLegRes));
+    }
 
-    public void lowerLegAct(){}
+    public void addLegRes(){
+        if(legResTextField.getText().isEmpty()) {
+            legResTextField.setText("0");
+        }
 
-    public void addLegAct(){}
+        int newLegRes = Integer.parseInt(legResTextField.getText()) + 1;
+        if(newLegRes > 5) {
+            showAlert("A creature can't have more then 5 legendary resistances in this program!");
+            return;
+        }
+
+        legResTextField.setText(String.valueOf(newLegRes));
+    }
+
+    public void lowerLegAct(){
+        int newLegAct = Integer.parseInt(legActTextField.getText()) - 1;
+        if(newLegAct < 0) {
+            showAlert("A creature can't have less then 0 legendary actions!");
+            return;
+        }
+
+        legActTextField.setText(String.valueOf(newLegAct));
+    }
+
+    public void addLegAct(){
+        if(legActTextField.getText().isEmpty()) {
+            legActTextField.setText("0");
+        }
+
+
+        int newLegAct = Integer.parseInt(legActTextField.getText()) + 1;
+        if(newLegAct > 5) {
+            showAlert("A creature can't have more then 5 legendary actions in this program!");
+            return;
+        }
+
+        legActTextField.setText(String.valueOf(newLegAct));
+    }
 
     public void doMenu(){
         SCENEMANAGER.showMenuScene();

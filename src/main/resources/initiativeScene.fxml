@@ -69,7 +69,7 @@
                 </font>
             </Label>
             <Button layoutX="0.0" mnemonicParsing="false" onAction="#lowerLegRes" text="-" />
-            <TextField fx:id="legActTextField" disable="true" editable="false" prefHeight="26.0" prefWidth="21.0" promptText="0" />
+            <TextField fx:id="legResTextField" disable="true" editable="false" prefHeight="26.0" prefWidth="21.0" promptText="0" />
             <Button layoutX="0.0" mnemonicParsing="false" onAction="#addLegRes" text="+" />
         </HBox>
         <HBox layoutX="50.0" layoutY="570.0" spacing="5">
@@ -79,7 +79,7 @@
                 </font>
             </Label>
             <Button layoutX="0.0" mnemonicParsing="false" onAction="#lowerLegAct" text="-" />
-            <TextField fx:id="legResTextField" disable="true" editable="false" prefHeight="26.0" prefWidth="21.0" promptText="0" />
+            <TextField fx:id="legActTextField" disable="true" editable="false" prefHeight="26.0" prefWidth="21.0" promptText="0" />
             <Button layoutX="0.0" mnemonicParsing="false" onAction="#addLegAct" text="+" />
         </HBox>
     </VBox>

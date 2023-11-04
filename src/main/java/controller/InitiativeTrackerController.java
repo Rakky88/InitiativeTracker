@@ -11,6 +11,7 @@ import javafx.scene.input.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Duration;
@@ -59,6 +60,12 @@ public class InitiativeTrackerController {
     @FXML private CheckBox legActCheckBox3;
     @FXML private CheckBox legActCheckBox4;
     @FXML private CheckBox legActCheckBox5;
+    @FXML private CheckBox deathSaveCheckBox1;
+    @FXML private CheckBox deathSaveCheckBox2;
+    @FXML private CheckBox deathSaveCheckBox3;
+    @FXML private CheckBox deathFailCheckBox1;
+    @FXML private CheckBox deathFailCheckBox2;
+    @FXML private CheckBox deathFailCheckBox3;
 
     //Textfields and TextAreas
     @FXML private TextField creatureTurnTextfield;
@@ -73,13 +80,16 @@ public class InitiativeTrackerController {
     @FXML private TextField roundTextField;
     @FXML private TextField exhaustionTextField;
     @FXML private TextField ACTextField;
-    @FXML private TextArea extraInfoTextArea;
     @FXML private TextField legResTextField;
     @FXML private TextField legActTextField;
+    @FXML private TextArea extraInfoTextArea;
 
     //Labels
     @FXML private Label legResNameText;
     @FXML private Label legActNameText;
+    @FXML private Label deathText;
+    @FXML private Label deathSavesText;
+    @FXML private Label deathFailsText;
 
     //Buttons
     @FXML private Button deleteButton;
@@ -90,6 +100,7 @@ public class InitiativeTrackerController {
     @FXML private ListView<Creature> initiativeList;
     @FXML private HBox exhaustionControls;
     @FXML private VBox legendaryControls;
+    @FXML private Rectangle deathRedRectangle;
 
     /**De setup wordt gestarts wanneer de initiativeTrackerScene.fxml wordt geopend. Hierbij wordt de initiativelijst gevuld met
      * eerder ingevoerde creatures en andere textfields gevuld. Verder wordt een drag/drop-systeem geinitialiseerd
@@ -117,6 +128,16 @@ public class InitiativeTrackerController {
         legActCheckBox3.setVisible(false);
         legActCheckBox4.setVisible(false);
         legActCheckBox5.setVisible(false);
+        deathRedRectangle.setVisible(false);
+        deathText.setVisible(false);
+        deathSavesText.setVisible(false);
+        deathFailsText.setVisible(false);
+        deathSaveCheckBox1.setVisible(false);
+        deathSaveCheckBox2.setVisible(false);
+        deathSaveCheckBox3.setVisible(false);
+        deathFailCheckBox1.setVisible(false);
+        deathFailCheckBox2.setVisible(false);
+        deathFailCheckBox3.setVisible(false);
 
         setCreatureTurnTextField();
         updateCreatureStats();
@@ -503,6 +524,7 @@ public class InitiativeTrackerController {
 
         final int NO_NUMBER_IN_TEXTBOX = 1;
         final double COLOR_FLASH = 0.1;
+        final int MINIMUM_HP = 0;
         int maxCreatureHP = initiativeList.getSelectionModel().getSelectedItem().getMaxHP();
         int hpCreature = initiativeList.getSelectionModel().getSelectedItem().getHP();
         int addedHP = hpLowerAddTextField.getText().isEmpty() ? NO_NUMBER_IN_TEXTBOX : Integer.parseInt(hpLowerAddTextField.getText());
@@ -513,6 +535,19 @@ public class InitiativeTrackerController {
         initiativeHPTextfield.setStyle("-fx-background-color: green;");
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(COLOR_FLASH), e -> initiativeHPTextfield.setStyle("")));
         timeline.play();
+
+        if(initiativeList.getSelectionModel().getSelectedItem().getHP() != MINIMUM_HP) {
+            deathRedRectangle.setVisible(false);
+            deathText.setVisible(false);
+            deathSavesText.setVisible(false);
+            deathFailsText.setVisible(false);
+            deathSaveCheckBox1.setVisible(false);
+            deathSaveCheckBox2.setVisible(false);
+            deathSaveCheckBox3.setVisible(false);
+            deathFailCheckBox1.setVisible(false);
+            deathFailCheckBox2.setVisible(false);
+            deathFailCheckBox3.setVisible(false);
+        }
 
         hpLowerAddTextField.setText("");
     }
@@ -565,6 +600,19 @@ public class InitiativeTrackerController {
                     initiativeList.getSelectionModel().getSelectedItem().getMaxHP());
 
             getRed();
+        }
+
+        if(initiativeList.getSelectionModel().getSelectedItem().getHP() == MINIMUM_HP) {
+            deathRedRectangle.setVisible(true);
+            deathText.setVisible(true);
+            deathSavesText.setVisible(true);
+            deathFailsText.setVisible(true);
+            deathSaveCheckBox1.setVisible(true);
+            deathSaveCheckBox2.setVisible(true);
+            deathSaveCheckBox3.setVisible(true);
+            deathFailCheckBox1.setVisible(true);
+            deathFailCheckBox2.setVisible(true);
+            deathFailCheckBox3.setVisible(true);
         }
 
         hpLowerAddTextField.setText("");
@@ -921,6 +969,30 @@ public class InitiativeTrackerController {
                     }
                 }
 
+                if(initiativeList.getSelectionModel().getSelectedItem().getHP() != 0) {
+                    deathRedRectangle.setVisible(false);
+                    deathText.setVisible(false);
+                    deathSavesText.setVisible(false);
+                    deathFailsText.setVisible(false);
+                    deathSaveCheckBox1.setVisible(false);
+                    deathSaveCheckBox2.setVisible(false);
+                    deathSaveCheckBox3.setVisible(false);
+                    deathFailCheckBox1.setVisible(false);
+                    deathFailCheckBox2.setVisible(false);
+                    deathFailCheckBox3.setVisible(false);
+                } else {
+                    deathRedRectangle.setVisible(true);
+                    deathText.setVisible(true);
+                    deathSavesText.setVisible(true);
+                    deathFailsText.setVisible(true);
+                    deathSaveCheckBox1.setVisible(true);
+                    deathSaveCheckBox2.setVisible(true);
+                    deathSaveCheckBox3.setVisible(true);
+                    deathFailCheckBox1.setVisible(true);
+                    deathFailCheckBox2.setVisible(true);
+                    deathFailCheckBox3.setVisible(true);
+                }
+
                 if(!exhaustionCheckBox.isSelected()) {
                     exhaustionControls.setVisible(false);
                     return;
@@ -1142,6 +1214,17 @@ public class InitiativeTrackerController {
 
             initiativeHPTextfield.setStyle("-fx-background-color: red;");
 
+            deathRedRectangle.setVisible(true);
+            deathText.setVisible(true);
+            deathSavesText.setVisible(true);
+            deathFailsText.setVisible(true);
+            deathSaveCheckBox1.setVisible(true);
+            deathSaveCheckBox2.setVisible(true);
+            deathSaveCheckBox3.setVisible(true);
+            deathFailCheckBox1.setVisible(true);
+            deathFailCheckBox2.setVisible(true);
+            deathFailCheckBox3.setVisible(true);
+
             showAlert("This creature is now dead!");
         }
     }
@@ -1162,6 +1245,7 @@ public class InitiativeTrackerController {
         final int MINIMUM_EXHAUSTION = 0;
         final int MINIMUM_HP = 0;
         final int EXHAUSTION_LEVEL_3 = 3;
+        final int EXHAUSTION_LEVEL_5 = 5;
         int currentLevel = selectedCreature.getExhaustionLevel();
         int newLevel = currentLevel - 1;
 

@@ -221,18 +221,18 @@
             <Font size="10.0" />
         </font>
     </Button>
-    <Rectangle fill="RED" height="100.0" layoutX="628.0" layoutY="376.0" width="220.0" />
-    <Label layoutX="711.0" layoutY="382.0" text="DEATH" textFill="WHITE">
+    <Rectangle fx:id="deathRedRectangle" fill="RED" height="100.0" layoutX="628.0" layoutY="376.0" width="220.0" />
+    <Label fx:id="deathText" layoutX="711.0" layoutY="382.0" text="DEATH" textFill="WHITE">
         <font>
             <Font name="System Bold" size="16" />
         </font>
     </Label>
-    <Label layoutX="659.0" layoutY="407.0" text="saves" textFill="WHITE">
+    <Label fx:id="deathSavesText" layoutX="659.0" layoutY="407.0" text="saves" textFill="WHITE">
         <font>
             <Font size="14" />
         </font>
     </Label>
-    <Label layoutX="776.0" layoutY="407.0" text="fails" textFill="WHITE">
+    <Label fx:id="deathFailsText" layoutX="776.0" layoutY="407.0" text="fails" textFill="WHITE">
         <font>
             <Font size="14" />
         </font>

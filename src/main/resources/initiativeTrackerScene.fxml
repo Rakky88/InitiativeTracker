@@ -215,4 +215,9 @@
             <Font size="10.0" />
         </font>
     </Button>
+    <Button layoutX="210.0" layoutY="359.0" mnemonicParsing="false" onAction="#handleOrderList" text="Order list">
+        <font>
+            <Font size="10.0" />
+        </font>
+    </Button>
 </AnchorPane>

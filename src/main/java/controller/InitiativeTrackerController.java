@@ -1315,6 +1315,11 @@ public class InitiativeTrackerController {
         initiativeList.getItems().add(new Creature(newName, initiative, HP, maxHP, legendaryResistances, legendaryActions, true));
     }
 
+    public void handleOrderList() {
+        ArrayList<Creature> initiative = new ArrayList<>(initiativeList.getItems());
+        initiative.sort((c1, c2) -> Double.compare(c2.getInitiative(), c1.getInitiative()));
+        initiativeList.getItems().setAll(initiative);
+    }
 
     /**Met deze methode kan een error melding gegeven worden met een ingebrachte message.
      *

@@ -62,12 +62,12 @@
             <Font size="18.0" />
         </font>
     </Button>
-    <Button fx:id="deleteButton" layoutX="795.0" layoutY="502.0" mnemonicParsing="false" onAction="#doDelete" text="Delete!">
+    <Button fx:id="deleteButton" layoutX="796.0" layoutY="516.0" mnemonicParsing="false" onAction="#doDelete" text="Delete!">
         <font>
             <Font size="18.0" />
         </font>
     </Button>
-    <Button layoutX="48.0" layoutY="536.0" mnemonicParsing="false" onAction="#doMenu" text="Menu">
+    <Button fx:id="menuButton" layoutX="48.0" layoutY="536.0" mnemonicParsing="false" onAction="#doMenu" text="Menu">
         <font>
             <Font size="18.0" />
         </font>
@@ -89,9 +89,9 @@
     <CheckBox fx:id="unconsciousCheckBox" layoutX="473.0" layoutY="446.0" onAction="#handleCheckBox" text="Unconscious" />
     <CheckBox fx:id="exhaustionCheckBox" layoutX="473.0" layoutY="466.0" onAction="#handleCheckBox" text="Exhaustion" />
     <HBox fx:id="exhaustionControls" layoutX="491.0" layoutY="483.0" spacing="5">
-        <Button layoutX="0.0" mnemonicParsing="false" onAction="#lowerExhaustion" text="-" />
+        <Button mnemonicParsing="false" onAction="#lowerExhaustion" text="-" />
         <TextField fx:id="exhaustionTextField" disable="true" editable="false" prefHeight="26.0" prefWidth="21.0" promptText="1" />
-        <Button layoutX="0.0" mnemonicParsing="false" onAction="#addExhaustion" text="+" />
+        <Button mnemonicParsing="false" onAction="#addExhaustion" text="+" />
     </HBox>
     <Label layoutX="470.0" layoutY="70.0" text="Name:">
         <font>
@@ -164,15 +164,15 @@
     </TextField>
     <CheckBox fx:id="legendaryCheckBox" layoutX="50.0" layoutY="487.0" onAction="#handleLegendaryCheckBox" text="Legendary" />
     <VBox fx:id="legendaryControls" layoutX="135.0" layoutY="487.0" spacing="5">
-        <HBox  layoutX="130.0" layoutY="507.0" spacing="5">
+        <HBox layoutX="130.0" layoutY="507.0" spacing="5">
             <Label layoutX="50.0" layoutY="550.0" text="Resistances:">
                 <font>
                     <Font size="13.0" />
                 </font>
             </Label>
-            <Button layoutX="0.0" mnemonicParsing="false" onAction="#lowerLegRes" text="-" />
+            <Button mnemonicParsing="false" onAction="#lowerLegRes" text="-" />
             <TextField fx:id="legResTextField" disable="true" editable="false" prefHeight="26.0" prefWidth="21.0" promptText="0" />
-            <Button layoutX="0.0" mnemonicParsing="false" onAction="#addLegRes" text="+" />
+            <Button mnemonicParsing="false" onAction="#addLegRes" text="+" />
         </HBox>
         <HBox layoutX="50.0" layoutY="570.0" spacing="5">
             <Label layoutX="50.0" layoutY="570.0" text="Actions:      ">
@@ -180,9 +180,9 @@
                     <Font size="13.0" />
                 </font>
             </Label>
-            <Button layoutX="0.0" mnemonicParsing="false" onAction="#lowerLegAct" text="-" />
+            <Button mnemonicParsing="false" onAction="#lowerLegAct" text="-" />
             <TextField fx:id="legActTextField" disable="true" editable="false" prefHeight="26.0" prefWidth="21.0" promptText="0" />
-            <Button layoutX="0.0" mnemonicParsing="false" onAction="#addLegAct" text="+" />
+            <Button mnemonicParsing="false" onAction="#addLegAct" text="+" />
         </HBox>
     </VBox>
     <Label fx:id="legResNameText" layoutX="490.0" layoutY="526.0" text="Legendary resistances: ">
@@ -210,4 +210,9 @@
             <Font size="12.0" />
         </font>
     </Label>
+    <Button fx:id="copyCreatureButton" layoutX="857.0" layoutY="485.0" mnemonicParsing="false" onAction="#copyCreature" text="+">
+        <font>
+            <Font size="10.0" />
+        </font>
+    </Button>
 </AnchorPane>

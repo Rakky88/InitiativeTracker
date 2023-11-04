@@ -29,112 +29,68 @@ public class InitiativeTrackerController {
     private final SceneManager SCENEMANAGER = Main.getSceneManager();
     private int amountHighestInitiativeTurnTaken = 1;
     private int roundCountForLairAction = 1;
+    private static int creatureCopyNumber = 2;
     private boolean lairAction = false;
 
     //Checkboxxes
-    @FXML
-    private CheckBox concentrationCheckBox;
-    @FXML
-    private CheckBox blindedCheckBox;
-    @FXML
-    private CheckBox charmedCheckBox;
-    @FXML
-    private CheckBox deafenedCheckBox;
-    @FXML
-    private CheckBox frightenedCheckBox;
-    @FXML
-    private CheckBox grappledCheckBox;
-    @FXML
-    private CheckBox incapacitatedCheckBox;
-    @FXML
-    private CheckBox invisibleCheckBox;
-    @FXML
-    private CheckBox paralyzedCheckBox;
-    @FXML
-    private CheckBox petrifiedCheckBox;
-    @FXML
-    private CheckBox poisonedCheckBox;
-    @FXML
-    private CheckBox proneCheckBox;
-    @FXML
-    private CheckBox restrainedCheckBox;
-    @FXML
-    private CheckBox stunnedCheckBox;
-    @FXML
-    private CheckBox unconsciousCheckBox;
-    @FXML
-    private CheckBox exhaustionCheckBox;
-    @FXML
-    private CheckBox legendaryCheckBox;
-    @FXML
-    private CheckBox legResCheckBox1;
-    @FXML
-    private CheckBox legResCheckBox2;
-    @FXML
-    private CheckBox legResCheckBox3;
-    @FXML
-    private CheckBox legResCheckBox4;
-    @FXML
-    private CheckBox legResCheckBox5;
-    @FXML
-    private CheckBox legActCheckBox1;
-    @FXML
-    private CheckBox legActCheckBox2;
-    @FXML
-    private CheckBox legActCheckBox3;
-    @FXML
-    private CheckBox legActCheckBox4;
-    @FXML
-    private CheckBox legActCheckBox5;
-
+    @FXML private CheckBox concentrationCheckBox;
+    @FXML private CheckBox blindedCheckBox;
+    @FXML private CheckBox charmedCheckBox;
+    @FXML private CheckBox deafenedCheckBox;
+    @FXML private CheckBox frightenedCheckBox;
+    @FXML private CheckBox grappledCheckBox;
+    @FXML private CheckBox incapacitatedCheckBox;
+    @FXML private CheckBox invisibleCheckBox;
+    @FXML private CheckBox paralyzedCheckBox;
+    @FXML private CheckBox petrifiedCheckBox;
+    @FXML private CheckBox poisonedCheckBox;
+    @FXML private CheckBox proneCheckBox;
+    @FXML private CheckBox restrainedCheckBox;
+    @FXML private CheckBox stunnedCheckBox;
+    @FXML private CheckBox unconsciousCheckBox;
+    @FXML private CheckBox exhaustionCheckBox;
+    @FXML private CheckBox legendaryCheckBox;
+    @FXML private CheckBox legResCheckBox1;
+    @FXML private CheckBox legResCheckBox2;
+    @FXML private CheckBox legResCheckBox3;
+    @FXML private CheckBox legResCheckBox4;
+    @FXML private CheckBox legResCheckBox5;
+    @FXML private CheckBox legActCheckBox1;
+    @FXML private CheckBox legActCheckBox2;
+    @FXML private CheckBox legActCheckBox3;
+    @FXML private CheckBox legActCheckBox4;
+    @FXML private CheckBox legActCheckBox5;
 
     //Textfields and TextAreas
-    @FXML
-    private TextField creatureTurnTextfield;
-    @FXML
-    private TextField nameTextField;
-    @FXML
-    private TextField initiativeTextField;
-    @FXML
-    private TextField hpTextField;
-    @FXML
-    private TextField maxHPTextField;
-    @FXML
-    private TextField initiativeNameTextfield;
-    @FXML
-    private TextField initiativeHPTextfield;
-    @FXML
-    private TextField hpLowerAddTextField;
-    @FXML
-    private TextField tempHPTextField;
-    @FXML
-    private TextField roundTextField;
-    @FXML
-    private TextField exhaustionTextField;
-    @FXML
-    private TextField ACTextField;
-    @FXML
-    private TextArea extraInfoTextArea;
-    @FXML
-    private TextField legResTextField;
-    @FXML
-    private TextField legActTextField;
+    @FXML private TextField creatureTurnTextfield;
+    @FXML private TextField nameTextField;
+    @FXML private TextField initiativeTextField;
+    @FXML private TextField hpTextField;
+    @FXML private TextField maxHPTextField;
+    @FXML private TextField initiativeNameTextfield;
+    @FXML private TextField initiativeHPTextfield;
+    @FXML private TextField hpLowerAddTextField;
+    @FXML private TextField tempHPTextField;
+    @FXML private TextField roundTextField;
+    @FXML private TextField exhaustionTextField;
+    @FXML private TextField ACTextField;
+    @FXML private TextArea extraInfoTextArea;
+    @FXML private TextField legResTextField;
+    @FXML private TextField legActTextField;
 
     //Labels
-    @FXML
-    private Label legResNameText;
-    @FXML
-    private Label legActNameText;
+    @FXML private Label legResNameText;
+    @FXML private Label legActNameText;
+
+    //Buttons
+    @FXML private Button deleteButton;
+    @FXML private Button menuButton;
+    @FXML private Button copyCreatureButton;
 
     //Misc
-    @FXML
-    private ListView<Creature> initiativeList;
-    @FXML
-    private HBox exhaustionControls;
-    @FXML
-    private VBox legendaryControls;
-    @FXML
-    private Button deleteButton;
+    @FXML private ListView<Creature> initiativeList;
+    @FXML private HBox exhaustionControls;
+    @FXML private VBox legendaryControls;
 
     /**De setup wordt gestarts wanneer de initiativeTrackerScene.fxml wordt geopend. Hierbij wordt de initiativelijst gevuld met
      * eerder ingevoerde creatures en andere textfields gevuld. Verder wordt een drag/drop-systeem geinitialiseerd
@@ -504,6 +460,10 @@ public class InitiativeTrackerController {
                     showInfo("Lair action!");
                 }
             }
+        }
+
+        if(initiativeList.getItems().get(0).isCopy()) {
+            doNext();
         }
     }
 
@@ -1025,7 +985,7 @@ public class InitiativeTrackerController {
         confirmationDialog.setHeaderText("By pressing 'OK', you delete your entire initiative!");
         confirmationDialog.setContentText("Are you sure?");
 
-        Stage stage = (Stage) deleteButton.getScene().getWindow();
+        Stage stage = (Stage) menuButton.getScene().getWindow();
         confirmationDialog.initOwner(stage);
 
         Optional<ButtonType> result = confirmationDialog.showAndWait();
@@ -1318,6 +1278,36 @@ public class InitiativeTrackerController {
         }
 
         initiativeList.getSelectionModel().getSelectedItem().setLegendaryActionsLeft(legActLeft - checked);
+    }
+
+    public void copyCreature() {
+        if(initiativeList.getSelectionModel().getSelectedItem() == null) {
+            showAlert("No creature selected!");
+            return;
+        }
+
+        String name = initiativeList.getSelectionModel().getSelectedItem().getName();
+        double initiative = initiativeList.getSelectionModel().getSelectedItem().getInitiative();
+        int HP = initiativeList.getSelectionModel().getSelectedItem().getHP();
+        int maxHP = initiativeList.getSelectionModel().getSelectedItem().getMaxHP();
+        int legendaryResistances = initiativeList.getSelectionModel().getSelectedItem().getLegendaryResistances();
+        int legendaryActions = initiativeList.getSelectionModel().getSelectedItem().getLegendaryActions();
+        String newName = name;
+
+        boolean loopDone = false;
+
+        while(!loopDone) {
+            for(Creature creature : initiativeList.getItems()) {
+                if(creature.getName().equals(newName)) {
+                    newName = name + " " + creatureCopyNumber;
+                    creatureCopyNumber++;
+                    break;
+                }
+                loopDone = true;
+            }
+        }
+
+        initiativeList.getItems().add(new Creature(newName, initiative, HP, maxHP, legendaryResistances, legendaryActions, true));
     }
 
     /**Met deze methode kan een error melding gegeven worden met een ingebrachte message.

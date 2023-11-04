@@ -23,6 +23,8 @@ public class InitiativeController {
     private static int legendaryResistances = 0;
     private static int legendaryActions = 0;
     @FXML
+    private CheckBox lairActionCheckBox;
+    @FXML
     private ListView<Creature> initiativeList;
     @FXML
     private TextField nameTextField;
@@ -98,10 +100,14 @@ public class InitiativeController {
      *
      */
     public void doTracker() {
-        if(initiative != null) {
-            SCENEMANAGER.showInitiativeTrackerScene(initiative);
-        } else {
+        if(initiative == null) {
             showAlert("Your initiative list is empty!");
+        }
+
+        if(lairActionCheckBox.isSelected()) {
+            SCENEMANAGER.showInitiativeTrackerScene(initiative, true);
+        } else {
+            SCENEMANAGER.showInitiativeTrackerScene(initiative, false);
         }
     }
 

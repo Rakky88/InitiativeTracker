@@ -83,4 +83,5 @@
             <Button layoutX="0.0" mnemonicParsing="false" onAction="#addLegAct" text="+" />
         </HBox>
     </VBox>
+    <CheckBox fx:id="lairActionCheckBox" layoutX="616.0" layoutY="539.0" text="Lair action" />
 </AnchorPane>

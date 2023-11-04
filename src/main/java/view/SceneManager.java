@@ -35,10 +35,10 @@ public class SceneManager {
         getScene("/welcomeScene.fxml");
     }
 
-    public void showInitiativeTrackerScene(ArrayList<Creature> creatures) {
+    public void showInitiativeTrackerScene(ArrayList<Creature> creatures, Boolean lairAction) {
         FXMLLoader loader = getScene("/initiativeTrackerScene.fxml");
         InitiativeTrackerController controller = loader.getController();
-        controller.setup(creatures);
+        controller.setup(creatures, lairAction);
     }
 
     public void showMenuScene() {

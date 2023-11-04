@@ -29,6 +29,8 @@ import java.util.Optional;
 public class InitiativeTrackerController {
     private final SceneManager SCENEMANAGER = Main.getSceneManager();
     private int amountHighestInitiativeTurnTaken = 1;
+    private int roundCountForLairAction = 1;
+    private boolean lairAction = false;
 
     //Checkboxxes
     @FXML
@@ -114,7 +116,7 @@ public class InitiativeTrackerController {
      *
      * @param creatures: lijst met creatures die in het vorige scherm zijn ingevoerd voor de initiativeList.
      */
-    public void setup(ArrayList<Creature> creatures){
+    public void setup(ArrayList<Creature> creatures, boolean lairActionConfirmed){
         initiativeList.getItems().setAll(creatures);
         roundTextField.setText("0");
         legendaryControls.setVisible(false);
@@ -124,6 +126,14 @@ public class InitiativeTrackerController {
         tempHPTextField.setPromptText("--");
         setCreatureTurnTextField();
         updateCreatureStats();
+        if(lairActionConfirmed) {
+            lairAction = true;
+            if(initiativeList.getItems().get(0).getInitiative() < 20) {
+                showInfo("Lair action!");
+            } else {
+                roundCountForLairAction = 0;
+            }
+        }
 
         initiativeList.setCellFactory(new Callback<>() {
             @Override
@@ -424,12 +434,21 @@ public class InitiativeTrackerController {
             return;
         }
 
-            Creature lastCreature = initiativeList.getItems().get(LAST_CREATURE_INDEX);
-            initiativeList.getItems().remove(LAST_CREATURE_INDEX);
-            initiativeList.getItems().add(lastCreature);
-            setCreatureTurnTextField();
+        Creature lastCreature = initiativeList.getItems().get(LAST_CREATURE_INDEX);
+        initiativeList.getItems().remove(LAST_CREATURE_INDEX);
+        initiativeList.getItems().add(lastCreature);
+        setCreatureTurnTextField();
 
-            updateRoundIfNecessary();
+        updateRoundIfNecessary();
+
+        if(lairAction) {
+            if(initiativeList.getItems().get(0).getInitiative() < 20) {
+                if(Integer.parseInt(roundTextField.getText()) == roundCountForLairAction) {
+                    roundCountForLairAction++;
+                    showInfo("Lair action!");
+                }
+            }
+        }
     }
 
     /**Met deze methode worden de creatures in de initiativeList doorgeschoven en de onderste in de list
@@ -887,5 +906,11 @@ public class InitiativeTrackerController {
         Alert errorMessage = new Alert(Alert.AlertType.ERROR);
         errorMessage.setContentText(message);
         errorMessage.show();
+    }
+
+    public void showInfo(String message) {
+        Alert infoMessage = new Alert(Alert.AlertType.INFORMATION);
+        infoMessage.setHeaderText(message);
+        infoMessage.show();
     }
 }

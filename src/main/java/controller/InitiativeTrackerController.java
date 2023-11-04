@@ -124,8 +124,10 @@ public class InitiativeTrackerController {
         ACTextField.setPromptText("--");
         extraInfoTextArea.setPromptText("Select a creature to add extra info.");
         tempHPTextField.setPromptText("--");
+
         setCreatureTurnTextField();
         updateCreatureStats();
+
         if(lairActionConfirmed) {
             lairAction = true;
             if(initiativeList.getItems().get(0).getInitiative() < 20) {
@@ -573,6 +575,8 @@ public class InitiativeTrackerController {
      *
      */
     public void updateCreatureStats(){
+        final int MINIMUM_HP = 0;
+
         initiativeList.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 initiativeNameTextfield.setText(newSelection.getName());
@@ -598,6 +602,14 @@ public class InitiativeTrackerController {
                 tempHPTextField.setText(String.valueOf(newSelection.getTempHP()));
                 ACTextField.setText(String.valueOf(newSelection.getAC()));
 
+                if(!legendaryCheckBox.isSelected()) {
+                    legendaryControls.setVisible(false);
+                }
+
+                initiativeHPTextfield.setStyle(
+                        initiativeList.getSelectionModel().getSelectedItem().getHP() != MINIMUM_HP ? "" : "-fx-background-color: red;"
+                );
+
                 if(!exhaustionCheckBox.isSelected()) {
                     exhaustionControls.setVisible(false);
                     return;
@@ -605,11 +617,6 @@ public class InitiativeTrackerController {
 
                 exhaustionControls.setVisible(true);
                 exhaustionTextField.setText(String.valueOf(initiativeList.getSelectionModel().getSelectedItem().getExhaustionLevel()));
-
-
-                if(!legendaryCheckBox.isSelected()) {
-                    legendaryControls.setVisible(false);
-                }
             }
         });
     }

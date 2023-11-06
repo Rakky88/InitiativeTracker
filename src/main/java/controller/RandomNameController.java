@@ -5,14 +5,19 @@ import javafx.scene.control.Label;
 import view.Main;
 import view.SceneManager;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class RandomNameController {
     private final SceneManager SCENEMANAGER = Main.getSceneManager();
     @FXML
     private Label generatedName;
-    private ArrayList<String> firstNameMale = new ArrayList<>();
-    private ArrayList<String> firstNameFemale = new ArrayList<>();
-    private ArrayList<String> lastName = new ArrayList<>();
+    private Set<String> firstNameMale = new HashSet<>();
+    private Set<String> firstNameFemale = new HashSet<>();
+    private Set<String> lastName = new HashSet<>();
+    private ArrayList<String> firstNameMaleList = new ArrayList<>(firstNameMale);
+    private ArrayList<String> firstNameFemaleList = new ArrayList<>(firstNameFemale);
+    private ArrayList<String> lastNameList = new ArrayList<>(lastName);
 
     public void initialize(){
         initMaleFirstName();
@@ -42,7 +47,9 @@ public class RandomNameController {
         firstNameMale.add("Wesley");
         firstNameMale.add("Brian");
         firstNameMale.add("Jesse");
-
+        firstNameMale.add("Robin");
+        firstNameMale.add("Will");
+        firstNameMale.add("Jack");
     }
 
     public void initFemaleFirstName(){
@@ -59,6 +66,11 @@ public class RandomNameController {
         firstNameFemale.add("Merle");
         firstNameFemale.add("Sue");
         firstNameFemale.add("Madelon");
+        firstNameFemale.add("Suzan");
+        firstNameFemale.add("Suzanne");
+        firstNameFemale.add("Anne");
+        firstNameFemale.add("Robin");
+        firstNameFemale.add("Rose");
     }
 
     public void initLastName(){
@@ -74,6 +86,11 @@ public class RandomNameController {
         lastName.add("Kingsly");
         lastName.add("Zuthphen");
         lastName.add("Wernink");
+        lastName.add("Bennink");
+        lastName.add("Keystone");
+        lastName.add("Heart");
+        lastName.add("Harkness");
+        lastName.add("Soul");
     }
 
     public void doBack() {
@@ -81,23 +98,18 @@ public class RandomNameController {
     }
 
     public void doMaleName(){
-        int indexFirstName = (int) (Math.random() * firstNameMale.size());
-        int indexLastName = (int) (Math.random() * lastName.size());
+        int indexFirstName = (int) (Math.random() * firstNameMaleList.size());
+        int indexLastName = (int) (Math.random() * lastNameList.size());
 
-        String maleFullName = firstNameMale.get(indexFirstName) + " " + lastName.get(indexLastName);
+        String maleFullName = firstNameMaleList.get(indexFirstName) + " " + lastNameList.get(indexLastName);
         generatedName.setText(maleFullName);
     }
 
     public void doFemaleName(){
-        int indexFirstName = (int) (Math.random() * firstNameFemale.size());
-        int indexLastName = (int) (Math.random() * lastName.size());
+        int indexFirstName = (int) (Math.random() * firstNameFemaleList.size());
+        int indexLastName = (int) (Math.random() * lastNameList.size());
 
-        if(indexFirstName == 0 && (indexLastName == 0 || indexLastName == 1)) {
-            String maleFullName = firstNameFemale.get(indexFirstName) + " " + lastName.get(indexLastName);
-            generatedName.setText(maleFullName);
-        } else {
-            String maleFullName = firstNameFemale.get(indexFirstName) + " " + lastName.get(indexLastName);
-            generatedName.setText(maleFullName);
-        }
+        String femaleFullName = firstNameFemaleList.get(indexFirstName) + " " + lastNameList.get(indexLastName);
+        generatedName.setText(femaleFullName);
     }
 }

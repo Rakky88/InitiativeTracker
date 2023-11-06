@@ -5,12 +5,15 @@ import javafx.scene.control.Label;
 import view.Main;
 import view.SceneManager;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class RandomLocationController {
     private final SceneManager SCENEMANAGER = Main.getSceneManager();
     @FXML
     private Label generatedLocation;
-    private ArrayList<String> randomLocation = new ArrayList<>();
+    private Set<String> randomLocation = new HashSet<>();
+    private ArrayList<String> randomLocationList = new ArrayList<>(randomLocation);
 
     public void initialize() {
         setRandomLocations();
@@ -41,9 +44,9 @@ public class RandomLocationController {
     }
 
     public void doLocation(){
-        int index = (int) (Math.random() * randomLocation.size());
+        int index = (int) (Math.random() * randomLocationList.size());
 
-        String theRandomLocation = randomLocation.get(index);
+        String theRandomLocation = randomLocationList.get(index);
         generatedLocation.setText(theRandomLocation);
     }
 }

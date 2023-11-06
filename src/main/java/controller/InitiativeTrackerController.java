@@ -234,6 +234,9 @@ public class InitiativeTrackerController {
         });
 
         ACTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue.isEmpty()) {
+                newValue = "0";
+            }
             if (initiativeList.getSelectionModel().getSelectedItem() != null) {
                 initiativeList.getSelectionModel().getSelectedItem().setAC(Integer.parseInt(newValue));
             }
@@ -1124,7 +1127,7 @@ public class InitiativeTrackerController {
 
         Optional<ButtonType> result = confirmationDialog.showAndWait();
 
-        if (result.isPresent() && result.get() == ButtonType.OK) {
+        if (result.get() == ButtonType.OK) {
             SCENEMANAGER.showMenuScene();
         }
     }
@@ -1335,16 +1338,17 @@ public class InitiativeTrackerController {
      *
      */
     public void handleAC() {
-        if(initiativeList.getSelectionModel().getSelectedItem() == null) {
+        if (initiativeList.getSelectionModel().getSelectedItem() == null) {
             showAlert("No creature selected!");
             ACTextField.clear();
-            ACTextField.setPromptText("--.");
+            ACTextField.setPromptText("--");
             return;
         }
 
         ACTextField.textProperty().addListener((observable, oldValue, newValue) ->
                 initiativeList.getSelectionModel().getSelectedItem().setAC(Integer.parseInt(newValue)));
     }
+
 
     public void lowerLegRes(){
         int newLegRes = Integer.parseInt(legResTextField.getText()) - 1;

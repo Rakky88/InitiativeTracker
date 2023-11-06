@@ -39,6 +39,10 @@ public class RandomNameController {
         firstNameMale.add("Matthew");
         firstNameMale.add("Arnold");
         firstNameMale.add("Sam");
+        firstNameMale.add("Wesley");
+        firstNameMale.add("Brian");
+        firstNameMale.add("Jesse");
+
     }
 
     public void initFemaleFirstName(){

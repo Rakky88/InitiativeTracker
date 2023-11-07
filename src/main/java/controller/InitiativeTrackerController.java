@@ -1302,8 +1302,11 @@ public class InitiativeTrackerController {
             deathFailCheckBox1.setVisible(true);
             deathFailCheckBox2.setVisible(true);
             deathFailCheckBox3.setVisible(true);
+            deathFailCheckBox1.isSelected();
+            deathFailCheckBox2.isSelected();
+            deathFailCheckBox3.isSelected();
 
-            showAlert("This creature is now dead!");
+            showInfo("This creature is now dead!");
         }
     }
 
@@ -1525,6 +1528,10 @@ public class InitiativeTrackerController {
         }
 
         initiativeList.getSelectionModel().getSelectedItem().setDeathFails(deathFailsMade);
+
+        if (initiativeList.getSelectionModel().getSelectedItem().getDeathFails() == 3) {
+            showInfo("This creature is now dead!");
+        }
     }
 
     /**Met deze methode kan een error melding gegeven worden met een ingebrachte message.

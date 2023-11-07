@@ -15,7 +15,7 @@ public class Main extends Application {
       public void start(Stage primaryStage) {
         try {
             Main.primaryStage = primaryStage;
-            primaryStage.setTitle("DnD Initiative Tracker");
+            primaryStage.setTitle("DnD 5e - DM Helper");
             getSceneManager().setWelcomeTool();
             primaryStage.show();
         } catch (Exception e) {

@@ -107,6 +107,8 @@ public class InitiativeTrackerController {
      * voor de initiativeList en worden listeners geinitialiseerd voor extraInfo, tempHP en AC.
      *
      * @param creatures: lijst met creatures die in het vorige scherm zijn ingevoerd voor de initiativeList.
+     * @param lairActionConfirmed: true als lair action meldingen gegeven moeten worden op initiave 20 (verliezend
+     *                           van creatures met gelijke initiative).
      */
     public void setup(ArrayList<Creature> creatures, boolean lairActionConfirmed){
         initiativeList.getItems().setAll(creatures);
@@ -1123,6 +1125,10 @@ public class InitiativeTrackerController {
         }
     }
 
+    /**Deze methode geeft de gebruiker de mogelijkheid om legendary actions en resistances aan een toe te voegen
+     * creature mee te geven.
+     *
+     */
     public void handleLegendaryCheckBox(){
         boolean isCheckedLegendary = legendaryCheckBox.isSelected();
         legendaryControls.setVisible(isCheckedLegendary);
@@ -1193,7 +1199,7 @@ public class InitiativeTrackerController {
      */
     public void addRound(){
         final int SINGLE_ROUND_ADDED = 1;
-        
+
         int round = Integer.parseInt(roundTextField.getText());
         int newRound = round + SINGLE_ROUND_ADDED;
         roundTextField.setText(String.valueOf(newRound));
@@ -1383,7 +1389,9 @@ public class InitiativeTrackerController {
         }
     }
 
-
+    /**Deze methode brengt de legendary resistance textbox met 1 omlaag tot een minimum van 0.
+     *
+     */
     public void lowerLegRes(){
         int newLegRes = Integer.parseInt(legResTextField.getText()) - 1;
         if(newLegRes < 0) {
@@ -1394,6 +1402,9 @@ public class InitiativeTrackerController {
         legResTextField.setText(String.valueOf(newLegRes));
     }
 
+    /**Deze methode brengt de legendary resistance textbox met 1 omhoog tot een max van 5.
+     *
+     */
     public void addLegRes(){
         if(legResTextField.getText().isEmpty()) {
             legResTextField.setText("0");
@@ -1408,6 +1419,9 @@ public class InitiativeTrackerController {
         legResTextField.setText(String.valueOf(newLegRes));
     }
 
+    /**Deze methode brengt de legendary actions textbox met 1 omlaag tot een minimum van 0.
+     *
+     */
     public void lowerLegAct(){
         int newLegAct = Integer.parseInt(legActTextField.getText()) - 1;
         if(newLegAct < 0) {
@@ -1418,6 +1432,9 @@ public class InitiativeTrackerController {
         legActTextField.setText(String.valueOf(newLegAct));
     }
 
+    /**Deze methode brengt de legendary actions textbox met 1 omhoog tot een max van 5.
+     *
+     */
     public void addLegAct(){
         if(legActTextField.getText().isEmpty()) {
             legActTextField.setText("0");
@@ -1433,6 +1450,9 @@ public class InitiativeTrackerController {
         legActTextField.setText(String.valueOf(newLegAct));
     }
 
+    /**Deze methode houdt bij hoeveel legendary resistances van de geselecteerde creature al gebruikt zijn.
+     *
+     */
     public void handleLegResCheckBox() {
         int checked = 0;
         int legResLeft = initiativeList.getSelectionModel().getSelectedItem().getLegendaryResistances();
@@ -1448,6 +1468,9 @@ public class InitiativeTrackerController {
         initiativeList.getSelectionModel().getSelectedItem().setLegendaryResistancesLeft(legResLeft - checked);
     }
 
+    /**Deze methode houdt bij hoeveel legendary actions van de geselecteerde creature al gebruikt zijn.
+     *
+     */
     public void handleLegActCheckBox(){
         int checked = 0;
         int legActLeft = initiativeList.getSelectionModel().getSelectedItem().getLegendaryActions();
@@ -1463,6 +1486,11 @@ public class InitiativeTrackerController {
         initiativeList.getSelectionModel().getSelectedItem().setLegendaryActionsLeft(legActLeft - checked);
     }
 
+    /**Deze methode kopieerd een creature en voegd deze toe aan de initiativeList met een getal erachter (afhankelijk
+     * hoeveel er nu van zijn). De gekopieerde creature krijgt mee dat het een copy is en wordt geskipt in de
+     * initiativeList.
+     *
+     */
     public void copyCreature() {
         if (initiativeList.getSelectionModel().getSelectedItem() == null) {
             showAlert("No creature selected!");
@@ -1495,12 +1523,18 @@ public class InitiativeTrackerController {
         initiativeList.getItems().add(new Creature(newName, initiative, HP, maxHP, legendaryResistances, legendaryActions, true));
     }
 
+    /**Deze methode zet de initiativeList op volgorde van initiative.
+     *
+     */
     public void handleOrderList() {
         ArrayList<Creature> initiative = new ArrayList<>(initiativeList.getItems());
         initiative.sort((c1, c2) -> Double.compare(c2.getInitiative(), c1.getInitiative()));
         initiativeList.getItems().setAll(initiative);
     }
 
+    /**Deze methode houdt de gehaalde death saves bij.
+     *
+     */
     public void handleDeathSave(){
         int deathSavesMade = 0;
 
@@ -1519,6 +1553,10 @@ public class InitiativeTrackerController {
         initiativeList.getSelectionModel().getSelectedItem().setDeathSaves(deathSavesMade);
     }
 
+    /**Deze methode houdt de gefaalde death saves bij. Bij 3 gefaalde deathsaves krijgt de gebruiker
+     * een melding dat de creature dood is.
+     *
+     */
     public void handleDeathFail(){
         int deathFailsMade = 0;
 
@@ -1551,6 +1589,10 @@ public class InitiativeTrackerController {
         errorMessage.show();
     }
 
+    /**Met deze methode kan een info melding gegeven worden met een ingebrachte message.
+     *
+     * @param message: De message die wordt weergegeven bij de infomelding.
+     */
     public void showInfo(String message) {
         Alert infoMessage = new Alert(Alert.AlertType.INFORMATION);
         infoMessage.setHeaderText(message);

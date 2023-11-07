@@ -5,7 +5,7 @@
 <?import javafx.scene.text.*?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.InitiativeController">
-    <Label layoutX="246.0" layoutY="40.0" text="DnD Initiative Tracker">
+    <Label layoutX="246.0" layoutY="40.0" text="Initiative Tracker">
         <font>
             <Font size="36.0" />
         </font>
@@ -55,11 +55,6 @@
         </font>
     </Button>
     <ListView fx:id="initiativeList" layoutX="228.0" layoutY="123.0" prefHeight="200.0" prefWidth="400.0" />
-    <Label layoutX="742.0" layoutY="568.0" text="Copyright © 2023 Rakky88">
-        <font>
-            <Font size="12.0" />
-        </font>
-    </Label>
     <CheckBox fx:id="legendaryCheckBox" layoutX="589.0" layoutY="441.0" onAction="#handleLegendaryCheckBox" text="Legendary" />
     <VBox fx:id="legendaryControls" layoutX="670.0" layoutY="441.0" spacing="5">
         <HBox layoutX="130.0" layoutY="507.0" spacing="5">
@@ -84,4 +79,9 @@
         </HBox>
     </VBox>
     <CheckBox fx:id="lairActionCheckBox" layoutX="616.0" layoutY="539.0" text="Lair action" />
+    <Label layoutX="742.0" layoutY="568.0" text="Copyright © 2023 Rakky88">
+        <font>
+            <Font size="12.0" />
+        </font>
+    </Label>
 </AnchorPane>

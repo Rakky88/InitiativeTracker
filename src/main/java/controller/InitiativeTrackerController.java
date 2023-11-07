@@ -87,6 +87,8 @@ public class InitiativeTrackerController {
     @FXML private TextField legActTextField;
     @FXML private TextArea extraInfoTextArea;
     @FXML private Text D20Roll;
+    @FXML private Text doubleD20Roll1;
+    @FXML private Text doubleD20Roll2;
 
     //Labels
     @FXML private Label legResNameText;
@@ -100,13 +102,19 @@ public class InitiativeTrackerController {
     @FXML private Button menuButton;
     @FXML private Button copyCreatureButton;
 
+    //Images
+    @FXML private ImageView D20ImageView;
+    @FXML private Image D20Image;
+    @FXML private ImageView D20DoubleImageview1;
+    @FXML private Image D20DoubleImage1;
+    @FXML private ImageView D20DoubleImageview2;
+    @FXML private Image D20DoubleImage2;
+
     //Misc
     @FXML private ListView<Creature> initiativeList;
     @FXML private HBox exhaustionControls;
     @FXML private VBox legendaryControls;
     @FXML private Rectangle deathRedRectangle;
-    @FXML private ImageView D20ImageView;
-    @FXML private Image D20Image;
 
     /**De setup wordt gestarts wanneer de initiativeTrackerScene.fxml wordt geopend. Hierbij wordt de initiativelijst gevuld met
      * eerder ingevoerde creatures en andere textfields gevuld. Verder wordt een drag/drop-systeem geinitialiseerd
@@ -147,9 +155,17 @@ public class InitiativeTrackerController {
         deathFailCheckBox2.setVisible(false);
         deathFailCheckBox3.setVisible(false);
         D20Roll.setVisible(false);
+        doubleD20Roll1.setVisible(false);
+        doubleD20Roll2.setVisible(false);
 
         D20Image = new Image("file:src/main/resources/images/D20.png");
         D20ImageView.setImage(D20Image);
+
+        D20DoubleImage1 = new Image("file:src/main/resources/images/D20.png");
+        D20DoubleImageview1.setImage(D20DoubleImage1);
+
+        D20DoubleImage2 = new Image("file:src/main/resources/images/D20.png");
+        D20DoubleImageview2.setImage(D20DoubleImage2);
 
         setCreatureTurnTextField();
         updateCreatureStats();
@@ -1590,6 +1606,8 @@ public class InitiativeTrackerController {
     }
 
     public void rollD20(){
+        doubleD20Roll1.setVisible(false);
+        doubleD20Roll2.setVisible(false);
         int randomD20Roll = (int) (Math.random() * 20 + 1);
         D20Roll.setText(String.valueOf(randomD20Roll));
         D20Roll.setVisible(true);
@@ -1597,6 +1615,21 @@ public class InitiativeTrackerController {
 
     public void removeDie(){
         D20Roll.setVisible(false);
+    }
+
+    public void roll2D20(){
+        D20Roll.setVisible(false);
+        int randomD20Roll1 = (int) (Math.random() * 20 + 1);
+        int randomD20Roll2 = (int) (Math.random() * 20 + 1);
+        doubleD20Roll1.setText(String.valueOf(randomD20Roll1));
+        doubleD20Roll2.setText(String.valueOf(randomD20Roll2));
+        doubleD20Roll1.setVisible(true);
+        doubleD20Roll2.setVisible(true);
+    }
+
+    public void remove2Die(){
+        doubleD20Roll1.setVisible(false);
+        doubleD20Roll2.setVisible(false);
     }
 
     /**Met deze methode kan een error melding gegeven worden met een ingebrachte message.

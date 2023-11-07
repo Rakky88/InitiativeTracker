@@ -238,11 +238,19 @@ public class InitiativeTrackerController {
                 newValue = "0";
             }
             if (initiativeList.getSelectionModel().getSelectedItem() != null) {
+                try{
                 initiativeList.getSelectionModel().getSelectedItem().setAC(Integer.parseInt(newValue));
+                } catch (NumberFormatException exception) {
+                    showAlert("You must enter a whole number!");
+                    ACTextField.setText(String.valueOf(initiativeList.getSelectionModel().getSelectedItem().getAC()));
+                }
             }
         });
 
         tempHPTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue.isEmpty()) {
+                newValue = oldValue;
+            }
             if (initiativeList.getSelectionModel().getSelectedItem() != null) {
                 int tempHP = 0;
                 try {
@@ -525,36 +533,40 @@ public class InitiativeTrackerController {
             return;
         }
 
-        final int NO_NUMBER_IN_TEXTBOX = 1;
-        final double COLOR_FLASH = 0.1;
-        final int MINIMUM_HP = 0;
-        int maxCreatureHP = initiativeList.getSelectionModel().getSelectedItem().getMaxHP();
-        int hpCreature = initiativeList.getSelectionModel().getSelectedItem().getHP();
-        int addedHP = hpLowerAddTextField.getText().isEmpty() ? NO_NUMBER_IN_TEXTBOX : Integer.parseInt(hpLowerAddTextField.getText());
+        try {
+            final int NO_NUMBER_IN_TEXTBOX = 1;
+            final double COLOR_FLASH = 0.1;
+            final int MINIMUM_HP = 0;
+            int maxCreatureHP = initiativeList.getSelectionModel().getSelectedItem().getMaxHP();
+            int hpCreature = initiativeList.getSelectionModel().getSelectedItem().getHP();
+            int addedHP = hpLowerAddTextField.getText().isEmpty() ? NO_NUMBER_IN_TEXTBOX : Integer.parseInt(hpLowerAddTextField.getText());
 
-        initiativeList.getSelectionModel().getSelectedItem().setHP(Math.min(hpCreature + addedHP, maxCreatureHP));
-        initiativeHPTextfield.setText(initiativeList.getSelectionModel().getSelectedItem().getHP() + " / " + initiativeList.getSelectionModel().getSelectedItem().getMaxHP());
+            initiativeList.getSelectionModel().getSelectedItem().setHP(Math.min(hpCreature + addedHP, maxCreatureHP));
+            initiativeHPTextfield.setText(initiativeList.getSelectionModel().getSelectedItem().getHP() + " / " + initiativeList.getSelectionModel().getSelectedItem().getMaxHP());
 
-        initiativeHPTextfield.setStyle("-fx-background-color: green;");
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(COLOR_FLASH), e -> initiativeHPTextfield.setStyle("")));
-        timeline.play();
+            initiativeHPTextfield.setStyle("-fx-background-color: green;");
+            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(COLOR_FLASH), e -> initiativeHPTextfield.setStyle("")));
+            timeline.play();
 
-        if(initiativeList.getSelectionModel().getSelectedItem().getHP() != MINIMUM_HP) {
-            deathRedRectangle.setVisible(false);
-            deathText.setVisible(false);
-            deathSavesText.setVisible(false);
-            deathFailsText.setVisible(false);
-            deathSaveCheckBox1.setVisible(false);
-            deathSaveCheckBox2.setVisible(false);
-            deathSaveCheckBox3.setVisible(false);
-            deathFailCheckBox1.setVisible(false);
-            deathFailCheckBox2.setVisible(false);
-            deathFailCheckBox3.setVisible(false);
-            initiativeList.getSelectionModel().getSelectedItem().setDeathSaves(0);
-            initiativeList.getSelectionModel().getSelectedItem().setDeathFails(0);
+            if (initiativeList.getSelectionModel().getSelectedItem().getHP() != MINIMUM_HP) {
+                deathRedRectangle.setVisible(false);
+                deathText.setVisible(false);
+                deathSavesText.setVisible(false);
+                deathFailsText.setVisible(false);
+                deathSaveCheckBox1.setVisible(false);
+                deathSaveCheckBox2.setVisible(false);
+                deathSaveCheckBox3.setVisible(false);
+                deathFailCheckBox1.setVisible(false);
+                deathFailCheckBox2.setVisible(false);
+                deathFailCheckBox3.setVisible(false);
+                initiativeList.getSelectionModel().getSelectedItem().setDeathSaves(0);
+                initiativeList.getSelectionModel().getSelectedItem().setDeathFails(0);
+            }
+
+            hpLowerAddTextField.setText("");
+        }catch (NumberFormatException exception) {
+            showAlert("You can only add/remove whole numbers.");
         }
-
-        hpLowerAddTextField.setText("");
     }
 
     /**Met deze methode kan ingevoerde HP in het hpLowerAddTextField weggehaald worden van de HP van een creature.
@@ -568,30 +580,42 @@ public class InitiativeTrackerController {
             return;
         }
 
-        final int MINIMUM_HP = 0;
+        try {
+            final int MINIMUM_HP = 0;
 
-        if(initiativeList.getSelectionModel().getSelectedItem().getHP() == MINIMUM_HP) {
-            return;
-        }
+            if (initiativeList.getSelectionModel().getSelectedItem().getHP() == MINIMUM_HP) {
+                return;
+            }
 
-        final int MINIMUM_TEMP_HP = 0;
-        final int NO_NUMBER_IN_TEXTBOX = 1;
-        int hpCreature = initiativeList.getSelectionModel().getSelectedItem().getHP();
-        int removedHP = hpLowerAddTextField.getText().isEmpty() ? NO_NUMBER_IN_TEXTBOX : Integer.parseInt(hpLowerAddTextField.getText());
-        int tempHP = initiativeList.getSelectionModel().getSelectedItem().getTempHP();
+            final int MINIMUM_TEMP_HP = 0;
+            final int NO_NUMBER_IN_TEXTBOX = 1;
+            int hpCreature = initiativeList.getSelectionModel().getSelectedItem().getHP();
+            int removedHP = hpLowerAddTextField.getText().isEmpty() ? NO_NUMBER_IN_TEXTBOX : Integer.parseInt(hpLowerAddTextField.getText());
+            int tempHP = initiativeList.getSelectionModel().getSelectedItem().getTempHP();
 
-        if(tempHP != MINIMUM_TEMP_HP) {
-            if (removedHP <= tempHP) {
-                initiativeList.getSelectionModel().getSelectedItem().setTempHP(tempHP - removedHP);
-                tempHP = initiativeList.getSelectionModel().getSelectedItem().getTempHP();
-                tempHPTextField.setText(String.valueOf(tempHP));
+            if (tempHP != MINIMUM_TEMP_HP) {
+                if (removedHP <= tempHP) {
+                    initiativeList.getSelectionModel().getSelectedItem().setTempHP(tempHP - removedHP);
+                    tempHP = initiativeList.getSelectionModel().getSelectedItem().getTempHP();
+                    tempHPTextField.setText(String.valueOf(tempHP));
+                } else {
+                    int overflow = removedHP - tempHP;
+                    initiativeList.getSelectionModel().getSelectedItem().setTempHP(MINIMUM_TEMP_HP);
+                    tempHP = initiativeList.getSelectionModel().getSelectedItem().getTempHP();
+                    tempHPTextField.setText(String.valueOf(tempHP));
+                    if (hpCreature - overflow > MINIMUM_HP) {
+                        initiativeList.getSelectionModel().getSelectedItem().setHP(hpCreature - overflow);
+                    } else {
+                        initiativeList.getSelectionModel().getSelectedItem().setHP(MINIMUM_HP);
+                    }
+                    initiativeHPTextfield.setText(initiativeList.getSelectionModel().getSelectedItem().getHP() + " / " +
+                            initiativeList.getSelectionModel().getSelectedItem().getMaxHP());
+
+                    getRed();
+                }
             } else {
-                int overflow = removedHP - tempHP;
-                initiativeList.getSelectionModel().getSelectedItem().setTempHP(MINIMUM_TEMP_HP);
-                tempHP = initiativeList.getSelectionModel().getSelectedItem().getTempHP();
-                tempHPTextField.setText(String.valueOf(tempHP));
-                if(hpCreature - overflow > MINIMUM_HP) {
-                    initiativeList.getSelectionModel().getSelectedItem().setHP(hpCreature - overflow);
+                if (hpCreature - removedHP > MINIMUM_HP) {
+                    initiativeList.getSelectionModel().getSelectedItem().setHP(hpCreature - removedHP);
                 } else {
                     initiativeList.getSelectionModel().getSelectedItem().setHP(MINIMUM_HP);
                 }
@@ -600,38 +624,30 @@ public class InitiativeTrackerController {
 
                 getRed();
             }
-        } else {
-            if(hpCreature - removedHP > MINIMUM_HP) {
-                initiativeList.getSelectionModel().getSelectedItem().setHP(hpCreature - removedHP);
-            } else {
-                initiativeList.getSelectionModel().getSelectedItem().setHP(MINIMUM_HP);
+
+            if (initiativeList.getSelectionModel().getSelectedItem().getHP() == MINIMUM_HP) {
+                deathRedRectangle.setVisible(true);
+                deathText.setVisible(true);
+                deathSavesText.setVisible(true);
+                deathFailsText.setVisible(true);
+                deathSaveCheckBox1.setVisible(true);
+                deathSaveCheckBox2.setVisible(true);
+                deathSaveCheckBox3.setVisible(true);
+                deathFailCheckBox1.setVisible(true);
+                deathFailCheckBox2.setVisible(true);
+                deathFailCheckBox3.setVisible(true);
+                deathSaveCheckBox1.setSelected(false);
+                deathSaveCheckBox2.setSelected(false);
+                deathSaveCheckBox3.setSelected(false);
+                deathFailCheckBox1.setSelected(false);
+                deathFailCheckBox2.setSelected(false);
+                deathFailCheckBox3.setSelected(false);
             }
-            initiativeHPTextfield.setText(initiativeList.getSelectionModel().getSelectedItem().getHP() + " / " +
-                    initiativeList.getSelectionModel().getSelectedItem().getMaxHP());
 
-            getRed();
+            hpLowerAddTextField.setText("");
+        }catch(NumberFormatException exception) {
+            showAlert("You can only add/remove whole numbers.");
         }
-
-        if(initiativeList.getSelectionModel().getSelectedItem().getHP() == MINIMUM_HP) {
-            deathRedRectangle.setVisible(true);
-            deathText.setVisible(true);
-            deathSavesText.setVisible(true);
-            deathFailsText.setVisible(true);
-            deathSaveCheckBox1.setVisible(true);
-            deathSaveCheckBox2.setVisible(true);
-            deathSaveCheckBox3.setVisible(true);
-            deathFailCheckBox1.setVisible(true);
-            deathFailCheckBox2.setVisible(true);
-            deathFailCheckBox3.setVisible(true);
-            deathSaveCheckBox1.setSelected(false);
-            deathSaveCheckBox2.setSelected(false);
-            deathSaveCheckBox3.setSelected(false);
-            deathFailCheckBox1.setSelected(false);
-            deathFailCheckBox2.setSelected(false);
-            deathFailCheckBox3.setSelected(false);
-        }
-
-        hpLowerAddTextField.setText("");
     }
 
     /**Met deze methode wordt het initiativeHPTextField voor 0,1 seconde rood gemaakt. Als de HP van de
@@ -1345,8 +1361,16 @@ public class InitiativeTrackerController {
             return;
         }
 
-        ACTextField.textProperty().addListener((observable, oldValue, newValue) ->
-                initiativeList.getSelectionModel().getSelectedItem().setAC(Integer.parseInt(newValue)));
+        try {
+            ACTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue.isEmpty()) {
+                    newValue = "0";
+                }
+                initiativeList.getSelectionModel().getSelectedItem().setAC(Integer.parseInt(newValue));
+            });
+        }catch (NumberFormatException e) {
+
+        }
     }
 
 

@@ -5,18 +5,26 @@ import javafx.scene.control.Label;
 import view.Main;
 import view.SceneManager;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 public class RandomLocationController {
     private final SceneManager SCENEMANAGER = Main.getSceneManager();
     @FXML
     private Label generatedLocation;
-    private Set<String> randomLocation = new HashSet<>();
-    private ArrayList<String> randomLocationList = new ArrayList<>(randomLocation);
+    private ArrayList<String> randomLocation = new ArrayList<>();
 
     public void initialize() {
         setRandomLocations();
+    }
+
+    public void doBack() {
+        SCENEMANAGER.showRandomWelcomeScene();
+    }
+
+    public void doLocation(){
+        int index = (int) (Math.random() * randomLocation.size());
+
+        String theRandomLocation = randomLocation.get(index);
+        generatedLocation.setText(theRandomLocation);
     }
 
     public void setRandomLocations(){
@@ -37,16 +45,13 @@ public class RandomLocationController {
         randomLocation.add("Castle");
         randomLocation.add("School");
         randomLocation.add("Orphanage");
-    }
-
-    public void doBack() {
-        SCENEMANAGER.showRandomWelcomeScene();
-    }
-
-    public void doLocation(){
-        int index = (int) (Math.random() * randomLocationList.size());
-
-        String theRandomLocation = randomLocationList.get(index);
-        generatedLocation.setText(theRandomLocation);
+        randomLocation.add("Forest");
+        randomLocation.add("Jungle");
+        randomLocation.add("Temple");
+        randomLocation.add("Marsh");
+        randomLocation.add("Elemental plane of Fire");
+        randomLocation.add("Elemental plane of Water");
+        randomLocation.add("Elemental plane of Air");
+        randomLocation.add("Elemental plane of Earth");
     }
 }

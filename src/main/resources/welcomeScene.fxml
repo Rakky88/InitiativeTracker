@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.WelcomeController">
-    <Label layoutX="288.0" layoutY="118.0" text="DnD -- DM Helper!!!">
-        <font>
-            <Font size="36.0" />
-        </font>
-    </Label>
-    <Button layoutX="383.0" layoutY="267.0" mnemonicParsing="false" onAction="#doStart" text="START!">
-        <font>
-            <Font size="30.0" />
-        </font>
-    </Button>
-    <Label layoutX="742.0" layoutY="568.0" text="Copyright © 2023 Rakky88">
-        <font>
-            <Font size="12.0" />
-        </font>
-    </Label>
+    <StackPane />
+     <ImageView fx:id="backgroundImageView" fitHeight="600.0" fitWidth="906.0" layoutX="-5.0">
+         <image>
+             <Image fx:id="backgroundImage" url="@../../../src/main/resources/images/backgroundHomeScreen.png" />
+         </image>
+     </ImageView>
+ <Button layoutX="381.0" layoutY="407.0" mnemonicParsing="false" onAction="#doStart" text="START!">
+     <font>
+         <Font size="30.0" />
+     </font>
+ </Button>
+ <Label layoutX="742.0" layoutY="568.0" text="Copyright © 2023 Rakky88">
+     <font>
+         <Font size="12.0" />
+     </font>
+ </Label>
 </AnchorPane>

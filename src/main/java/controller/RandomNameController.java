@@ -5,24 +5,39 @@ import javafx.scene.control.Label;
 import view.Main;
 import view.SceneManager;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 public class RandomNameController {
     private final SceneManager SCENEMANAGER = Main.getSceneManager();
     @FXML
     private Label generatedName;
-    private Set<String> firstNameMale = new HashSet<>();
-    private Set<String> firstNameFemale = new HashSet<>();
-    private Set<String> lastName = new HashSet<>();
-    private ArrayList<String> firstNameMaleList = new ArrayList<>(firstNameMale);
-    private ArrayList<String> firstNameFemaleList = new ArrayList<>(firstNameFemale);
-    private ArrayList<String> lastNameList = new ArrayList<>(lastName);
+    private ArrayList<String> firstNameMale = new ArrayList<>();
+    private ArrayList<String> firstNameFemale = new ArrayList<>();
+    private ArrayList<String> lastName = new ArrayList<>();
 
     public void initialize(){
         initMaleFirstName();
         initLastName();
         initFemaleFirstName();
+    }
+
+    public void doBack() {
+        SCENEMANAGER.showRandomWelcomeScene();
+    }
+
+    public void doMaleName(){
+        int indexFirstName = (int) (Math.random() * firstNameMale.size());
+        int indexLastName = (int) (Math.random() * lastName.size());
+
+        String maleFullName = firstNameMale.get(indexFirstName) + " " + lastName.get(indexLastName);
+        generatedName.setText(maleFullName);
+    }
+
+    public void doFemaleName(){
+        int indexFirstName = (int) (Math.random() * firstNameFemale.size());
+        int indexLastName = (int) (Math.random() * lastName.size());
+
+        String femaleFullName = firstNameFemale.get(indexFirstName) + " " + lastName.get(indexLastName);
+        generatedName.setText(femaleFullName);
     }
 
     public void initMaleFirstName(){
@@ -50,6 +65,14 @@ public class RandomNameController {
         firstNameMale.add("Robin");
         firstNameMale.add("Will");
         firstNameMale.add("Jack");
+        firstNameMale.add("Ryan");
+        firstNameMale.add("Emil");
+        firstNameMale.add("Leo");
+        firstNameMale.add("Wyatt");
+        firstNameMale.add("Fabian");
+        firstNameMale.add("Samson");
+        firstNameMale.add("Kobi");
+        firstNameMale.add("Kayne");
     }
 
     public void initFemaleFirstName(){
@@ -71,6 +94,19 @@ public class RandomNameController {
         firstNameFemale.add("Anne");
         firstNameFemale.add("Robin");
         firstNameFemale.add("Rose");
+        firstNameFemale.add("Marina");
+        firstNameFemale.add("Ashley");
+        firstNameFemale.add("Hollie");
+        firstNameFemale.add("Lilly");
+        firstNameFemale.add("Molly");
+        firstNameFemale.add("Emmie");
+        firstNameFemale.add("Kate");
+        firstNameFemale.add("Lydia");
+        firstNameFemale.add("Felicia");
+        firstNameFemale.add("Janice");
+        firstNameFemale.add("Anna");
+        firstNameFemale.add("Nicole");
+        firstNameFemale.add("Diane");
     }
 
     public void initLastName(){
@@ -91,25 +127,20 @@ public class RandomNameController {
         lastName.add("Heart");
         lastName.add("Harkness");
         lastName.add("Soul");
-    }
-
-    public void doBack() {
-        SCENEMANAGER.showRandomWelcomeScene();
-    }
-
-    public void doMaleName(){
-        int indexFirstName = (int) (Math.random() * firstNameMaleList.size());
-        int indexLastName = (int) (Math.random() * lastNameList.size());
-
-        String maleFullName = firstNameMaleList.get(indexFirstName) + " " + lastNameList.get(indexLastName);
-        generatedName.setText(maleFullName);
-    }
-
-    public void doFemaleName(){
-        int indexFirstName = (int) (Math.random() * firstNameFemaleList.size());
-        int indexLastName = (int) (Math.random() * lastNameList.size());
-
-        String femaleFullName = firstNameFemaleList.get(indexFirstName) + " " + lastNameList.get(indexLastName);
-        generatedName.setText(femaleFullName);
+        lastName.add("Bowman");
+        lastName.add("O'Ryan");
+        lastName.add("Wilkinson");
+        lastName.add("Gilmore");
+        lastName.add("Hammond");
+        lastName.add("Duke");
+        lastName.add("Richmond");
+        lastName.add("Conner");
+        lastName.add("Browning");
+        lastName.add("Anderson");
+        lastName.add("Green");
+        lastName.add("Davis");
+        lastName.add("Underwood");
+        lastName.add("Holmes");
+        lastName.add("Moore");
     }
 }

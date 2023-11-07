@@ -38,11 +38,11 @@
             <Font size="10.0" />
         </font>
     </Button>
-    <TextField fx:id="creatureTurnTextfield" disable="true" editable="false" layoutX="48.0" layoutY="71.0" prefHeight="26.0" prefWidth="400.0" text="Creature's turn" GridPane.columnIndex="1">
+    <Text fx:id="creatureTurnText" disable="true" fill="BLUE" layoutX="49.0" layoutY="104.0" text="Creature's turn" GridPane.columnIndex="1">
         <font>
-            <Font size="18.0" />
+            <Font size="40.0" />
         </font>
-    </TextField>
+    </Text>
     <Label layoutX="700.0" layoutY="97.0" text="Temp HP:">
         <font>
             <Font size="18.0" />

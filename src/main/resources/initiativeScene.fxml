@@ -25,7 +25,11 @@
             <Font size="18.0" />
         </font>
     </Button>
-    <TextField fx:id="nameTextField" layoutX="78.0" layoutY="405.0" prefHeight="25.0" prefWidth="335.0" />
+    <TextField fx:id="nameTextField" layoutX="78.0" layoutY="405.0" prefHeight="25.0" prefWidth="335.0" >
+        <tooltip>
+            <Tooltip text="Max 20 char." />
+        </tooltip>
+    </TextField>
     <Label layoutX="78.0" layoutY="377.0" text="Name:">
         <font>
             <Font size="18.0" />
@@ -63,9 +67,9 @@
                     <Font size="13.0" />
                 </font>
             </Label>
-            <Button layoutX="0.0" mnemonicParsing="false" onAction="#lowerLegRes" text="-" />
+            <Button mnemonicParsing="false" onAction="#lowerLegRes" text="-" />
             <TextField fx:id="legResTextField" disable="true" editable="false" prefHeight="26.0" prefWidth="21.0" promptText="0" />
-            <Button layoutX="0.0" mnemonicParsing="false" onAction="#addLegRes" text="+" />
+            <Button mnemonicParsing="false" onAction="#addLegRes" text="+" />
         </HBox>
         <HBox layoutX="50.0" layoutY="570.0" spacing="5">
             <Label layoutX="50.0" layoutY="570.0" text="Actions:      ">
@@ -73,9 +77,9 @@
                     <Font size="13.0" />
                 </font>
             </Label>
-            <Button layoutX="0.0" mnemonicParsing="false" onAction="#lowerLegAct" text="-" />
+            <Button mnemonicParsing="false" onAction="#lowerLegAct" text="-" />
             <TextField fx:id="legActTextField" disable="true" editable="false" prefHeight="26.0" prefWidth="21.0" promptText="0" />
-            <Button layoutX="0.0" mnemonicParsing="false" onAction="#addLegAct" text="+" />
+            <Button mnemonicParsing="false" onAction="#addLegAct" text="+" />
         </HBox>
     </VBox>
     <CheckBox fx:id="lairActionCheckBox" layoutX="616.0" layoutY="539.0" text="Lair action" />

@@ -93,6 +93,12 @@ public class InitiativeController {
                     showAlert("HP can't be higher than max HP!");
                     return;
                 }
+
+                if(nameTextField.getText().length() > 20) {
+                    showAlert("The creature's name can't be more then 20 characters long.");
+                    return;
+                }
+
                 initiative.add(new Creature(nameTextField.getText(), getInitiative, getHP, getMaxHP, legRes, legAct));
 
                 nameTextField.setText("");

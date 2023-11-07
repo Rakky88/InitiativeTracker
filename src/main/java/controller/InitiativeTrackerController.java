@@ -71,7 +71,6 @@ public class InitiativeTrackerController {
     @FXML private CheckBox deathFailCheckBox3;
 
     //Textfields and TextAreas
-    @FXML private TextField creatureTurnTextfield;
     @FXML private TextField nameTextField;
     @FXML private TextField initiativeTextField;
     @FXML private TextField hpTextField;
@@ -86,6 +85,7 @@ public class InitiativeTrackerController {
     @FXML private TextField legResTextField;
     @FXML private TextField legActTextField;
     @FXML private TextArea extraInfoTextArea;
+    @FXML private Text creatureTurnText;
     @FXML private Text D20Roll;
     @FXML private Text doubleD20Roll1;
     @FXML private Text doubleD20Roll2;
@@ -385,10 +385,10 @@ public class InitiativeTrackerController {
      */
     public void setCreatureTurnTextField(){
         if (initiativeList.getItems().isEmpty()) {
-            creatureTurnTextfield.setText("No creature in initiative!");
+            creatureTurnText.setText("No creature in initiative!");
             return;
         }
-        creatureTurnTextfield.setText(initiativeList.getItems().get(0).getName());
+        creatureTurnText.setText(initiativeList.getItems().get(0).getName());
 
         initiativeList.getItems().get(0).setLegendaryActionsLeft(initiativeList.getItems().get(0).getLegendaryActions());
         updateCreatureStats();
@@ -398,7 +398,7 @@ public class InitiativeTrackerController {
      *
      */
     public void doAdd() {
-        if(doValidate()) {
+        if(validateCreature()) {
             try {
                 double getInitiative = Double.parseDouble(initiativeTextField.getText());
                 int getHP = Integer.parseInt(hpTextField.getText());
@@ -412,6 +412,11 @@ public class InitiativeTrackerController {
 
                 if (!legActTextField.getText().isEmpty()) {
                     legAct = Integer.parseInt(legActTextField.getText());
+                }
+
+                if(nameTextField.getText().length() > 20) {
+                    showAlert("The creature's name can't be more then 20 characters long.");
+                    return;
                 }
 
                 if(getHP <= getMaxHP) {
@@ -464,7 +469,7 @@ public class InitiativeTrackerController {
      *
      * @return: true als het overal aan voldoet.
      */
-    public boolean doValidate() {
+    public boolean validateCreature() {
         final int MINIMUM_HP = 0;
         String name = nameTextField.getText();
         String initiativeText = initiativeTextField.getText();
@@ -684,10 +689,10 @@ public class InitiativeTrackerController {
      */
     public void getRed(){
         final int MINIMUM_HP = 0;
-        final double COLOR_FLASH = 0.1;
+        final double COLOR_FLASH_TIME = 0.1;
 
         initiativeHPTextfield.setStyle("-fx-background-color: red;");
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(COLOR_FLASH), e -> {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(COLOR_FLASH_TIME), e -> {
             if(initiativeList.getSelectionModel().getSelectedItem().getHP() != MINIMUM_HP) {
                 initiativeHPTextfield.setStyle("");
             }
@@ -1620,15 +1625,6 @@ public class InitiativeTrackerController {
         D20Roll.setVisible(true);
     }
 
-    /**Deze methode haalt alle dobbelstenen die op het scherm te zien zijn weg.
-     *
-     */
-    public void removeDie(){
-        D20Roll.setVisible(false);
-        doubleD20Roll1.setVisible(false);
-        doubleD20Roll2.setVisible(false);
-    }
-
     /**Deze methode haalt mogelijke eerdere rolls van het scherm en laat dan in grote rode letters 2 keer een
      * random getal zien van 1 -20.
      */
@@ -1640,6 +1636,15 @@ public class InitiativeTrackerController {
         doubleD20Roll2.setText(String.valueOf(randomD20Roll2));
         doubleD20Roll1.setVisible(true);
         doubleD20Roll2.setVisible(true);
+    }
+
+    /**Deze methode haalt alle dobbelstenen die op het scherm te zien zijn weg.
+     *
+     */
+    public void removeDie(){
+        D20Roll.setVisible(false);
+        doubleD20Roll1.setVisible(false);
+        doubleD20Roll2.setVisible(false);
     }
 
     /**Met deze methode kan een error melding gegeven worden met een ingebrachte message.

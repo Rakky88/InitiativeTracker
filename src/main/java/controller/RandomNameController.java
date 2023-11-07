@@ -13,6 +13,9 @@ public class RandomNameController {
     private ArrayList<String> firstNameMale = new ArrayList<>();
     private ArrayList<String> firstNameFemale = new ArrayList<>();
     private ArrayList<String> lastName = new ArrayList<>();
+    private int indexFirstNameMale;
+    private int indexFirstNameFemale;
+    private int indexLastName;
 
     public void initialize(){
         initMaleFirstName();
@@ -25,19 +28,33 @@ public class RandomNameController {
     }
 
     public void doMaleName(){
-        int indexFirstName = (int) (Math.random() * firstNameMale.size());
-        int indexLastName = (int) (Math.random() * lastName.size());
+        int newIndexFirstNameMale = (int) (Math.random() * firstNameMale.size());
+        int newIndexLastName = (int) (Math.random() * lastName.size());
 
-        String maleFullName = firstNameMale.get(indexFirstName) + " " + lastName.get(indexLastName);
-        generatedName.setText(maleFullName);
+        if(newIndexFirstNameMale != indexFirstNameMale && newIndexLastName != indexLastName) {
+            indexFirstNameMale = newIndexFirstNameMale;
+            indexLastName = newIndexLastName;
+            String maleFullName = firstNameMale.get(indexFirstNameMale) + " " + lastName.get(indexLastName);
+            generatedName.setText(maleFullName);
+            return;
+        }
+
+        doMaleName();
     }
 
     public void doFemaleName(){
-        int indexFirstName = (int) (Math.random() * firstNameFemale.size());
-        int indexLastName = (int) (Math.random() * lastName.size());
+        int newIndexFirstNameFemale = (int) (Math.random() * firstNameFemale.size());
+        int newIndexLastName = (int) (Math.random() * lastName.size());
 
-        String femaleFullName = firstNameFemale.get(indexFirstName) + " " + lastName.get(indexLastName);
-        generatedName.setText(femaleFullName);
+        if(newIndexFirstNameFemale != indexFirstNameFemale && newIndexLastName != indexLastName) {
+            indexFirstNameFemale = newIndexFirstNameFemale;
+            indexLastName = newIndexLastName;
+            String femaleFullName = firstNameFemale.get(indexFirstNameFemale) + " " + lastName.get(indexLastName);
+            generatedName.setText(femaleFullName);
+            return;
+        }
+
+        doFemaleName();
     }
 
     public void initMaleFirstName(){

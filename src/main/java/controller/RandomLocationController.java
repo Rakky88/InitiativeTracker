@@ -11,6 +11,7 @@ public class RandomLocationController {
     @FXML
     private Label generatedLocation;
     private ArrayList<String> randomLocation = new ArrayList<>();
+    private int randomLocationIndex;
 
     public void initialize() {
         setRandomLocations();
@@ -21,10 +22,16 @@ public class RandomLocationController {
     }
 
     public void doLocation(){
-        int index = (int) (Math.random() * randomLocation.size());
+        int newRandomLocationIndex = (int) (Math.random() * randomLocation.size());
 
-        String theRandomLocation = randomLocation.get(index);
-        generatedLocation.setText(theRandomLocation);
+        if(newRandomLocationIndex != randomLocationIndex) {
+            randomLocationIndex = newRandomLocationIndex;
+            String theRandomLocation = randomLocation.get(randomLocationIndex);
+            generatedLocation.setText(theRandomLocation);
+            return;
+        }
+
+        doLocation();
     }
 
     public void setRandomLocations(){

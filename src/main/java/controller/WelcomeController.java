@@ -6,8 +6,6 @@ import javafx.scene.image.ImageView;
 import view.Main;
 import view.SceneManager;
 
-import java.io.FileNotFoundException;
-
 public class WelcomeController {
     private final SceneManager SCENEMANAGER = Main.getSceneManager();
     @FXML
@@ -15,7 +13,7 @@ public class WelcomeController {
     @FXML
     private Image backgroundImage;
 
-    public void initialize() throws FileNotFoundException {
+    public void initialize() {
         backgroundImage = new Image("file:src/main/resources/images/backgroundHomeScreen.png");
         backgroundImageView.setImage(backgroundImage);
     }

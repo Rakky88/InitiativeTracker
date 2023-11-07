@@ -7,11 +7,14 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Duration;
@@ -83,6 +86,7 @@ public class InitiativeTrackerController {
     @FXML private TextField legResTextField;
     @FXML private TextField legActTextField;
     @FXML private TextArea extraInfoTextArea;
+    @FXML private Text D20Roll;
 
     //Labels
     @FXML private Label legResNameText;
@@ -101,6 +105,8 @@ public class InitiativeTrackerController {
     @FXML private HBox exhaustionControls;
     @FXML private VBox legendaryControls;
     @FXML private Rectangle deathRedRectangle;
+    @FXML private ImageView D20ImageView;
+    @FXML private Image D20Image;
 
     /**De setup wordt gestarts wanneer de initiativeTrackerScene.fxml wordt geopend. Hierbij wordt de initiativelijst gevuld met
      * eerder ingevoerde creatures en andere textfields gevuld. Verder wordt een drag/drop-systeem geinitialiseerd
@@ -140,6 +146,10 @@ public class InitiativeTrackerController {
         deathFailCheckBox1.setVisible(false);
         deathFailCheckBox2.setVisible(false);
         deathFailCheckBox3.setVisible(false);
+        D20Roll.setVisible(false);
+
+        D20Image = new Image("file:src/main/resources/images/D20.png");
+        D20ImageView.setImage(D20Image);
 
         setCreatureTurnTextField();
         updateCreatureStats();
@@ -1577,6 +1587,16 @@ public class InitiativeTrackerController {
         if (initiativeList.getSelectionModel().getSelectedItem().getDeathFails() == 3) {
             showInfo("This creature is now dead!");
         }
+    }
+
+    public void rollD20(){
+        int randomD20Roll = (int) (Math.random() * 20 + 1);
+        D20Roll.setText(String.valueOf(randomD20Roll));
+        D20Roll.setVisible(true);
+    }
+
+    public void removeDie(){
+        D20Roll.setVisible(false);
     }
 
     /**Met deze methode kan een error melding gegeven worden met een ingebrachte message.

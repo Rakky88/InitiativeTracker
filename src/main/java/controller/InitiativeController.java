@@ -20,8 +20,8 @@ import java.util.stream.Collectors;
 public class InitiativeController {
     private final SceneManager SCENEMANAGER = Main.getSceneManager();
     private ArrayList<Creature> initiative = new ArrayList<>();
-    private static int legendaryResistances = 0;
-    private static int legendaryActions = 0;
+
+    //Checkboxxes
     @FXML
     private CheckBox lairActionCheckBox;
     @FXML
@@ -119,11 +119,7 @@ public class InitiativeController {
             showAlert("Your initiative list is empty!");
         }
 
-        if(lairActionCheckBox.isSelected()) {
-            SCENEMANAGER.showInitiativeTrackerScene(initiative, true);
-        } else {
-            SCENEMANAGER.showInitiativeTrackerScene(initiative, false);
-        }
+        SCENEMANAGER.showInitiativeTrackerScene(initiative, lairActionCheckBox.isSelected());
     }
 
     /**Met deze methode wordt een creature uit de initiativeList gehaald.

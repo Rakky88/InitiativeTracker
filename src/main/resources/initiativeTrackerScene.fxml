@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
@@ -206,11 +207,6 @@
     <CheckBox fx:id="legActCheckBox3" layoutX="665.0" layoutY="546.0" onAction="#handleLegActCheckBox" />
     <CheckBox fx:id="legActCheckBox4" layoutX="685.0" layoutY="546.0" onAction="#handleLegActCheckBox" />
     <CheckBox fx:id="legActCheckBox5" layoutX="705.0" layoutY="546.0" onAction="#handleLegActCheckBox" />
-    <Label layoutX="742.0" layoutY="568.0" text="Copyright © 2023 Rakky88">
-        <font>
-            <Font size="12.0" />
-        </font>
-    </Label>
     <Button fx:id="copyCreatureButton" layoutX="857.0" layoutY="485.0" mnemonicParsing="false" onAction="#copyCreature" text="+">
         <font>
             <Font size="10.0" />
@@ -237,10 +233,26 @@
             <Font size="14" />
         </font>
     </Label>
-    <CheckBox fx:id="deathSaveCheckBox1" layoutX="645.0" layoutY="433.0" onAction="#handleDeathSave"/>
-    <CheckBox fx:id="deathSaveCheckBox2" layoutX="668.0" layoutY="433.0" onAction="#handleDeathSave"/>
-    <CheckBox fx:id="deathSaveCheckBox3" layoutX="692.0" layoutY="433.0" onAction="#handleDeathSave"/>
-    <CheckBox fx:id="deathFailCheckBox1" layoutX="755.0" layoutY="433.0" onAction="#handleDeathFail"/>
-    <CheckBox fx:id="deathFailCheckBox2" layoutX="779.0" layoutY="433.0" onAction="#handleDeathFail"/>
-    <CheckBox fx:id="deathFailCheckBox3" layoutX="804.0" layoutY="433.0" onAction="#handleDeathFail"/>
+    <CheckBox fx:id="deathSaveCheckBox1" layoutX="645.0" layoutY="433.0" onAction="#handleDeathSave" />
+    <CheckBox fx:id="deathSaveCheckBox2" layoutX="668.0" layoutY="433.0" onAction="#handleDeathSave" />
+    <CheckBox fx:id="deathSaveCheckBox3" layoutX="692.0" layoutY="433.0" onAction="#handleDeathSave" />
+    <CheckBox fx:id="deathFailCheckBox1" layoutX="755.0" layoutY="433.0" onAction="#handleDeathFail" />
+    <CheckBox fx:id="deathFailCheckBox2" layoutX="779.0" layoutY="433.0" onAction="#handleDeathFail" />
+    <CheckBox fx:id="deathFailCheckBox3" layoutX="804.0" layoutY="433.0" onAction="#handleDeathFail" />
+    <ImageView fx:id="D20ImageView" fitHeight="58.0" fitWidth="62.0" layoutX="125.0" layoutY="381.0" onMouseClicked="#rollD20">
+        <image>
+            <Image fx:id="D20Image" url="@../../../src/main/resources/images/D20.png" />
+        </image>
+    </ImageView>
+    <Text fx:id="D20Roll" fill="RED" layoutX="335.0" layoutY="366.0" onMouseMoved="#removeDie">
+        <font>
+            <Font name="System Bold" size="200.0" />
+        </font>
+        20
+    </Text>
+    <Label layoutX="742.0" layoutY="568.0" text="Copyright © 2023 Rakky88">
+        <font>
+            <Font size="12.0" />
+        </font>
+    </Label>
 </AnchorPane>

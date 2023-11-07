@@ -73,7 +73,7 @@ public class InitiativeController {
      *
      */
     public void doAdd() {
-        if(doValidate()) {
+        if(validateCreature()) {
             try {
                 double getInitiative = Double.parseDouble(initiativeTextField.getText());
                 int getHP = Integer.parseInt(hpTextField.getText());
@@ -87,16 +87,6 @@ public class InitiativeController {
 
                 if (!legActTextField.getText().isEmpty()) {
                     legAct = Integer.parseInt(legActTextField.getText());
-                }
-
-                if (getHP > getMaxHP) {
-                    showAlert("HP can't be higher than max HP!");
-                    return;
-                }
-
-                if(nameTextField.getText().length() > 20) {
-                    showAlert("The creature's name can't be more then 20 characters long.");
-                    return;
                 }
 
                 initiative.add(new Creature(nameTextField.getText(), getInitiative, getHP, getMaxHP, legRes, legAct));
@@ -144,7 +134,7 @@ public class InitiativeController {
      *
      * @return: true als het overal aan voldoet.
      */
-    public boolean doValidate() {
+    public boolean validateCreature() {
         String name = nameTextField.getText();
         String initiativeText = initiativeTextField.getText();
         String hpText = hpTextField.getText();
@@ -167,6 +157,16 @@ public class InitiativeController {
 
         if (Integer.parseInt(hpText) < 0 || Integer.parseInt(maxHPText) < 0) {
             showAlert("You can't add a creature with less then 0 (max) HP.");
+            return false;
+        }
+
+        if(nameTextField.getText().length() > 20) {
+            showAlert("The creature's name can't be more then 20 characters long.");
+            return false;
+        }
+
+        if (Integer.parseInt(hpText) > Integer.parseInt(maxHPText)) {
+            showAlert("HP can't be higher than max HP!");
             return false;
         }
 

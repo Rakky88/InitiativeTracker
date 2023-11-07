@@ -24,8 +24,8 @@ import view.SceneManager;
 import java.util.ArrayList;
 import java.util.Optional;
 
-/**Deze class is gelinkt met initiativeTrackerScene.fxml en geeft een scherm weer waar je initiative bij kan houden tijdens
- * Dnd. Verder kan je nog verschillende dingen bijhouden voor de creatures in de initiative lijst.
+/**Deze class is gelinkt met initiativeTrackerScene.fxml en geeft een scherm weer waar je initiative bij kan houden
+ * tijdens Dnd. Verder kan je nog verschillende dingen bijhouden voor de creatures in de initiative lijst.
  *
  * @author R.Groot
  */
@@ -414,26 +414,17 @@ public class InitiativeTrackerController {
                     legAct = Integer.parseInt(legActTextField.getText());
                 }
 
-                if(nameTextField.getText().length() > 20) {
-                    showAlert("The creature's name can't be more then 20 characters long.");
-                    return;
-                }
+                initiativeList.getItems().add(new Creature(nameTextField.getText(), getInitiative, getHP, getMaxHP, legRes, legAct));
 
-                if(getHP <= getMaxHP) {
-                    initiativeList.getItems().add(new Creature(nameTextField.getText(), getInitiative, getHP, getMaxHP, legRes, legAct));
+                nameTextField.setText("");
+                initiativeTextField.setText("");
+                hpTextField.setText("");
+                maxHPTextField.setText("");
+                legResTextField.setText("0");
+                legActTextField.setText("0");
+                legendaryCheckBox.setSelected(false);
+                legendaryControls.setVisible(false);
 
-                    nameTextField.setText("");
-                    initiativeTextField.setText("");
-                    hpTextField.setText("");
-                    maxHPTextField.setText("");
-                    legResTextField.setText("0");
-                    legActTextField.setText("0");
-                    legendaryCheckBox.setSelected(false);
-                    legendaryControls.setVisible(false);
-                    return;
-                }
-                showAlert("HP can't be higher then max HP!");
-                setCreatureTurnTextField();
             } catch (NumberFormatException exception) {
                 showAlert("Initiative and HP must be valid numbers!");
             }
@@ -496,6 +487,16 @@ public class InitiativeTrackerController {
 
         if (Integer.parseInt(hpText) < MINIMUM_HP || Integer.parseInt(maxHPText) < MINIMUM_HP) {
             showAlert("You can't add a creature with less then 0 (max) HP.");
+            return false;
+        }
+
+        if(name.length() > 20) {
+            showAlert("The creature's name can't be more then 20 characters long.");
+            return false;
+        }
+
+        if(Integer.parseInt(hpText) > Integer.parseInt(maxHPText)) {
+            showAlert("HP can't be higher then max HP!");
             return false;
         }
 
@@ -1586,6 +1587,11 @@ public class InitiativeTrackerController {
         }
 
         initiativeList.getSelectionModel().getSelectedItem().setDeathSaves(deathSavesMade);
+
+        if (initiativeList.getSelectionModel().getSelectedItem().getDeathSaves() == 3) {
+            int roll1d4 = (int) (Math.random() * 4 + 1);
+            showInfo("This creature is now stable at 0hp!\nIt will be unconscious for " + roll1d4 + " hours.");
+        }
     }
 
     /**Deze methode houdt de gefaalde death saves bij. Bij 3 gefaalde deathsaves krijgt de gebruiker

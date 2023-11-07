@@ -294,7 +294,7 @@ public class InitiativeTrackerController {
                 concentrating on a previously cast spell (Like Bless or Bane).\s
                 Typically, you make a Constitution saving throw to maintain concentration on the spell.\s
                 The DC equals 10 or half the damage taken, whichever number is higher.
-                ou lose concentration on a spell if you cast another spell that requires concentration.\s
+                You lose concentration on a spell if you cast another spell that requires concentration.\s
                 You can't concentrate on two spells at once.""");
         setTooltip(blindedCheckBox, "- A blinded creature can’t see and automatically fails any ability check that requires sight.\n" +
                         "- Attack rolls against the creature have advantage, and the creature's attack rolls have disadvantage.");
@@ -395,7 +395,7 @@ public class InitiativeTrackerController {
      */
     public void setCreatureTurnTextField(){
         if (initiativeList.getItems().isEmpty()) {
-            creatureTurnText.setText("No creature in initiative!");
+            creatureTurnText.setText("");
             return;
         }
         creatureTurnText.setText(initiativeList.getItems().get(0).getName());

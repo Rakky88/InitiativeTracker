@@ -1191,8 +1191,9 @@ public class InitiativeTrackerController {
     /**Met deze methode gaat de round counter met 1 omhoog.
      *
      */
-    public void doAddRound(){
+    public void addRound(){
         final int SINGLE_ROUND_ADDED = 1;
+        
         int round = Integer.parseInt(roundTextField.getText());
         int newRound = round + SINGLE_ROUND_ADDED;
         roundTextField.setText(String.valueOf(newRound));
@@ -1201,11 +1202,17 @@ public class InitiativeTrackerController {
     /**Met deze methode gaat de round counter met 1 omlaag.
      *
      */
-    public void doLowerRound(){
+    public void lowerRound(){
+        final int MINIMUM_ROUND = 0;
         final int SINGLE_ROUND_REMOVED = 1;
+
         int round = Integer.parseInt(roundTextField.getText());
-        int newRound = round - SINGLE_ROUND_REMOVED;
-        roundTextField.setText(String.valueOf(newRound));
+        if(round != MINIMUM_ROUND) {
+            int newRound = round - SINGLE_ROUND_REMOVED;
+            roundTextField.setText(String.valueOf(newRound));
+        } else {
+            showAlert("Round count can't go below 0!");
+        }
     }
 
     /**Met deze methode wordt bijgehouden of de gehele iniativeList is geweest. Als true: dan gaat de round counter
@@ -1237,7 +1244,7 @@ public class InitiativeTrackerController {
                 if(amountHighestInitiative != amountHighestInitiativeTurnTaken) {
                     amountHighestInitiativeTurnTaken++;
                 }else {
-                    doAddRound();
+                    addRound();
                     amountHighestInitiativeTurnTaken = MINIMUM_AMOUNT_HIGHEST_INITIATIVE_TURN_TAKEN;
                 }
             }

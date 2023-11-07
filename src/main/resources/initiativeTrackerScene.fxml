@@ -27,12 +27,12 @@
             <Font size="25.0" />
         </font>
     </Label>
-    <Button layoutX="415.0" layoutY="131.0" mnemonicParsing="false" onAction="#doAddRound" text="+">
+    <Button layoutX="415.0" layoutY="131.0" mnemonicParsing="false" onAction="#addRound" text="+">
         <font>
             <Font size="10.0" />
         </font>
     </Button>
-    <Button layoutX="361.0" layoutY="131.0" mnemonicParsing="false" onAction="#doLowerRound" prefHeight="18.0" prefWidth="16.0" text="-">
+    <Button layoutX="361.0" layoutY="131.0" mnemonicParsing="false" onAction="#lowerRound" prefHeight="18.0" prefWidth="16.0" text="-">
         <font>
             <Font size="10.0" />
         </font>

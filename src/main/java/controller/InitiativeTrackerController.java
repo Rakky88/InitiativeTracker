@@ -4,7 +4,6 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -209,46 +208,40 @@ public class InitiativeTrackerController {
                     }
                 };
 
-                cell.setOnDragDetected(new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent event) {
-                        Dragboard db = cell.startDragAndDrop(TransferMode.MOVE);
-                        ClipboardContent content = new ClipboardContent();
-                        content.putString(String.valueOf(cell.getIndex()));
-                        db.setContent(content);
-                        event.consume();
-                    }
+                cell.setOnDragDetected(event -> {
+                    Dragboard db = cell.startDragAndDrop(TransferMode.MOVE);
+                    ClipboardContent content = new ClipboardContent();
+                    content.putString(String.valueOf(cell.getIndex()));
+                    db.setContent(content);
+                    event.consume();
                 });
 
-                cell.setOnDragOver(new EventHandler<DragEvent>() {
-                    public void handle(DragEvent event) {
-                        if (event.getDragboard().hasString()) {
-                            if (cell.getIndex() != Integer.parseInt(event.getDragboard().getString())) {
-                                event.acceptTransferModes(TransferMode.MOVE);
-                            }
+                cell.setOnDragOver(event -> {
+                    if (event.getDragboard().hasString()) {
+                        if (cell.getIndex() != Integer.parseInt(event.getDragboard().getString())) {
+                            event.acceptTransferModes(TransferMode.MOVE);
                         }
-                        event.consume();
                     }
+                    event.consume();
                 });
 
-                cell.setOnDragDropped(new EventHandler<DragEvent>() {
-                    public void handle(DragEvent event) {
-                        Dragboard db = event.getDragboard();
-                        boolean success = false;
-                        if (db.hasString()) {
-                            int draggedIndex = Integer.parseInt(db.getString());
-                            Creature draggedCreature = initiativeList.getItems().get(draggedIndex);
+                cell.setOnDragDropped(event -> {
+                    Dragboard db = event.getDragboard();
+                    boolean success = false;
+                    if (db.hasString()) {
+                        int draggedIndex = Integer.parseInt(db.getString());
+                        Creature draggedCreature = initiativeList.getItems().get(draggedIndex);
 
-                            int dropIndex = cell.getIndex();
-                            ObservableList<Creature> items = FXCollections.observableArrayList(initiativeList.getItems());
-                            items.remove(draggedIndex);
-                            items.add(dropIndex, draggedCreature);
-                            initiativeList.setItems(items);
+                        int dropIndex = cell.getIndex();
+                        ObservableList<Creature> items = FXCollections.observableArrayList(initiativeList.getItems());
+                        items.remove(draggedIndex);
+                        items.add(dropIndex, draggedCreature);
+                        initiativeList.setItems(items);
 
-                            success = true;
-                        }
-                        event.setDropCompleted(success);
-                        event.consume();
+                        success = true;
                     }
+                    event.setDropCompleted(success);
+                    event.consume();
                 });
 
                 return cell;
@@ -296,77 +289,94 @@ public class InitiativeTrackerController {
      *
      */
     public void initialize(){
-        setTooltip(concentrationCheckBox, "A Concentration check is used when you take damage in combat and you are currently \n" +
-                "concentrating on a previously cast spell (Like Bless or Bane). \n" +
-                "Typically, you make a Constitution saving throw to maintain concentration on the spell. \n" +
-                "The DC equals 10 or half the damage taken, whichever number is higher.\n" +
-                "ou lose concentration on a spell if you cast another spell that requires concentration. \n" +
-                "You can't concentrate on two spells at once.");
+        setTooltip(concentrationCheckBox, """
+                A Concentration check is used when you take damage in combat and you are currently\s
+                concentrating on a previously cast spell (Like Bless or Bane).\s
+                Typically, you make a Constitution saving throw to maintain concentration on the spell.\s
+                The DC equals 10 or half the damage taken, whichever number is higher.
+                ou lose concentration on a spell if you cast another spell that requires concentration.\s
+                You can't concentrate on two spells at once.""");
         setTooltip(blindedCheckBox, "- A blinded creature can’t see and automatically fails any ability check that requires sight.\n" +
                         "- Attack rolls against the creature have advantage, and the creature's attack rolls have disadvantage.");
         setTooltip(charmedCheckBox, "- A charmed creature can’t attack the charmer or target the charmer with harmful abilities or magical effects.\n" +
                 "- The charmer has advantage on any ability check to interact socially with the creature.");
         setTooltip(deafenedCheckBox, "- A deafened creature can’t hear and automatically fails any ability check that requires hearing.");
-        setTooltip(frightenedCheckBox, "- A frightened creature has disadvantage on ability checks and attack rolls while the source of " +
-                "\n  its fear is within line of sight.\n" +
-                "- The creature can’t willingly move closer to the source of its fear.");
-        setTooltip(grappledCheckBox, "- A grappled creature’s speed becomes 0, and it can’t benefit from any bonus to its speed.\n" +
-                "- The condition ends if the grappler is incapacitated (see the condition).\n" +
-                "- The condition also ends if an effect removes the grappled creature from the reach of the grappler or grappling effect, " +
-                "\n  such as when a creature is hurled away by the thunderwave spell.");
+        setTooltip(frightenedCheckBox, """
+                - A frightened creature has disadvantage on ability checks and attack rolls while the source of\s
+                  its fear is within line of sight.
+                - The creature can’t willingly move closer to the source of its fear.""");
+        setTooltip(grappledCheckBox, """
+                - A grappled creature’s speed becomes 0, and it can’t benefit from any bonus to its speed.
+                - The condition ends if the grappler is incapacitated (see the condition).
+                - The condition also ends if an effect removes the grappled creature from the reach of the grappler or grappling effect,\s
+                  such as when a creature is hurled away by the thunderwave spell.""");
         setTooltip(incapacitatedCheckBox, "- An incapacitated creature can’t take actions or reactions.");
-        setTooltip(invisibleCheckBox, "- An invisible creature is impossible to see without the aid of magic or a special sense. " +
-                "\n  For the purpose of hiding, the creature is heavily obscured. " +
-                "\n  The creature’s location can be detected by any noise it makes or any tracks it leaves.\n" +
-                "- Attack rolls against the creature have disadvantage, and the creature’s attack rolls have advantage.");
-        setTooltip(paralyzedCheckBox, "- A paralyzed creature is incapacitated (see the condition) and can’t move or speak.\n" +
-                "- The creature automatically fails Strength and Dexterity saving throws.\n" +
-                "- Attack rolls against the creature have advantage.\n" +
-                "- Any attack that hits the creature is a critical hit if the attacker is within 5 feet of the creature.");
-        setTooltip(petrifiedCheckBox, "- A petrified creature is transformed, along with any nonmagical object it is wearing or carrying, " +
-                "\n  into a solid inanimate substance (usually stone). " +
-                "\n  Its weight increases by a factor of ten, and it ceases aging.\n" +
-                "- The creature is incapacitated (see the condition), can’t move or speak, and is unaware of its surroundings.\n" +
-                "- Attack rolls against the creature have advantage.\n" +
-                "- The creature automatically fails Strength and Dexterity saving throws.\n" +
-                "- The creature has resistance to all damage.\n" +
-                "- The creature is immune to poison and disease, although a poison or disease already in its system is suspended, not neutralized.");
+        setTooltip(invisibleCheckBox, """
+                - An invisible creature is impossible to see without the aid of magic or a special sense.\s
+                  For the purpose of hiding, the creature is heavily obscured.\s
+                  The creature’s location can be detected by any noise it makes or any tracks it leaves.
+                - Attack rolls against the creature have disadvantage, and the creature’s attack rolls have advantage.""");
+        setTooltip(paralyzedCheckBox, """
+                - A paralyzed creature is incapacitated (see the condition) and can’t move or speak.
+                - The creature automatically fails Strength and Dexterity saving throws.
+                - Attack rolls against the creature have advantage.
+                - Any attack that hits the creature is a critical hit if the attacker is within 5 feet of the creature.""");
+        setTooltip(petrifiedCheckBox, """
+                - A petrified creature is transformed, along with any nonmagical object it is wearing or carrying,\s
+                  into a solid inanimate substance (usually stone).\s
+                  Its weight increases by a factor of ten, and it ceases aging.
+                - The creature is incapacitated (see the condition), can’t move or speak, and is unaware of its surroundings.
+                - Attack rolls against the creature have advantage.
+                - The creature automatically fails Strength and Dexterity saving throws.
+                - The creature has resistance to all damage.
+                - The creature is immune to poison and disease, although a poison or disease already in its system is suspended, not neutralized.""");
         setTooltip(poisonedCheckBox, "- A poisoned creature has disadvantage on attack rolls and ability checks.");
-        setTooltip(proneCheckBox, "- A prone creature’s only movement option is to crawl, unless it stands up and thereby ends the condition.\n" +
-                "- The creature has disadvantage on attack rolls.\n" +
-                "- An attack roll against the creature has advantage if the attacker is within 5 feet of the creature. Otherwise, the attack roll has disadvantage.");
-        setTooltip(restrainedCheckBox, "- A restrained creature’s speed becomes 0, and it can’t benefit from any bonus to its speed.\n" +
-                "- Attack rolls against the creature have advantage, and the creature’s attack rolls have disadvantage.\n" +
-                "- The creature has disadvantage on Dexterity saving throws.");
-        setTooltip(stunnedCheckBox, "- A stunned creature is incapacitated (see the condition), can’t move, and can speak only falteringly.\n" +
-                "- The creature automatically fails Strength and Dexterity saving throws.\n" +
-                "- Attack rolls against the creature have advantage.");
-        setTooltip(unconsciousCheckBox, "- An unconscious creature is incapacitated (see the condition), can’t move or speak, and is unaware of its surroundings\n" +
-                "- The creature drops whatever it’s holding and falls prone.\n" +
-                "- The creature automatically fails Strength and Dexterity saving throws.\n" +
-                "- Attack rolls against the creature have advantage.\n" +
-                "- Any attack that hits the creature is a critical hit if the attacker is within 5 feet of the creature.");
-        setTooltip(exhaustionCheckBox, "Some special abilities and environmental hazards, such as starvation and the long-term effects of freezing or scorching temperatures, \n" +
-                "can lead to a special condition called exhaustion. Exhaustion is measured in six levels. \n" +
-                "An effect can give a creature one or more levels of exhaustion, as specified in the effect’s description.\n\n" +
-                "Exhaustion Effects levels:\n" +
-                "\t1. Disadvantage on ability checks\n" +
-                "\t2. Speed halved\n" +
-                "\t3. Disadvantage on attack rolls and saving throws\n" +
-                "\t4. Hit point maximum halved\n" +
-                "\t5. Speed reduced to 0\n" +
-                "\t6. Death\n" +
-                "\nIf an already exhausted creature suffers another effect that causes exhaustion, \n" +
-                "its current level of exhaustion increases by the amount specified in the effect’s description.\n" +
-                "\nA creature suffers the effect of its current level of exhaustion as well as all lower levels. \n" +
-                "For example, a creature suffering level 2 exhaustion has its speed halved and has disadvantage on ability checks.\n" +
-                "\nAn effect that removes exhaustion reduces its level as specified in the effect’s description, \n" +
-                "with all exhaustion effects ending if a creature’s exhaustion level is reduced below 1.\n" +
-                "\nFinishing a long rest reduces a creature’s exhaustion level by 1, \n" +
-                "provided that the creature has also ingested some food and drink.");
-        Tooltip copyCreatureButtonToolTip = new Tooltip("This button creates a copy of a creature for in the initiativelist.\n" +
-                "This copy's turn will be skipped. You can use this to keep track\n" +
-                "of a group of the same creatures with the same initiative.");
+        setTooltip(proneCheckBox, """
+                - A prone creature’s only movement option is to crawl, unless it stands up and thereby ends the condition.
+                - The creature has disadvantage on attack rolls.
+                - An attack roll against the creature has advantage if the attacker is within 5 feet of the creature. Otherwise, the attack roll has disadvantage.""");
+        setTooltip(restrainedCheckBox, """
+                - A restrained creature’s speed becomes 0, and it can’t benefit from any bonus to its speed.
+                - Attack rolls against the creature have advantage, and the creature’s attack rolls have disadvantage.
+                - The creature has disadvantage on Dexterity saving throws.""");
+        setTooltip(stunnedCheckBox, """
+                - A stunned creature is incapacitated (see the condition), can’t move, and can speak only falteringly.
+                - The creature automatically fails Strength and Dexterity saving throws.
+                - Attack rolls against the creature have advantage.""");
+        setTooltip(unconsciousCheckBox, """
+                - An unconscious creature is incapacitated (see the condition), can’t move or speak, and is unaware of its surroundings
+                - The creature drops whatever it’s holding and falls prone.
+                - The creature automatically fails Strength and Dexterity saving throws.
+                - Attack rolls against the creature have advantage.
+                - Any attack that hits the creature is a critical hit if the attacker is within 5 feet of the creature.""");
+        setTooltip(exhaustionCheckBox, """
+                Some special abilities and environmental hazards, such as starvation and the long-term effects of freezing or scorching temperatures,\s
+                can lead to a special condition called exhaustion. Exhaustion is measured in six levels.\s
+                An effect can give a creature one or more levels of exhaustion, as specified in the effect’s description.
+
+                Exhaustion Effects levels:
+                \t1. Disadvantage on ability checks
+                \t2. Speed halved
+                \t3. Disadvantage on attack rolls and saving throws
+                \t4. Hit point maximum halved
+                \t5. Speed reduced to 0
+                \t6. Death
+
+                If an already exhausted creature suffers another effect that causes exhaustion,\s
+                its current level of exhaustion increases by the amount specified in the effect’s description.
+
+                A creature suffers the effect of its current level of exhaustion as well as all lower levels.\s
+                For example, a creature suffering level 2 exhaustion has its speed halved and has disadvantage on ability checks.
+
+                An effect that removes exhaustion reduces its level as specified in the effect’s description,\s
+                with all exhaustion effects ending if a creature’s exhaustion level is reduced below 1.
+
+                Finishing a long rest reduces a creature’s exhaustion level by 1,\s
+                provided that the creature has also ingested some food and drink.""");
+        Tooltip copyCreatureButtonToolTip = new Tooltip("""
+                This button creates a copy of a creature for in the initiativelist.
+                This copy's turn will be skipped. You can use this to keep track
+                of a group of the same creatures with the same initiative.""");
         copyCreatureButton.setTooltip(copyCreatureButtonToolTip);
     }
 
@@ -637,22 +647,14 @@ public class InitiativeTrackerController {
                     initiativeList.getSelectionModel().getSelectedItem().setTempHP(MINIMUM_TEMP_HP);
                     tempHP = initiativeList.getSelectionModel().getSelectedItem().getTempHP();
                     tempHPTextField.setText(String.valueOf(tempHP));
-                    if (hpCreature - overflow > MINIMUM_HP) {
-                        initiativeList.getSelectionModel().getSelectedItem().setHP(hpCreature - overflow);
-                    } else {
-                        initiativeList.getSelectionModel().getSelectedItem().setHP(MINIMUM_HP);
-                    }
+                    initiativeList.getSelectionModel().getSelectedItem().setHP(Math.max(hpCreature - overflow, MINIMUM_HP));
                     initiativeHPTextfield.setText(initiativeList.getSelectionModel().getSelectedItem().getHP() + " / " +
                             initiativeList.getSelectionModel().getSelectedItem().getMaxHP());
 
                     getRed();
                 }
             } else {
-                if (hpCreature - removedHP > MINIMUM_HP) {
-                    initiativeList.getSelectionModel().getSelectedItem().setHP(hpCreature - removedHP);
-                } else {
-                    initiativeList.getSelectionModel().getSelectedItem().setHP(MINIMUM_HP);
-                }
+                initiativeList.getSelectionModel().getSelectedItem().setHP(Math.max(hpCreature - removedHP, MINIMUM_HP));
                 initiativeHPTextfield.setText(initiativeList.getSelectionModel().getSelectedItem().getHP() + " / " +
                         initiativeList.getSelectionModel().getSelectedItem().getMaxHP());
 
@@ -762,11 +764,7 @@ public class InitiativeTrackerController {
                     legResCheckBox3.setVisible(false);
                     legResCheckBox4.setVisible(false);
                     legResCheckBox5.setVisible(false);
-                    if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryResistancesLeft() == 0) {
-                        legResCheckBox1.setSelected(true);
-                    } else {
-                        legResCheckBox1.setSelected(false);
-                    }
+                    legResCheckBox1.setSelected(initiativeList.getSelectionModel().getSelectedItem().getLegendaryResistancesLeft() == 0);
                 }
 
                 if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryActions() == 1) {
@@ -776,11 +774,7 @@ public class InitiativeTrackerController {
                     legActCheckBox3.setVisible(false);
                     legActCheckBox4.setVisible(false);
                     legActCheckBox5.setVisible(false);
-                    if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryActionsLeft() == 0) {
-                        legActCheckBox1.setSelected(true);
-                    } else {
-                        legActCheckBox1.setSelected(false);
-                    }
+                    legActCheckBox1.setSelected(initiativeList.getSelectionModel().getSelectedItem().getLegendaryActionsLeft() == 0);
                 }
 
                 if(initiativeList.getSelectionModel().getSelectedItem().getLegendaryResistances() == 2) {
@@ -1387,9 +1381,7 @@ public class InitiativeTrackerController {
 
             initiativeHPTextfield.setStyle("-fx-background-color: green;");
             Timeline timeline = new Timeline(
-                    new KeyFrame(Duration.seconds(COLOR_FLASH), e -> {
-                        initiativeHPTextfield.setStyle(selectedCreature.getHP() == MINIMUM_HP ? "-fx-background-color: red;": "");
-                   })
+                    new KeyFrame(Duration.seconds(COLOR_FLASH), e -> initiativeHPTextfield.setStyle(selectedCreature.getHP() == MINIMUM_HP ? "-fx-background-color: red;": ""))
             );
             timeline.play();
         }
@@ -1421,7 +1413,7 @@ public class InitiativeTrackerController {
                 initiativeList.getSelectionModel().getSelectedItem().setAC(Integer.parseInt(newValue));
             });
         }catch (NumberFormatException e) {
-
+            showAlert("You must enter a whole number!");
         }
     }
 

@@ -1208,7 +1208,11 @@ public class InitiativeTrackerController {
             return;
         }
 
+
         tempHPTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.isEmpty()) {
+                newValue = "0";
+            }
             int tempHP = 0;
             try {
                 tempHP = Integer.parseInt(newValue);
@@ -1605,6 +1609,9 @@ public class InitiativeTrackerController {
         }
     }
 
+    /**Deze methode haalt mogelijke eerdere rolls van het scherm en laat dan in grote rode letters 1 keer een
+     * random getal zien van 1 -20.
+     */
     public void rollD20(){
         doubleD20Roll1.setVisible(false);
         doubleD20Roll2.setVisible(false);
@@ -1613,10 +1620,18 @@ public class InitiativeTrackerController {
         D20Roll.setVisible(true);
     }
 
+    /**Deze methode haalt alle dobbelstenen die op het scherm te zien zijn weg.
+     *
+     */
     public void removeDie(){
         D20Roll.setVisible(false);
+        doubleD20Roll1.setVisible(false);
+        doubleD20Roll2.setVisible(false);
     }
 
+    /**Deze methode haalt mogelijke eerdere rolls van het scherm en laat dan in grote rode letters 2 keer een
+     * random getal zien van 1 -20.
+     */
     public void roll2D20(){
         D20Roll.setVisible(false);
         int randomD20Roll1 = (int) (Math.random() * 20 + 1);
@@ -1625,11 +1640,6 @@ public class InitiativeTrackerController {
         doubleD20Roll2.setText(String.valueOf(randomD20Roll2));
         doubleD20Roll1.setVisible(true);
         doubleD20Roll2.setVisible(true);
-    }
-
-    public void remove2Die(){
-        doubleD20Roll1.setVisible(false);
-        doubleD20Roll2.setVisible(false);
     }
 
     /**Met deze methode kan een error melding gegeven worden met een ingebrachte message.

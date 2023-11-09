@@ -1345,9 +1345,10 @@ public class InitiativeTrackerController {
             deathFailCheckBox1.setVisible(true);
             deathFailCheckBox2.setVisible(true);
             deathFailCheckBox3.setVisible(true);
-            deathFailCheckBox1.isSelected();
-            deathFailCheckBox2.isSelected();
-            deathFailCheckBox3.isSelected();
+            deathFailCheckBox1.setSelected(true);
+            deathFailCheckBox2.setSelected(true);
+            deathFailCheckBox3.setSelected(true);
+            initiativeList.getSelectionModel().getSelectedItem().setDeathFails(3);
 
             showInfo("This creature is now dead!");
         }

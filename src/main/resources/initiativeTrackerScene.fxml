@@ -239,25 +239,25 @@
     <CheckBox fx:id="deathFailCheckBox1" layoutX="755.0" layoutY="433.0" onAction="#handleDeathFail" />
     <CheckBox fx:id="deathFailCheckBox2" layoutX="779.0" layoutY="433.0" onAction="#handleDeathFail" />
     <CheckBox fx:id="deathFailCheckBox3" layoutX="804.0" layoutY="433.0" onAction="#handleDeathFail" />
-    <ImageView fx:id="D20ImageView" fitHeight="36.0" fitWidth="38.0" layoutX="116.0" layoutY="363.0" onMouseClicked="#rollD20">
+    <ImageView fx:id="d20ImageView" fitHeight="36.0" fitWidth="38.0" layoutX="116.0" layoutY="363.0" onMouseClicked="#rollD20">
         <image>
-            <Image fx:id="D20Image" url="@../../../src/main/resources/images/D20.png" />
+            <Image fx:id="d20Image" url="@../../../src/main/resources/images/D20.png" />
         </image>
     </ImageView>
-    <Text fx:id="D20Roll" fill="RED" layoutX="335.0" layoutY="366.0" onMouseMoved="#removeDie">
+    <Text fx:id="d20Roll" fill="RED" layoutX="335.0" layoutY="366.0" onMouseMoved="#removeDie">
         <font>
             <Font name="System Bold" size="200.0" />
         </font>
         20
     </Text>
-    <ImageView fx:id="D20DoubleImageview1" fitHeight="36.0" fitWidth="38.0" layoutX="116.0" layoutY="406.0" onMouseClicked="#roll2D20">
+    <ImageView fx:id="d20DoubleImageview1" fitHeight="36.0" fitWidth="38.0" layoutX="116.0" layoutY="406.0" onMouseClicked="#roll2D20">
         <image>
-            <Image fx:id="D20DoubleImage1" url="@../../../src/main/resources/images/D20.png" />
+            <Image fx:id="d20DoubleImage1" url="@../../../src/main/resources/images/D20.png" />
         </image>
     </ImageView>
-    <ImageView fx:id="D20DoubleImageview2" fitHeight="36.0" fitWidth="38.0" layoutX="147.0" layoutY="406.0" onMouseClicked="#roll2D20">
+    <ImageView fx:id="d20DoubleImageview2" fitHeight="36.0" fitWidth="38.0" layoutX="147.0" layoutY="406.0" onMouseClicked="#roll2D20">
         <image>
-            <Image fx:id="D20DoubleImage2" url="@../../../src/main/resources/images/D20.png" />
+            <Image fx:id="d20DoubleImage2" url="@../../../src/main/resources/images/D20.png" />
         </image>
     </ImageView>
     <Text fx:id="doubleD20Roll1" fill="RED" layoutX="150.0" layoutY="366.0" onMouseMoved="#removeDie">

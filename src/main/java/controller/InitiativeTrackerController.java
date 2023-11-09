@@ -85,7 +85,7 @@ public class InitiativeTrackerController {
     @FXML private TextField legActTextField;
     @FXML private TextArea extraInfoTextArea;
     @FXML private Text creatureTurnText;
-    @FXML private Text D20Roll;
+    @FXML private Text d20Roll;
     @FXML private Text doubleD20Roll1;
     @FXML private Text doubleD20Roll2;
 
@@ -102,12 +102,12 @@ public class InitiativeTrackerController {
     @FXML private Button copyCreatureButton;
 
     //Images
-    @FXML private ImageView D20ImageView;
-    @FXML private Image D20Image;
-    @FXML private ImageView D20DoubleImageview1;
-    @FXML private Image D20DoubleImage1;
-    @FXML private ImageView D20DoubleImageview2;
-    @FXML private Image D20DoubleImage2;
+    @FXML private ImageView d20ImageView;
+    @FXML private Image d20Image;
+    @FXML private ImageView d20DoubleImageview1;
+    @FXML private Image d20DoubleImage1;
+    @FXML private ImageView d20DoubleImageview2;
+    @FXML private Image d20DoubleImage2;
 
     //Misc
     @FXML private ListView<Creature> initiativeList;
@@ -153,18 +153,18 @@ public class InitiativeTrackerController {
         deathFailCheckBox1.setVisible(false);
         deathFailCheckBox2.setVisible(false);
         deathFailCheckBox3.setVisible(false);
-        D20Roll.setVisible(false);
+        d20Roll.setVisible(false);
         doubleD20Roll1.setVisible(false);
         doubleD20Roll2.setVisible(false);
 
-        D20Image = new Image("file:src/main/resources/images/D20.png");
-        D20ImageView.setImage(D20Image);
+        d20Image = new Image("file:src/main/resources/images/D20.png");
+        d20ImageView.setImage(d20Image);
 
-        D20DoubleImage1 = new Image("file:src/main/resources/images/D20.png");
-        D20DoubleImageview1.setImage(D20DoubleImage1);
+        d20DoubleImage1 = new Image("file:src/main/resources/images/D20.png");
+        d20DoubleImageview1.setImage(d20DoubleImage1);
 
-        D20DoubleImage2 = new Image("file:src/main/resources/images/D20.png");
-        D20DoubleImageview2.setImage(D20DoubleImage2);
+        d20DoubleImage2 = new Image("file:src/main/resources/images/D20.png");
+        d20DoubleImageview2.setImage(d20DoubleImage2);
 
         setCreatureTurnTextField();
         updateCreatureStats();
@@ -1619,15 +1619,15 @@ public class InitiativeTrackerController {
         doubleD20Roll1.setVisible(false);
         doubleD20Roll2.setVisible(false);
         int randomD20Roll = (int) (Math.random() * 20 + 1);
-        D20Roll.setText(String.valueOf(randomD20Roll));
-        D20Roll.setVisible(true);
+        d20Roll.setText(String.valueOf(randomD20Roll));
+        d20Roll.setVisible(true);
     }
 
     /**Deze methode haalt mogelijke eerdere rolls van het scherm en laat dan in grote rode letters 2 keer een
      * random getal zien van 1 -20.
      */
     public void roll2D20(){
-        D20Roll.setVisible(false);
+        d20Roll.setVisible(false);
         int randomD20Roll1 = (int) (Math.random() * 20 + 1);
         int randomD20Roll2 = (int) (Math.random() * 20 + 1);
         doubleD20Roll1.setText(String.valueOf(randomD20Roll1));
@@ -1640,7 +1640,7 @@ public class InitiativeTrackerController {
      *
      */
     public void removeDie(){
-        D20Roll.setVisible(false);
+        d20Roll.setVisible(false);
         doubleD20Roll1.setVisible(false);
         doubleD20Roll2.setVisible(false);
     }

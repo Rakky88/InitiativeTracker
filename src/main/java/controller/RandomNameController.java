@@ -125,6 +125,7 @@ public class RandomNameController {
         firstNameFemale.add("Nicole");
         firstNameFemale.add("Diane");
         firstNameFemale.add("Jenny");
+        firstNameFemale.add("Donna");
     }
 
     public void initLastName(){

@@ -33,10 +33,11 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
+    # Updated action for creating a release
     - name: Create Release
       id: create_release
       if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-      uses: actions/create-release@v1
+      uses: actions/create-release@latest-version  # Update this to the latest version
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -45,9 +46,10 @@ jobs:
         draft: false
         prerelease: false
 
+    # Updated action for uploading a release asset
     - name: Upload Release Asset
       if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-      uses: actions/upload-release-asset@v1
+      uses: actions/upload-release-asset@latest-version  # Update this to the latest version
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:

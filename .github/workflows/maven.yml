@@ -33,27 +33,26 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
-    # Updated action for creating a release
+    # Only create and upload release on push to main branch
     - name: Create Release
       id: create_release
       if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-      uses: actions/create-release@latest-version  # Update this to the latest version
+      uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ github.run_id }}
-        release_name: Release ${{ github.run_id }}
+        tag_name: ${{ github.run_number }}
+        release_name: Release ${{ github.run_number }}
         draft: false
         prerelease: false
 
-    # Updated action for uploading a release asset
     - name: Upload Release Asset
       if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-      uses: actions/upload-release-asset@latest-version  # Update this to the latest version
+      uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./path/to/your/artifact.jar
-        asset_name: artifact.jar
+        asset_path: ./target/your-artifact.jar  # Update this path to the location of your build artifact
+        asset_name: your-artifact.jar  # Update this to the name of your artifact
         asset_content_type: application/java-archive

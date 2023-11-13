@@ -55,4 +55,3 @@ jobs:
         asset_path: ./path/to/your/artifact.jar
         asset_name: artifact.jar
         asset_content_type: application/java-archive
-
